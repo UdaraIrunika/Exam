@@ -34,19 +34,68 @@
       margin-bottom: 2rem;
       color: white;
       box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .hero h1 {
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-text h1 {
       font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
     }
 
-    .hero p {
+    .hero-text p {
       font-size: 1rem;
       opacity: 0.9;
       max-width: 80%;
+    }
+
+    .logo-container {
+      margin-left: 1rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 60px;
+      padding: 0.5rem 1rem 0.5rem 0.8rem;
+      backdrop-filter: blur(4px);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: 0.2s;
+    }
+    .logo-container:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.02);
+    }
+    .logo-container img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.6);
+      object-fit: cover;
+    }
+    .logo-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.3;
+    }
+    .logo-text small {
+      font-size: 0.7rem;
+      opacity: 0.8;
+      display: block;
+    }
+    .logo-container a {
+      text-decoration: none;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .hero .badge-group {
@@ -219,26 +268,71 @@
       color: #5b6e8c;
       border-top: 1px solid #e2e8f0;
       padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #f8fafc;
+      padding: 0.4rem 1rem;
+      border-radius: 60px;
+      text-decoration: none;
+      color: #1e293b;
+      transition: 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+    .footer-logo:hover {
+      background: #eef2ff;
+      transform: translateY(-2px);
+    }
+    .footer-logo img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .footer-logo span {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .footer-logo small {
+      font-size: 0.7rem;
+      opacity: 0.7;
     }
 
     @media (max-width: 720px) {
-      .hero h1 { font-size: 1.5rem; }
-      .hero p { max-width: 100%; }
+      .hero { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.5rem; }
+      .hero-text h1 { font-size: 1.5rem; }
+      .hero-text p { max-width: 100%; }
       .modules-grid { grid-template-columns: 1fr; }
+      .logo-container { align-self: flex-start; margin-left: 0; }
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <!-- hero section -->
+  <!-- hero section with company logo (header) -->
   <div class="hero">
-    <h1><i class="fas fa-shield-haltered"></i> Cyber & Network Security Hub</h1>
-    <p>London Metropolitan University — Level 6 Top-up Degree | Specialist modules covering Cisco, Palo Alto, IoT, CyberOps and advanced network security.</p>
-    <div class="badge-group">
-      <span class="badge"><i class="fas fa-network-wired"></i> Cisco Track</span>
-      <span class="badge"><i class="fas fa-cloud"></i> Cloud & NGFW</span>
-      <span class="badge"><i class="fas fa-microchip"></i> IoT Security</span>
-      <span class="badge"><i class="fas fa-project-diagram"></i> Capstone Project</span>
+    <div class="hero-text">
+      <h1><i class="fas fa-shield-haltered"></i> Cyber & Network Security Hub</h1>
+      <p>London Metropolitan University — Level 6 Top-up Degree | Specialist modules covering Cisco, Palo Alto, IoT, CyberOps and advanced network security.</p>
+      <div class="badge-group">
+        <span class="badge"><i class="fas fa-network-wired"></i> Cisco Track</span>
+        <span class="badge"><i class="fas fa-cloud"></i> Cloud & NGFW</span>
+        <span class="badge"><i class="fas fa-microchip"></i> IoT Security</span>
+        <span class="badge"><i class="fas fa-project-diagram"></i> Capstone Project</span>
+      </div>
+    </div>
+    <div class="logo-container">
+      <a href="https://uiddevelopers.com/" target="_blank" rel="noopener noreferrer">
+        <img src="https://avatars.githubusercontent.com/u/119570415?v=4" alt="UI Designers & Developers logo">
+        <span class="logo-text">UI Designers<br><small>& Developers</small></span>
+      </a>
     </div>
   </div>
 
@@ -331,9 +425,17 @@
       </div>
     </div>
   </div>
+
+  <!-- footer with company logo and link -->
   <footer>
-    <i class="fas fa-laptop-code"></i> CT6059ES & Cisco Networking Academy pathway · Industry-ready cybersecurity modules.<br>
-    Click any card to access module overview — comprehensive index for Level 6 top-up degree.
+    <a href="https://uiddevelopers.com/" target="_blank" rel="noopener noreferrer" class="footer-logo">
+      <img src="https://avatars.githubusercontent.com/u/119570415?v=4" alt="UI Designers & Developers">
+      <span>UI Designers <small>& Developers</small></span>
+    </a>
+    <div>
+      <i class="fas fa-laptop-code"></i> CT6059ES & Cisco Networking Academy pathway · Industry-ready cybersecurity modules.<br>
+      Click any card to access module overview — comprehensive index for Level 6 top-up degree.
+    </div>
   </footer>
 </div>
 
