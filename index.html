@@ -1,746 +1,430 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Sigiriya Safari Jeeps | Wild Sri Lanka Adventures</title>
-    <!-- Google Fonts & Simple CSS Reset -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', 'DM Sans', sans-serif;
-            background-color: #fefaf5;
-            color: #2c2a27;
-            scroll-behavior: smooth;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* header & nav */
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 248, 240, 0.96);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            border-bottom: 1px solid #e7d8c6;
-            padding: 16px 0;
-        }
-
-        .nav-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: #b45f2b;
-        }
-
-        .logo span {
-            color: #4f6d2c;
-            font-weight: 700;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            font-weight: 500;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #3e3a35;
-            transition: 0.2s;
-            font-size: 1rem;
-        }
-
-        .nav-links a:hover {
-            color: #c96f2e;
-        }
-
-        .btn-outline {
-            border: 2px solid #b45f2b;
-            background: transparent;
-            padding: 8px 22px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: #b45f2b;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-
-        .btn-outline:hover {
-            background: #b45f2b;
-            color: white;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: #e07a2c;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 1rem;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-            box-shadow: 0 8px 18px rgba(193, 94, 23, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: #b45f2b;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 22px rgba(168, 79, 16, 0.25);
-        }
-
-        .btn-secondary {
-            background: #f7ede2;
-            border: 1px solid #e0cdb5;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: #6b4c2c;
-            cursor: pointer;
-            transition: 0.2s;
-            text-decoration: none;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(107deg, #f6ede4 0%, #fff3e8 100%);
-            padding: 60px 0 70px;
-        }
-
-        .hero-grid {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 48px;
-        }
-
-        .hero-content {
-            flex: 1.2;
-        }
-
-        .hero-badge {
-            background: #e2d5c4;
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #6e4f2a;
-            margin-bottom: 20px;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-            color: #38261a;
-            margin-bottom: 20px;
-        }
-
-        .hero-content h1 i {
-            color: #d47f2c;
-        }
-
-        .hero-highlight {
-            color: #4f6d2c;
-            border-bottom: 3px solid #e9b56e;
-        }
-
-        .hero-text {
-            font-size: 1.2rem;
-            color: #5b4c3c;
-            margin: 24px 0 32px;
-            max-width: 550px;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 28px;
-            margin-top: 32px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-number {
-            font-weight: 800;
-            font-size: 1.8rem;
-            color: #c16b28;
-        }
-
-        .hero-image {
-            flex: 1;
-            border-radius: 48px;
-            overflow: hidden;
-            box-shadow: 30px 30px 0 #d9c5af;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 28px;
-            transition: transform 0.3s;
-        }
-
-        /* features */
-        .features {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.3rem;
-            font-weight: 700;
-            color: #2f2a24;
-            margin-bottom: 16px;
-        }
-
-        .section-sub {
-            text-align: center;
-            color: #7f6b58;
-            max-width: 680px;
-            margin: 0 auto 48px;
-            font-size: 1.1rem;
-        }
-
-        .cards-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 32px;
-            justify-content: center;
-        }
-
-        .feature-card {
-            background: #fef9f2;
-            border-radius: 32px;
-            padding: 32px 24px;
-            text-align: center;
-            width: 280px;
-            transition: 0.25s;
-            border: 1px solid #efe2d2;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
-            border-color: #e7cfb5;
-        }
-
-        .feature-icon {
-            font-size: 2.8rem;
-            color: #ce7b3a;
-            margin-bottom: 16px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-
-        /* jeep showcase */
-        .jeep-showcase {
-            background: #f8f0e7;
-            padding: 80px 0;
-        }
-
-        .showcase-flex {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 48px;
-        }
-
-        .showcase-text {
-            flex: 1;
-        }
-
-        .showcase-text h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .jeep-list {
-            list-style: none;
-            margin-top: 28px;
-        }
-
-        .jeep-list li {
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 500;
-        }
-
-        .jeep-list i {
-            color: #e07a2c;
-            font-size: 1.4rem;
-            width: 28px;
-        }
-
-        .showcase-img {
-            flex: 1;
-            border-radius: 40px;
-            overflow: hidden;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
-        }
-
-        .showcase-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* safaris cards */
-        .safari-packages {
-            padding: 80px 0;
-            background: white;
-        }
-
-        .package-cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        .package {
-            background: #fffcf8;
-            border-radius: 36px;
-            overflow: hidden;
-            width: 320px;
-            box-shadow: 0 12px 26px rgba(0,0,0,0.05);
-            transition: 0.2s;
-            border: 1px solid #f0e3d6;
-        }
-
-        .package:hover {
-            transform: scale(1.02);
-            border-color: #e2cbaa;
-        }
-
-        .package-img {
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .package-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.4s;
-        }
-
-        .package-info {
-            padding: 24px;
-        }
-
-        .package h3 {
-            font-size: 1.6rem;
-        }
-
-        .price {
-            font-size: 1.7rem;
-            font-weight: 800;
-            color: #aa5e26;
-            margin: 12px 0;
-        }
-
-        .price small {
-            font-size: 0.9rem;
-            font-weight: 400;
-        }
-
-        .package-features {
-            margin: 16px 0;
-            list-style: none;
-        }
-
-        .package-features li {
-            margin: 8px 0;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        /* CTA */
-        .cta-section {
-            background: linear-gradient(120deg, #362215, #4a301e);
-            padding: 70px 0;
-            text-align: center;
-            color: white;
-        }
-
-        .cta-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .cta-buttons {
-            margin-top: 32px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-light {
-            background: #ffe0bf;
-            color: #4a2e1a;
-            padding: 12px 30px;
-            border-radius: 60px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        /* footer */
-        footer {
-            background: #1d1b18;
-            color: #cbbca8;
-            padding: 48px 0 28px;
-        }
-
-        .footer-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col h4 {
-            color: #f0dbbc;
-            margin-bottom: 20px;
-        }
-
-        .footer-col p {
-            max-width: 260px;
-        }
-
-        .social-icons a {
-            color: #dbaa70;
-            margin-right: 18px;
-            font-size: 1.5rem;
-        }
-
-        .copyright {
-            border-top: 1px solid #332e28;
-            padding-top: 28px;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        /* responsive */
-        @media (max-width: 800px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            .nav-flex {
-                flex-direction: column;
-            }
-            .hero-stats {
-                flex-wrap: wrap;
-            }
-            .section-title {
-                font-size: 1.9rem;
-            }
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 0 20px;
-            }
-            .btn-primary {
-                padding: 12px 24px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CT6059ES · Palo Alto NGFW Exam Q&A | London Met Level 6</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f1f5f9;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      line-height: 1.5;
+      color: #0f172a;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b2b3b 0%, #0f3b4f 100%);
+      border-radius: 2rem;
+      padding: 2rem 2rem 2rem 2.5rem;
+      margin-bottom: 2rem;
+      color: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .hero h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 0.75rem 0 1rem 0;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 80%;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 80px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border: 1px solid #e2e8f0;
+    }
+
+    .search-wrapper {
+      flex: 2;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0.7rem 0;
+      font-size: 1rem;
+      outline: none;
+      font-weight: 500;
+    }
+
+    .search-wrapper i {
+      color: #5b6e8c;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .stats {
+      font-size: 0.9rem;
+      background: #eef2ff;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: #1e40af;
+      font-weight: 500;
+    }
+
+    .clear-btn {
+      background: none;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      background: white;
+    }
+
+    .clear-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .qa-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .qa-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      border: 1px solid #e9edf2;
+      overflow: hidden;
+    }
+
+    .qa-card:hover {
+      border-color: #cbdff2;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+      background: #fefcf5;
+      padding: 1.2rem 1.8rem;
+      border-bottom: 2px solid #eef2f6;
+      cursor: pointer;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .q-num {
+      background: #1e293b;
+      color: white;
+      font-weight: 700;
+      width: 2.3rem;
+      height: 2.3rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 60px;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0c4e6e;
+      letter-spacing: -0.2px;
+      flex: 1;
+    }
+
+    .answer-section {
+      padding: 1.4rem 1.8rem 2rem 1.8rem;
+      background: #ffffff;
+      border-top: 1px solid #f0f2f5;
+    }
+
+    .answer-label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #2c6e9e;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .answer-content {
+      color: #1e2a3e;
+    }
+
+    .answer-content p {
+      margin-bottom: 0.8rem;
+    }
+
+    .answer-content ul, .answer-content ol {
+      margin: 0.6rem 0 0.8rem 1.5rem;
+    }
+
+    .answer-content li {
+      margin: 0.3rem 0;
+    }
+
+    .answer-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: #f9fafb;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .answer-content th, .answer-content td {
+      border: 1px solid #e2e8f0;
+      padding: 0.7rem 1rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .answer-content th {
+      background: #eef2ff;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #475569;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2rem;
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 1rem; }
+      .hero h1 { font-size: 1.5rem; }
+      .card-header { padding: 1rem; }
+      .answer-section { padding: 1rem; }
+      .toolbar { border-radius: 1.5rem; flex-direction: column; align-items: stretch; }
+      .question-text { font-size: 1.05rem; }
+    }
+  </style>
 </head>
 <body>
+<div class="container">
+  <div class="hero">
+    <h1>🔐 CT6059ES — Next Generation Firewalls<br><span style="font-size: 1.2rem;">Palo Alto Focus | Zero Trust | Cloud Security | Exam Q&A Bank</span></h1>
+    <div class="badge">📘 70+ questions · Written paper (2h, 50 marks) · MCQ + long answers · Palo Alto NGFW operations</div>
+    <p>Complete revision for London Metropolitan University Level 6 — covers NGFW fundamentals, App‑ID/User‑ID, threat prevention, security policies, logging, SASE, and practical firewall administration. <strong>“How NGFW improves security”</strong> is the central theme.</p>
+  </div>
 
-<!-- Navigation -->
-<nav class="navbar">
-    <div class="container nav-flex">
-        <div class="logo">Safari<span>Jeeps</span> <i class="fas fa-paw" style="font-size: 1.6rem; color:#b88754;"></i></div>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#packages">Safaris</a>
-            <a href="#jeeps">Our Fleet</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <button class="btn-outline" id="bookNavBtn"><i class="fas fa-calendar-alt"></i> Book Now</button>
+  <div class="toolbar">
+    <div class="search-wrapper">
+      <i>🔍</i>
+      <input type="text" id="searchInput" placeholder="Search App‑ID, Zero Trust, WildFire, security profiles, policies, logs..." autocomplete="off">
     </div>
-</nav>
+    <div class="stats" id="resultStats">70 questions loaded</div>
+    <button class="clear-btn" id="clearSearchBtn">Clear filter</button>
+  </div>
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container hero-grid">
-        <div class="hero-content">
-            <div class="hero-badge"><i class="fas fa-map-marker-alt"></i> Sigiriya • Sri Lanka</div>
-            <h1>Epic Safari <br> <span class="hero-highlight">Jeep Adventures</span> <i class="fas fa-tree"></i></h1>
-            <p class="hero-text">Roar through the wild plains of Minneriya, Kaudulla & Hurulu Eco Park — spot elephants, leopards & exotic birds from our rugged safari jeeps. Based right at the foot of Sigiriya Rock.</p>
-            <div>
-                <a href="#packages" class="btn-primary"><i class="fas fa-jeep"></i> Explore Safaris</a>
-                <a href="#contact" style="margin-left: 16px;" class="btn-secondary">Contact Guide</a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item"><span class="stat-number">98%</span> <span>Wildlife sighting rate</span></div>
-                <div class="stat-item"><span class="stat-number">15+</span> <span>Years experience</span></div>
-                <div class="stat-item"><span class="stat-number">4.9★</span> <span>1,200+ reviews</span></div>
-            </div>
-        </div>
-        <div class="hero-image">
-            <img src="https://images.pexels.com/photos/3361739/pexels-photo-3361739.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Safari jeep in Sri Lankan national park with elephants" loading="eager">
-        </div>
-    </div>
-</section>
-
-<!-- Features / Why Us -->
-<section class="features">
-    <div class="container">
-        <h2 class="section-title">Why Choose Our Sigiriya Safaris</h2>
-        <p class="section-sub">Authentic open-air jeeps, local naturalists, and thrilling wildlife — rooted in the Cultural Triangle.</p>
-        <div class="cards-grid">
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-binoculars"></i></div><h3>Expert Trackers</h3><p>Native guides with deep knowledge of elephant corridors and bird hides.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-car-side"></i></div><h3>Custom Safari Jeeps</h3><p>Comfortable 4x4s with canopy roofs, USB chargers & refreshments.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>Flexible Timing</h3><p>Morning, afternoon or full-day private charters. Pick up from your hotel in Sigiriya.</p></div>
-            <div class="feature-card"><div class="feature-icon"><i class="fas fa-camera-retro"></i></div><h3>Photography Friendly</h3><p>Special stops for the best golden-hour shots of elephants & landscape.</p></div>
-        </div>
-    </div>
-</section>
-
-<!-- Jeep Showcase Section -->
-<section id="jeeps" class="jeep-showcase">
-    <div class="container showcase-flex">
-        <div class="showcase-text">
-            <h2><i class="fas fa-tachometer-alt"></i> Meet Our Fleet — <span style="color:#b77138;">Rugged Safari Warriors</span></h2>
-            <p>Purpose-built Toyota Land Cruisers & Mitsubishi off-roaders, modified for the ultimate jungle expedition. High clearance, soft suspension, and open sides for unobstructed views.</p>
-            <ul class="jeep-list">
-                <li><i class="fas fa-check-circle"></i> Push-back roofs & stadium seating</li>
-                <li><i class="fas fa-check-circle"></i> First-aid & fresh drinking water</li>
-                <li><i class="fas fa-check-circle"></i> Eco-friendly, silent when idling</li>
-                <li><i class="fas fa-check-circle"></i> Max 6 guests per jeep for premium space</li>
-            </ul>
-        </div>
-        <div class="showcase-img">
-            <img src="https://images.pexels.com/photos/12491876/pexels-photo-12491876.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Safari jeep on dusty trail Sigiriya national park">
-        </div>
-    </div>
-</section>
-
-<!-- Safari Packages (Minneriya, Kaudulla, Hurulu) -->
-<section id="packages" class="safari-packages">
-    <div class="container">
-        <h2 class="section-title">Iconic Jeep Safaris near Sigiriya</h2>
-        <p class="section-sub">Experience the famous ‘Elephant Gathering’ — choose your adventure</p>
-        <div class="package-cards">
-            <!-- Minneriya National Park -->
-            <div class="package">
-                <div class="package-img"><img src="https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Elephants Minneriya National Park"></div>
-                <div class="package-info">
-                    <h3>Minneriya Afternoon Safari</h3>
-                    <div class="price">$45<small> / person</small></div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-clock"></i> 3-4 Hrs | Sunset game drive</li>
-                        <li><i class="fas fa-tree"></i> Best for elephant herds</li>
-                        <li><i class="fas fa-water"></i> Tank reservoir scenery</li>
-                    </ul>
-                    <button class="btn-primary book-package" data-package="Minneriya Afternoon Safari">Book Jeep →</button>
-                </div>
-            </div>
-            <!-- Kaudulla National Park -->
-            <div class="package">
-                <div class="package-img"><img src="https://images.pexels.com/photos/1490908/pexels-photo-1490908.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kaudulla safari jeep"></div>
-                <div class="package-info">
-                    <h3>Kaudulla Morning Safari</h3>
-                    <div class="price">$49<small> / person</small></div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-sun"></i> Early bird (6:00 AM start)</li>
-                        <li><i class="fas fa-feather-alt"></i> Endemic birds & sambar deer</li>
-                        <li><i class="fas fa-camera"></i> Golden light photography</li>
-                    </ul>
-                    <button class="btn-primary book-package" data-package="Kaudulla Morning Safari">Book Jeep →</button>
-                </div>
-            </div>
-            <!-- Hurulu Eco Park -->
-            <div class="package">
-                <div class="package-img"><img src="https://images.pexels.com/photos/2736931/pexels-photo-2736931.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hurulu eco park jeep"></div>
-                <div class="package-info">
-                    <h3>Hurulu Eco Park Explorer</h3>
-                    <div class="price">$39<small> / person</small></div>
-                    <ul class="package-features">
-                        <li><i class="fas fa-leaf"></i> Dry zone forest experience</li>
-                        <li><i class="fas fa-paw"></i> Sloth bears possible (rare!)</li>
-                        <li><i class="fas fa-mug-hot"></i> Tea & snack included</li>
-                    </ul>
-                    <button class="btn-primary book-package" data-package="Hurulu Eco Park Explorer">Book Jeep →</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Additional Safari Info & Contact CTA -->
-<section class="cta-section">
-    <div class="container">
-        <h2>Ready for an unforgettable jeep safari?</h2>
-        <p style="max-width: 620px; margin: 0 auto;">Direct from Sigiriya — we pick you up from your hotel, provide expert naturalist guides, and ensure a wildlife adventure of a lifetime.</p>
-        <div class="cta-buttons">
-            <a href="tel:+94771234567" class="btn-light"><i class="fas fa-phone-alt"></i> Call +94 77 123 4567</a>
-            <a href="#" id="openWhatsappDummy" class="btn-primary" style="background:#3a6b2f;"><i class="fab fa-whatsapp"></i> WhatsApp Inquiry</a>
-        </div>
-    </div>
-</section>
-
-<!-- Contact & Map section -->
-<footer id="contact">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4><i class="fas fa-jeep"></i> Sigiriya Safari Jeeps</h4>
-                <p>No 12, Kaludiya Road, Sigiriya, Sri Lanka. 5 min drive from Sigiriya Rock entrance.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-tripadvisor"></i></a>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>Quick links</h4>
-                <p><a href="#" style="color:#dbaa70; text-decoration: none;">Minneriya Safari</a></p>
-                <p><a href="#" style="color:#dbaa70; text-decoration: none;">Kaudulla Jeep Tour</a></p>
-                <p><a href="#" style="color:#dbaa70; text-decoration: none;">Private Charter</a></p>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <p><i class="fas fa-envelope"></i> hello@sigiriyasafarijeeps.com</p>
-                <p><i class="fas fa-map-pin"></i> Sigiriya, Central Province</p>
-                <p><i class="fas fa-clock"></i> Daily: 5:30 AM – 6:30 PM</p>
-            </div>
-        </div>
-        <div class="copyright">
-            © 2025 Sigiriya Safari Jeeps — Wild Encounters in the Heart of Sri Lanka’s Cultural Triangle.
-        </div>
-    </div>
-</footer>
-
-<!-- simple booking modal simulation (lightweight) -->
-<div id="bookingModal" style="display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;">
-    <div style="background: white; max-width: 420px; width: 90%; border-radius: 42px; padding: 36px 28px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-        <i class="fas fa-jeep" style="font-size: 3rem; color:#b45f2b;"></i>
-        <h3 style="margin: 18px 0 8px;">BOOK YOUR JEEP SAFARI</h3>
-        <p id="modalPackageName" style="font-weight: bold; color:#b45f2b;">Minneriya Afternoon Safari</p>
-        <p>Leave your details & we’ll confirm your slot within 1 hour.</p>
-        <input type="text" id="guestName" placeholder="Full name" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 60px; border: 1px solid #ddd;">
-        <input type="tel" id="guestPhone" placeholder="WhatsApp / Phone" style="width: 100%; padding: 14px; margin: 12px 0; border-radius: 60px; border: 1px solid #ddd;">
-        <button id="confirmBookingBtn" style="background:#e07a2c; color: white; border: none; width: 100%; padding: 14px; border-radius: 40px; font-weight: bold; cursor: pointer;">Send Request →</button>
-        <button id="closeModalBtn" style="margin-top: 16px; background: none; border: none; text-decoration: underline; cursor: pointer;">Cancel</button>
-        <p style="font-size: 0.75rem; margin-top: 14px;">We respect your privacy — no spam.</p>
-    </div>
+  <div id="qaContainer" class="qa-grid"></div>
+  <footer>
+    📄 Based on CT6059ES model paper analysis — Palo Alto Networks NGFW, Zero Trust architecture, attack prevention, monitoring & cloud security.<br>
+    🧠 Every question reflects real exam patterns: definitions, comparisons, “how does it improve security”, and practical configuration.
+  </footer>
 </div>
 
 <script>
-    // Modal handling variables
-    const modal = document.getElementById('bookingModal');
-    const modalPackageSpan = document.getElementById('modalPackageName');
-    let selectedPackage = "Minneriya Afternoon Safari";
+  // --------------------------------------------------------------
+  // FULL DATABASE: original 30 + 20 advanced (SASE, microseg, etc.) 
+  // + 20 NEW Palo Alto / exam-specific questions = TOTAL 70
+  // --------------------------------------------------------------
+  const qaData = [
+    // ==================== ORIGINAL 1–30 (unchanged core) ====================
+    { id: 1, question: "What is a Next-Generation Firewall (NGFW)?", answerHtml: `<p>A Next-Generation Firewall (NGFW) is an advanced firewall that provides traditional firewall protection together with modern security features such as:</p><ul><li>Deep Packet Inspection (DPI)</li><li>Application awareness</li><li>Intrusion Prevention System (IPS)</li><li>Malware protection</li><li>URL filtering</li><li>Threat intelligence</li></ul><p>NGFW helps organizations detect and prevent modern cyberattacks more effectively than traditional firewalls.</p>` },
+    { id: 2, question: "Difference Between Traditional Firewall and NGFW", answerHtml: `<table><thead><tr><th>Traditional Firewall</th><th>NGFW</th></tr></thead><tbody><tr><td>Filters traffic using IP and ports</td><td>Uses application and user awareness</td></tr><tr><td>Basic packet filtering</td><td>Deep packet inspection</td></tr><tr><td>Limited security features</td><td>Advanced threat prevention</td></tr><tr><td>Cannot detect modern attacks easily</td><td>Detects malware and application threats</td></tr></tbody></table><p>NGFW integrates context-aware security policies beyond port/protocol.</p>` },
+    { id: 3, question: "What is Deep Packet Inspection (DPI)?", answerHtml: `<p>Deep Packet Inspection (DPI) examines the content of data packets instead of only checking headers. It helps detect malware, block suspicious traffic, and prevent SQLi/XSS attacks.</p>` },
+    { id: 4, question: "What is Stateful Inspection?", answerHtml: `<p>Stateful Inspection monitors active network connections and allows only legitimate traffic. It tracks sessions and blocks unauthorized packets.</p>` },
+    { id: 5, question: "What is the Zero Trust Security Model?", answerHtml: `<p>“Never Trust, Always Verify”. No user/device is trusted automatically; every request is verified continuously. Features: least privilege, continuous authentication, network segmentation.</p>` },
+    { id: 6, question: "How Does NGFW Support Zero Trust?", answerHtml: `<p>By verifying users/devices, applying identity-based policies, continuous monitoring, blocking unauthorized access, and using application awareness and threat prevention.</p>` },
+    { id: 7, question: "What is a Firewall Rule?", answerHtml: `<p>A security policy that defines allowed/denied traffic based on source, destination, port, application, and user.</p>` },
+    { id: 8, question: "What is NAT?", answerHtml: `<p>Network Address Translation – translates private IPs to public IPs, conserving addresses and hiding internal structure.</p>` },
+    { id: 9, question: "What is a VPN?", answerHtml: `<p>Virtual Private Network – creates encrypted tunnels over the internet for secure remote access and data confidentiality.</p>` },
+    { id: 10, question: "What is a DMZ?", answerHtml: `<p>Demilitarized Zone – a separate network area between internet and internal network, hosting public servers safely.</p>` },
+    { id: 11, question: "What is IP Spoofing?", answerHtml: `<p>Attack where source IP is forged to appear trusted. NGFW prevents via packet validation and traffic inspection.</p>` },
+    { id: 12, question: "What is SQL Injection?", answerHtml: `<p>Malicious SQL code inserted into queries. NGFW mitigates using DPI, IPS, and application filtering.</p>` },
+    { id: 13, question: "What is Cross-Site Scripting (XSS)?", answerHtml: `<p>Injection of malicious scripts into trusted websites. NGFW prevents via content inspection, web filtering, IPS.</p>` },
+    { id: 14, question: "What is Malware?", answerHtml: `<p>Malicious software (viruses, worms, ransomware). NGFW blocks using antivirus scanning, sandboxing, threat intelligence.</p>` },
+    { id: 15, question: "What is Sandboxing?", answerHtml: `<p>Isolated environment to analyze suspicious files safely. Detects unknown malware and prevents infection.</p>` },
+    { id: 16, question: "What is DNS Filtering?", answerHtml: `<p>Blocks malicious/unauthorized domains, preventing phishing and malware C2 communication.</p>` },
+    { id: 17, question: "What is SIEM?", answerHtml: `<p>Security Information and Event Management – collects and analyzes logs for threat detection and incident response.</p>` },
+    { id: 18, question: "Why is Monitoring Important in Network Security?", answerHtml: `<p>Early threat detection, tracking suspicious activity, rapid response, and overall security improvement.</p>` },
+    { id: 19, question: "What Data Should Firewall Logs Collect?", answerHtml: `<p>Source/destination IP, ports, protocol, user activity, timestamps, action (allow/block), threat events.</p>` },
+    { id: 20, question: "What is Data Loss Prevention (DLP)?", answerHtml: `<p>Prevents sensitive data from leaving the network without authorization (financial, personal, company secrets).</p>` },
+    { id: 21, question: "Explain the Importance of Logging in Firewall Management", answerHtml: `<p>Logging enables monitoring, attack detection, incident investigation, compliance, and evidence collection.</p>` },
+    { id: 22, question: "Explain Three Attacks Prevented by NGFW", answerHtml: `<p><strong>Malware</strong> (sandboxing, AV), <strong>SQLi</strong> (DPI/IPS), <strong>XSS</strong> (content filtering).</p>` },
+    { id: 23, question: "Explain the Importance of Zero Trust in Cloud Security", answerHtml: `<p>Verifies every user/device, prevents unauthorized access, reduces insider threats, protects cloud resources with least privilege.</p>` },
+    { id: 24, question: "What is Application Awareness?", answerHtml: `<p>Identifies and controls applications regardless of port. Example: blocking social media or torrent traffic.</p>` },
+    { id: 25, question: "What is Intrusion Prevention System (IPS)?", answerHtml: `<p>Detects and blocks malicious activities automatically – works with NGFW for advanced protection.</p>` },
+    { id: 26, question: "What is a Whitelist?", answerHtml: `<p>List of trusted entities (IPs, users, apps) allowed access. Improves security by default‑deny.</p>` },
+    { id: 27, question: "What is a Blacklist?", answerHtml: `<p>List of blocked entities – prevents malicious access.</p>` },
+    { id: 28, question: "Explain Threat Intelligence", answerHtml: `<p>Cyber threat information from various sources; NGFW uses it to detect new threats and block malicious IPs proactively.</p>` },
+    { id: 29, question: "Explain URL Filtering", answerHtml: `<p>Controls website access based on categories – blocks phishing, malware sites, improves productivity.</p>` },
+    { id: 30, question: "Explain Network Segmentation", answerHtml: `<p>Divides network into smaller secure sections – reduces attack spread and improves access control (Zero Trust).</p>` },
+    
+    // ==================== ADVANCED 31–50 (SASE, microseg, TLS inspection, cloud) ====================
+    { id: 31, question: "What is SASE and how does it relate to NGFW?", answerHtml: `<p>SASE (Secure Access Service Edge) combines networking and security (FWaaS, SWG, CASB, ZTNA). NGFW provides FWaaS core threat prevention inside SASE.</p>` },
+    { id: 32, question: "Explain Microsegmentation and its role in Zero Trust.", answerHtml: `<p>Isolates workloads down to individual containers/VMs, preventing lateral movement. NGFWs enforce via virtual firewalls or distributed agents.</p>` },
+    { id: 33, question: "What is TLS/SSL decryption and why is it critical for NGFW?", answerHtml: `<p>Decrypts encrypted traffic to inspect for threats. Over 80% of attacks use encryption; without decryption, NGFW is blind. Modern NGFWs use selective decryption policies.</p>` },
+    { id: 34, question: "Compare virtual NGFW vs. container firewall.", answerHtml: `<p>vNGFW (VM‑based) inspects east‑west VPC traffic; container firewall (e.g., sidecar) provides L7 inspection for microservices. Both essential in cloud.</p>` },
+    { id: 35, question: "What is a CASB and how does NGFW integrate with it?", answerHtml: `<p>Cloud Access Security Broker enforces SaaS policies. NGFW + CASB extends DLP and threat protection to Office 365, Salesforce, etc.</p>` },
+    { id: 36, question: "How does ML enhance decrypted traffic analysis?", answerHtml: `<p>ML models detect zero‑day exploits, DNS tunnelling, and obfuscation in decrypted payloads, reducing false positives.</p>` },
+    { id: 37, question: "Role of NGFW in hybrid cloud (AWS + on‑prem).", answerHtml: `<p>Consistent policies across VPCs and on‑prem, encrypted VPN tunnels, central management, auto‑scaling firewall instances.</p>` },
+    { id: 38, question: "How does NGFW block C2 traffic using threat intelligence?", answerHtml: `<p>Dynamic IP/domain blacklisting, DNS sinkholing, SSL certificate fingerprinting, behaviour analysis of outbound callbacks.</p>` },
+    { id: 39, question: "Explain user identity as a policy element beyond IP addresses.", answerHtml: `<p>Integrates with AD/LDAP/IdP to enforce per‑user policies (e.g., interns vs executives). Essential for Zero Trust.</p>` },
+    { id: 40, question: "What is high availability with stateful failover?", answerHtml: `<p>Active‑passive cluster synchronising session tables. Virtual IP ensures seamless failover without interrupting connections.</p>` },
+    { id: 41, question: "How does NGFW detect DNS tunnelling?", answerHtml: `<p>Statistical analysis (entropy, query volume), deep DNS inspection, sinkhole integration, rate limiting.</p>` },
+    { id: 42, question: "What is firewall policy optimization?", answerHtml: `<p>Removing redundant rules, reordering for performance, eliminating shadow rules. Critical for large‑scale NGFW deployments.</p>` },
+    { id: 43, question: "Network‑based sandbox triggering in NGFW.", answerHtml: `<p>NGFW forwards suspicious files to sandbox (local/cloud), executes in isolation, returns verdict, and creates new signatures for zero‑days.</p>` },
+    { id: 44, question: "Positive vs negative security model in NGFW policies.", answerHtml: `<p>Positive (allowlist): default deny – for high security. Negative (blocklist): allow all except known bad – for public servers.</p>` },
+    { id: 45, question: "Encrypted SNI (ECH) challenges and NGFW solutions.", answerHtml: `<p>ECH hides domain name. NGFW uses DoH correlation, ML on handshake patterns, endpoint agents, and behaviour analysis.</p>` },
+    { id: 46, question: "SOAR integration with NGFW for automated response.", answerHtml: `<p>SOAR ingests NGFW alerts, triggers playbooks (block IP, quarantine), reducing MTTR from hours to minutes.</p>` },
+    { id: 47, question: "Virtual patching using NGFW IPS.", answerHtml: `<p>IPS signatures block exploitation of known CVEs before official patches are applied – protects legacy systems.</p>` },
+    { id: 48, question: "How NGFW counters user‑agent spoofing.", answerHtml: `<p>Uses application identification (JA3, TLS SNI) independent of User‑Agent header, plus OS fingerprinting.</p>` },
+    { id: 49, question: "IPv6 security implications for NGFW.", answerHtml: `<p>IPv6 can bypass IPv4 rules. Mitigations: enable IPv6 inspection, RA guard, DHCPv6 snooping, treat IPv6 as first‑class.</p>` },
+    { id: 50, question: "Hierarchical multipolicy architecture in large‑scale NGFW management.", answerHtml: `<p>Global (corporate baseline) → device group (regional) → local policies. Ensures consistency and auditability.</p>` },
+    
+    // ==================== NEW PALO ALTO & EXAM-SPECIFIC (51–70) ====================
+    { id: 51, question: "What is Palo Alto App-ID and how does it differ from traditional port-based identification?", answerHtml: `<p><strong>App-ID</strong> is Palo Alto’s patented technology that identifies applications regardless of port, protocol, or encryption (using decryption). It uses four techniques: application signatures, decryption, protocol decoding, and heuristics. Unlike traditional firewalls that rely on port numbers (e.g., port 80 = HTTP), App-ID correctly identifies applications like Facebook Messenger over port 443 or SSH over non‑standard ports.</p><p>This directly supports Zero Trust by enabling application‑based policies instead of guessing.</p>` },
+    { id: 52, question: "Explain Palo Alto User-ID and its importance in NGFW policy enforcement.", answerHtml: `<p><strong>User-ID</strong> maps IP addresses to usernames by integrating with Active Directory, LDAP, or terminal services. It allows security policies based on <em>who</em> is accessing the network, not just source IP. Example: block social media for “Interns” group but allow for “Marketing”. Without User-ID, policy enforcement is blind to identity, increasing risk of lateral movement.</p><p>User-ID is a cornerstone of Zero Trust because it verifies user identity for every session.</p>` },
+    { id: 53, question: "What is WildFire (Palo Alto sandbox) and how does it enhance threat prevention?", answerHtml: `<p><strong>WildFire</strong> is Palo Alto’s cloud‑based or on‑prem sandboxing service. It executes suspicious files (PDFs, executables, Office docs) in an isolated VM and analyzes behaviour. WildFire generates signatures within minutes, which are then pushed globally to all NGFWs. This provides zero‑day protection against unknown malware and exploits, complementing traditional signature‑based antivirus.</p><p>In the exam, expect to explain how sandboxing improves security by detecting evasive threats.</p>` },
+    { id: 54, question: "How would you create a security policy on Palo Alto NGFW that allows only HTTPS traffic from Finance department to Salesforce cloud?", answerHtml: `<p>Step‑by‑step:</p><ol><li>Create <strong>Address object</strong> for Finance subnet.</li><li>Create <strong>Application group</strong> containing “salesforce” and “ssl”.</li><li>Create <strong>User-ID group</strong> mapping AD group “Finance”.</li><li>Define security policy: <strong>Source</strong> = Finance subnet + Finance AD group, <strong>Destination</strong> = salesforce.com (FQDN), <strong>Application</strong> = salesforce, ssl, <strong>Action</strong> = allow, <strong>Profile</strong> = SSL decryption + threat prevention.</li><li>Place policy above any catch‑all deny.</li></ol><p>This demonstrates application‑ and identity‑based control, a key exam skill.</p>` },
+    { id: 55, question: "Compare Palo Alto NGFW security profiles: Antivirus, Anti‑Spyware, Vulnerability Protection, and URL Filtering.", answerHtml: `<table><thead><tr><th>Profile</th><th>Function</th><th>Example</th></tr></thead><tbody><tr><td>Antivirus</td><td>Blocks known malware via signatures</td><td>Eicar test file</td></tr><tr><td>Anti‑Spyware</td><td>Prevents C2 callbacks & spyware</td><td>Beaconing to known malicious IP</td></tr><tr><td>Vulnerability Protection</td><td>IPS signatures for known exploits</td><td>Log4Shell attempt</td></tr><tr><td>URL Filtering</td><td>Blocks malicious/phishing sites</td><td>Access to ransomware domain</td></tr></tbody></table><p>All profiles are applied in security policy rules.</p>` },
+    { id: 56, question: "What is the difference between ‘security policy’ and ‘NAT policy’ on a Palo Alto NGFW?", answerHtml: `<p><strong>Security policy</strong> controls whether traffic is allowed or denied based on application, user, and content. <strong>NAT policy</strong> translates source/destination IPs (source NAT, destination NAT). Palo Alto processes NAT rules before security rules, so security policies see the post‑NAT IPs. In exam questions, you must know that NAT does not replace security inspection – both are required.</p>` },
+    { id: 57, question: "How does Palo Alto’s ‘Zone‑Based’ architecture improve security compared to interface‑based firewalls?", answerHtml: `<p>Zones group interfaces with similar security levels (e.g., Untrust, Trust, DMZ). Policies are written between zones, not per interface. This simplifies administration and ensures consistent enforcement. For example, traffic from Trust zone to Untrust zone can have strict inspection, while Trust to Trust might be allowed without inspection. Zone‑based design prevents misconfiguration that could accidentally expose internal interfaces.</p>` },
+    { id: 58, question: "Explain the concept of ‘decryption broker’ in Palo Alto NGFW for cloud security.", answerHtml: `<p>A <strong>decryption broker</strong> decrypts inbound TLS traffic, inspects it, then re‑encrypts before forwarding to cloud or internal servers. It offloads decryption overhead from cloud applications and enables consistent threat inspection for encrypted traffic. This is critical when organisations use multiple cloud providers and need centralised security without breaking end‑to‑end encryption. Palo Alto NGFW can act as a decryption broker using SSL Forward Proxy.</p>` },
+    { id: 59, question: "What are the main log types in Palo Alto NGFW and how are they used in incident response?", answerHtml: `<p>Key logs:</p><ul><li><strong>Traffic logs</strong>: session start/end, bytes, rule match.</li><li><strong>Threat logs</strong>: detected malware, IPS alerts, viruses.</li><li><strong>URL logs</strong>: websites visited, category matches.</li><li><strong>User-ID logs</strong>: user IP mapping changes.</li><li><strong>Configuration logs</strong>: admin changes.</li></ul><p>During incident response, analysts filter threat logs for malicious signatures, correlate with traffic logs to find source/destination, and export to SIEM for further investigation.</p>` },
+    { id: 60, question: "How would you troubleshoot a scenario where a user cannot access a legitimate application despite an allow rule?", answerHtml: `<p>Stepwise troubleshooting:</p><ol><li>Check <strong>traffic logs</strong> – see if session was allowed or denied, and which rule matched.</li><li>Verify <strong>App-ID</strong> – the application may be misidentified; use “application override” temporarily.</li><li>Check <strong>URL filtering</strong> – the domain might be in a blocked category.</li><li>Review <strong>security profiles</strong> – perhaps anti‑spyware or vulnerability protection blocked the request (check threat logs).</li><li>Examine <strong>User-ID</strong> mapping – user may not be correctly mapped to AD group.</li><li>Check <strong>NAT policies</strong> – source translation could break return traffic.</li></ol><p>This structured approach is frequently tested in written questions.</p>` },
+    { id: 61, question: "What is ‘GlobalProtect’ and how does it enable secure remote access?", answerHtml: `<p><strong>GlobalProtect</strong> is Palo Alto’s VPN solution that provides both traditional SSL VPN and next‑gen clientless access. It authenticates users, checks device posture (HIP), and then establishes an encrypted tunnel. All remote traffic is inspected by the NGFW using the same security policies as on‑premise users. GlobalProtect supports Zero Trust by verifying device health and user identity before granting access to internal resources.</p>` },
+    { id: 62, question: "Explain how Palo Alto NGFW performs ‘SSL Forward Proxy’ and ‘SSL Inbound Inspection’.", answerHtml: `<p><strong>SSL Forward Proxy</strong>: The NGFW generates a certificate on‑the‑fly for outbound HTTPS traffic, decrypts, inspects, then re‑encrypts to the original destination. <strong>SSL Inbound Inspection</strong>: For inbound traffic to a company web server, the NGFW presents a legitimate server certificate, decrypts, inspects, then forwards as plain HTTP to internal server. Both require careful certificate management and can break applications with certificate pinning.</p>` },
+    { id: 63, question: "What is ‘Panorama’ and why is it important for enterprise NGFW deployments?", answerHtml: `<p><strong>Panorama</strong> is Palo Alto’s centralised management platform. It allows administrators to push security policies, manage device configurations, and collect logs from hundreds of firewalls. It supports hierarchical policies, device groups, and templates. Without Panorama, large organisations face inconsistent rules and operational overhead. In the exam, you should mention that Panorama reduces human error and ensures compliance across the network.</p>` },
+    { id: 64, question: "Describe the steps to configure site‑to‑site VPN between two Palo Alto firewalls using IKEv2.", answerHtml: `<p>Steps:</p><ol><li>Define <strong>IKE crypto profile</strong> (encryption, hash, DH group).</li><li>Define <strong>IPsec crypto profile</strong> (ESP parameters).</li><li>Create <strong>IKE gateway</strong> on each firewall – peer IP, pre‑shared key, local/remote ID.</li><li>Create <strong>IPsec tunnel</strong> referencing the IKE gateway and IPsec profile.</li><li>Add <strong>tunnel interface</strong> and assign to appropriate zone (e.g., VPN zone).</li><li>Create <strong>static routes</strong> pointing to the tunnel interface for remote network.</li><li>Create <strong>security policies</strong> allowing traffic from local subnet to remote subnet via tunnel.</li></ol><p>This practical knowledge appears in configuration‑based questions.</p>` },
+    { id: 65, question: "How does NGFW prevent ‘lateral movement’ after an initial compromise? Give Palo Alto specific features.", answerHtml: `<p>Prevention techniques:</p><ul><li><strong>Microsegmentation</strong> (zone‑based rules) restricts communication between internal servers.</li><li><strong>User-ID</strong> and <strong>Device-ID</strong> ensure only authorised users/devices can access sensitive resources.</li><li><strong>WildFire</strong> detects malware that might have evaded initial scanning, then blocks subsequent C2 attempts.</li><li><strong>Threat Prevention</strong> signatures stop common internal exploits (EternalBlue, WMI abuse).</li><li><strong>Logging and alerting</strong> on internal unusual East‑West traffic.</li></ul><p>Lateral movement is a key Zero Trust concern; NGFW enforces least privilege between workloads.</p>` },
+    { id: 66, question: "What is ‘Packet Capture’ (PCAP) on Palo Alto firewall and when would you use it?", answerHtml: `<p>Packet capture is a diagnostic tool that captures raw packets matching a filter. Uses:</p><ul><li>Troubleshoot application connectivity issues (e.g., TCP retransmissions).</li><li>Validate decryption behaviour (is SSL handshake successful?).</li><li>Analyse suspicious traffic that logs do not fully explain.</li><li>Forensic analysis after an incident to reconstruct attack details.</li></ul><p>PCAPs can be downloaded via CLI or web interface. Excessive capture impacts performance.</p>` },
+    { id: 67, question: "Explain the ‘default‑deny’ security posture in NGFW and why it is superior to default‑allow.", answerHtml: `<p><strong>Default‑deny</strong> means all traffic is blocked unless explicitly allowed by a security policy. <strong>Default‑allow</strong> (old firewalls) passes traffic unless blocked – risky because new threats may not have rules. NGFW uses default‑deny at the end of the rulebase (implicit deny). This follows the principle of least privilege and Zero Trust: no implicit trust. Many exam questions highlight that administrators must consciously decide what to allow, reducing attack surface.</p>` },
+    { id: 68, question: "How would you investigate an alert showing repeated ‘SQL Injection’ attempts from a specific internal IP using NGFW logs?", answerHtml: `<p>Investigation steps:</p><ol><li>Open <strong>Threat logs</strong> filter for threat name “SQL Injection” and source IP.</li><li>Examine destination IP, URL, and application (usually web‑app).</li><li>Check <strong>Traffic logs</strong> for that source IP to see all outbound sessions.</li><li>Verify <strong>User-ID</strong> to identify the responsible user.</li><li>Check <strong>Device-ID</strong> if available to see if the device is compromised.</li><li>If repeated attempts are blocked, the NGFW is working; if some passed (action = allow), isolate host and block source IP via a dynamic block rule.</li><li>Escalate to incident response team for host remediation.</li></ol>` },
+    { id: 69, question: "What are the benefits of integrating NGFW with a SIEM like Splunk or Azure Sentinel?", answerHtml: `<p>Benefits:</p><ul><li><strong>Centralised visibility</strong> – logs from multiple NGFWs in one place.</li><li><strong>Correlation</strong> – combine NGFW alerts with endpoint or identity logs to detect complex attacks.</li><li><strong>Long‑term retention</strong> – firewalls have limited storage; SIEM keeps months or years.</li><li><strong>Automated alerting</strong> – real‑time notifications when certain threat thresholds are crossed.</li><li><strong>Compliance</strong> – PCI DSS, HIPAA require centralised log management.</li><li><strong>Security dashboards</strong> – visualise blocked threats, top applications, and user behaviour.</li></ul>` },
+    { id: 70, question: "Summarise the central theme of the CT6059ES exam: 'How NGFW improves security compared to traditional methods.' Provide a concise answer.", answerHtml: `<p><strong>Central answer:</strong> Traditional firewalls operate at layers 3/4 (IP/port) and use static rules; they cannot see application identity, user identity, or encrypted payloads. NGFW improves security by:</p><ul><li><strong>Application awareness (App-ID)</strong>: blocks risky apps regardless of port.</li><li><strong>User identity (User-ID)</strong>: enforces per‑user policies, essential for Zero Trust.</li><li><strong>Deep packet inspection</strong>: inspects content, not just headers.</li><li><strong>Integrated IPS and sandboxing</strong>: stops exploits and zero‑day malware.</li><li><strong>TLS decryption</strong>: reveals hidden threats in encrypted traffic.</li><li><strong>Centralised management and logging</strong>: faster detection and response.</li></ul><p>This holistic approach reduces the attack surface and prevents modern threats that legacy firewalls miss.</p>` }
+  ];
 
-    function openModal(packageName) {
-        selectedPackage = packageName;
-        modalPackageSpan.innerText = selectedPackage;
-        modal.style.display = 'flex';
+  // Helper: strip HTML for search
+  function stripHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+  
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  function renderCards(filterText = "") {
+    const container = document.getElementById("qaContainer");
+    const statsSpan = document.getElementById("resultStats");
+    if (!container) return;
+    
+    const lowerFilter = filterText.trim().toLowerCase();
+    let filtered = qaData;
+    if (lowerFilter !== "") {
+      filtered = qaData.filter(item => {
+        const plainAnswer = stripHtml(item.answerHtml);
+        return item.question.toLowerCase().includes(lowerFilter) || plainAnswer.toLowerCase().includes(lowerFilter);
+      });
     }
-    function closeModal() {
-        modal.style.display = 'none';
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="background:#fff; border-radius:2rem; padding:3rem; text-align:center; border:1px solid #e2e8f0;"><span style="font-size:2rem;">🔍</span><p style="margin-top:1rem; font-size:1.1rem;">No questions match "<strong>${escapeHtml(filterText)}</strong>"</p><p style="color:#475569;">Try "App-ID", "WildFire", "GlobalProtect", "Zero Trust", or "security profile".</p></div>`;
+      statsSpan.innerText = `0 results`;
+      return;
     }
+    
+    statsSpan.innerText = `${filtered.length} of ${qaData.length} questions`;
+    
+    const html = filtered.map(item => `
+      <div class="qa-card" data-id="${item.id}">
+        <div class="card-header">
+          <span class="q-num">${item.id}</span>
+          <div class="question-text">${escapeHtml(item.question)}</div>
+        </div>
+        <div class="answer-section">
+          <div class="answer-label">📌 ANSWER (Exam Focus)</div>
+          <div class="answer-content">${item.answerHtml}</div>
+        </div>
+      </div>
+    `).join("");
+    
+    container.innerHTML = html;
+  }
 
-    // Attach all book buttons (both package cards and nav btn)
-    const bookButtons = document.querySelectorAll('.book-package');
-    bookButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const packageTitle = btn.getAttribute('data-package');
-            if (packageTitle) openModal(packageTitle);
-            else openModal("Sigiriya Safari Jeep Tour");
-        });
+  document.addEventListener("DOMContentLoaded", () => {
+    renderCards("");
+    const searchInput = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    searchInput.addEventListener("input", () => renderCards(searchInput.value));
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      renderCards("");
+      searchInput.focus();
     });
-
-    const navBookBtn = document.getElementById('bookNavBtn');
-    if(navBookBtn) navBookBtn.addEventListener('click', () => openModal("Custom Safari Jeep (Flexible)"));
-
-    // close modal actions
-    document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
-    document.getElementById('confirmBookingBtn')?.addEventListener('click', () => {
-        const name = document.getElementById('guestName')?.value.trim();
-        const phone = document.getElementById('guestPhone')?.value.trim();
-        if(!name || !phone) {
-            alert("Please enter your name and phone number.");
-            return;
-        }
-        alert(`✅ Thank you ${name}! We received your safari request for ${selectedPackage}. Our team will contact you via ${phone} within few hours. 🐘🦚`);
-        closeModal();
-        // clear fields
-        document.getElementById('guestName').value = '';
-        document.getElementById('guestPhone').value = '';
-    });
-
-    // background click to close
-    modal?.addEventListener('click', (e) => {
-        if(e.target === modal) closeModal();
-    });
-
-    // additional WhatsApp dummy (simulated contact)
-    const whatsappBtn = document.getElementById('openWhatsappDummy');
-    if(whatsappBtn) {
-        whatsappBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert("📱 WhatsApp us: +94 77 123 4567 — or simply use this number to chat with our safari team.");
-        });
-    }
-
-    // Add smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if(href === "#" || href === "") return;
-            const targetElem = document.querySelector(href);
-            if(targetElem) {
-                e.preventDefault();
-                targetElem.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    });
+  });
 </script>
 </body>
 </html>
