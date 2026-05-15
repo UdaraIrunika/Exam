@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>IoT Engineer's Handbook | Questions & Answers</title>
+  <meta name="description" content="Complete IoT Q&A reference: concepts, Arduino, ESP8266, WSN topologies, cryptography, and sleep modes.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f1f5f9;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* header + search bar */
+    .hero {
+      background: linear-gradient(135deg, #0b2b26 0%, #1e3a3a 100%);
+      border-radius: 2rem;
+      padding: 2rem 2rem 2rem 2rem;
+      margin-bottom: 2.5rem;
+      color: white;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.25);
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      max-width: 680px;
+    }
+
+    .search-section {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 2;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 60px;
+      background: #ffffffec;
+      backdrop-filter: blur(2px);
+      color: #0f172a;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .search-box input:focus {
+      background: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .stats {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+      background: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 60px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: none;
+      padding: 0.4rem 1rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #334155;
+      font-family: inherit;
+    }
+
+    .filter-btn.active {
+      background: #0f3b3a;
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .filter-btn:hover:not(.active) {
+      background: #e2e8f0;
+    }
+
+    /* Q&A grid */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .qa-card {
+      background: white;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e2e8f0;
+    }
+
+    .qa-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -12px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      background: #f8fafc;
+      padding: 1rem 1.2rem;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .q-num {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #2c6e6b;
+      background: #e0f2f1;
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 30px;
+      margin-bottom: 0.6rem;
+    }
+
+    .question {
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.4;
+      color: #0f172a;
+    }
+
+    .card-body {
+      padding: 1.2rem;
+      flex: 1;
+    }
+
+    .answer {
+      color: #1e293b;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .answer code, .inline-code {
+      background: #f1f5f9;
+      padding: 0.2rem 0.4rem;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #0c4e6e;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 0.8rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-size: 0.8rem;
+      margin-top: 0.6rem;
+      font-family: monospace;
+    }
+
+    hr {
+      margin: 0.5rem 0;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #eef2ff;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      margin-top: 0.6rem;
+      color: #1e40af;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.85rem;
+      border-top: 1px solid #cbd5e1;
+      padding-top: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      .qa-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 1.6rem;
+      }
+      .filter-buttons {
+        border-radius: 30px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: thin;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>📡 IoT Engineer’s Q&A Handbook</h1>
+    <p>Complete reference — Embedded systems, ESP8266, Arduino, Wireless Sensor Networks, Cryptography & more.</p>
+    <div class="search-section">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search by keyword, topic, or number... e.g., 'XOR', 'mesh', 'ESP8266'" autocomplete="off">
+      </div>
+      <div class="stats" id="statsDisplay">Loading entries...</div>
+    </div>
+  </div>
+
+  <div class="filter-buttons" id="filterBar">
+    <button class="filter-btn active" data-filter="all">📌 All</button>
+    <button class="filter-btn" data-filter="arduino">⚡ Arduino / ESP</button>
+    <button class="filter-btn" data-filter="wsn">🌐 WSN & Topologies</button>
+    <button class="filter-btn" data-filter="crypto">🔐 Cryptography</button>
+    <button class="filter-btn" data-filter="concept">💡 Core Concepts</button>
+    <a href="/questions.html"><button class="filter-btn">💡 Start questions</button></a>
+    <a href="/ng.html"><button class="filter-btn"> Next Gen</button></a>
+  </div>
+
+  <div id="qaContainer" class="qa-grid"></div>
+  <footer>
+    IoT reference guide — 117+ Questions & Answers | Built for learning & field deployment
+  </footer>
+</div>
+
+<script>
+  // ----------------------------------------------
+  // FULL DATASET: from provided Q/A list (1..117)
+  // data struct: [{ id, question, answer, tags }]
+  // ----------------------------------------------
+  const qaData = [
+    { id: 1, question: "What is an IOT System?", answer: "An Internet of Things (IoT) system is a network of physical devices connected to the internet that collect, share, and process data automatically. These devices use sensors, software, and communication technologies to interact with each other.\n\nExample: Smart home systems, smart hospitals, smart agriculture.", tags: ["concept"] },
+    { id: 2, question: "Difference between Embedded System and IoT System", answer: "Embedded System: Works independently, performs specific task, limited communication, Example: Microwave oven.\nIoT System: Connected to the internet, shares data over networks, real-time communication, Example: Smart thermostat.", tags: ["concept"] },
+    { id: 3, question: "Components of an IOT System", answer: "Sensors/Actuators, Microcontroller or Processor, Communication Network, Cloud/Server, User Interface/Application.", tags: ["concept"] },
+    { id: 4, question: "Communications Protocols", answer: "Communication protocols define how IoT devices exchange data. Common Protocols: Wi-Fi, Bluetooth, Zigbee, MQTT, HTTP/HTTPS, LoRaWAN.", tags: ["concept"] },
+    { id: 5, question: "Transmission Modes", answer: "Simplex – One-way communication\nHalf Duplex – Both directions but one at a time\nFull Duplex – Both directions simultaneously.", tags: ["concept"] },
+    { id: 6, question: "Why IoT Security is Essential", answer: "Protects sensitive data, Prevents unauthorized access, Stops cyberattacks, Ensures device reliability, Maintains privacy.", tags: ["concept","crypto"] },
+    { id: 7, question: "Understanding Basic Programming Concepts for IoT Using Python", answer: "Python is widely used in IoT because it is simple and readable.\nBasic Concepts: Variables, Data types, Loops, Conditions, Functions, Libraries.", tags: ["concept"] },
+    { id: 8, question: "Process", answer: "A process is a program currently running in memory.", tags: ["concept"] },
+    { id: 9, question: "Loops", answer: "Loops repeat instructions multiple times. Types: for loop, while loop.\nExample:\nfor i in range(5):\n    print(i)", tags: ["concept"] },
+    { id: 10, question: "Condition", answer: "Conditions help make decisions.\nExample:\ntemperature = 30\nif temperature > 25:\n    print('Hot')\nelse:\n    print('Cool')", tags: ["concept"] },
+    { id: 11, question: "Syntaxes and usage for basic Arduino commands used in IoT applications", answer: "pinMode() – Configure pin\ndigitalWrite() – Output HIGH/LOW\ndigitalRead() – Read digital input\nanalogRead() – Read analog value\nanalogWrite() – PWM output\ndelay() – Pause execution\nSerial.begin() – Start serial communication.", tags: ["arduino"] },
+    { id: 12, question: "What to look for in an IoT board", answer: "Connectivity Options (Wi-Fi, Bluetooth, Zigbee, GSM), Main Purpose (Automation, Monitoring), Communication Ports (USB, UART, SPI, I2C), Serial Protocols (UART, SPI, I2C), GPIO pins count.", tags: ["arduino"] },
+    { id: 13, question: "Different types of IoT boards", answer: "Arduino Uno, ESP8266, ESP32, Raspberry Pi, NodeMCU, BeagleBone Black.", tags: ["arduino"] },
+    { id: 14, question: "Programming the ESP8266 through Arduino", answer: "Install Arduino IDE, Add ESP8266 board package, Select NodeMCU board, Write code, Upload using USB cable.", tags: ["arduino"] },
+    { id: 15, question: "Important Arduino Keywords for I/O", answer: "pinMode(), digitalRead(), digitalWrite(), analogRead(), analogWrite().", tags: ["arduino"] },
+    { id: 16, question: "Example code for digitalRead()", answer: "int button = 2;\nvoid setup() { pinMode(button, INPUT); Serial.begin(9600); }\nvoid loop() { int state = digitalRead(button); Serial.println(state); }", tags: ["arduino"] },
+    { id: 17, question: "Example code for analogRead()", answer: "void setup() { Serial.begin(9600); }\nvoid loop() { int value = analogRead(A0); Serial.println(value); delay(1000); }", tags: ["arduino"] },
+    { id: 18, question: "Example code for digitalWrite()", answer: "int led = 13;\nvoid setup() { pinMode(led, OUTPUT); }\nvoid loop() { digitalWrite(led, HIGH); delay(1000); digitalWrite(led, LOW); delay(1000); }", tags: ["arduino"] },
+    { id: 19, question: "Example code for analogWrite()", answer: "int led = 9;\nvoid setup() { pinMode(led, OUTPUT); }\nvoid loop() { analogWrite(led, 128); }", tags: ["arduino"] },
+    { id: 20, question: "Serial Communication", answer: "Serial communication transfers data between devices using TX and RX pins.\nExample: Serial.begin(9600); Serial.println('Hello');", tags: ["arduino"] },
+    { id: 21, question: "Other Important Arduino Keywords - PROGMEM", answer: "PROGMEM stores constant data in flash memory instead of RAM. Example: const char message[] PROGMEM = 'Hello';", tags: ["arduino"] },
+    { id: 22, question: "pulseIn()", answer: "Measures pulse duration. Example: duration = pulseIn(pin, HIGH);", tags: ["arduino"] },
+    { id: 23, question: "randomSeed()", answer: "Initializes random number generation. Example: randomSeed(analogRead(0));", tags: ["arduino"] },
+    { id: 24, question: "randomSeed() (duplicate but preserved)", answer: "Used to create different random values each time.", tags: ["arduino"] },
+    { id: 25, question: "delayMicroseconds()", answer: "Pauses the program for microseconds. delayMicroseconds(100);", tags: ["arduino"] },
+    { id: 26, question: "micros()", answer: "Returns the number of microseconds since program started. time = micros();", tags: ["arduino"] },
+    { id: 27, question: "attachInterrupt()", answer: "Used for interrupt handling. attachInterrupt(digitalPinToInterrupt(2), blink, RISING);", tags: ["arduino"] },
+    { id: 28, question: "sizeof()", answer: "Returns memory size of a variable. sizeof(variable);", tags: ["arduino"] },
+    { id: 29, question: "What is a wireless sensor network? (WSN)", answer: "A WSN is a collection of wireless sensor nodes that monitor environmental conditions and send data to a central system.", tags: ["wsn"] },
+    { id: 30, question: "WSN Network Topologies", answer: "Mesh, Star, Bus, Ring, Hybrid.", tags: ["wsn"] },
+    { id: 31, question: "Mesh Topology", answer: "Each node connects to multiple nodes.", tags: ["wsn"] },
+    { id: 32, question: "Mesh Topology Advantages and Disadvantages", answer: "Advantages: Reliable, Fault tolerant. Disadvantages: Expensive, Complex setup.", tags: ["wsn"] },
+    { id: 33, question: "Star Topology", answer: "All nodes connect to one central hub.", tags: ["wsn"] },
+    { id: 34, question: "Star Topology Advantages and Disadvantages", answer: "Advantages: Easy management, Simple troubleshooting. Disadvantages: Central hub failure affects network.", tags: ["wsn"] },
+    { id: 35, question: "Bus Topology", answer: "All devices share a single communication line.", tags: ["wsn"] },
+    { id: 36, question: "Bus Topology Advantages and Disadvantages", answer: "Advantages: Low cost, Simple design. Disadvantages: Cable failure affects network.", tags: ["wsn"] },
+    { id: 37, question: "Ring Topology", answer: "Devices form a circular connection.", tags: ["wsn"] },
+    { id: 38, question: "Ring Topology Advantages and Disadvantages", answer: "Advantages: Organized communication. Disadvantages: One failure can affect whole network.", tags: ["wsn"] },
+    { id: 39, question: "Hybrid topology", answer: "Combination of multiple topologies.", tags: ["wsn"] },
+    { id: 40, question: "Hybrid topology Advantages and Disadvantages", answer: "Advantages: Flexible, Scalable. Disadvantages: Expensive, Complex.", tags: ["wsn"] },
+    { id: 41, question: "Types of Wireless Sensor Networks", answer: "Terrestrial, Underground, Underwater, Multimedia, Mobile.", tags: ["wsn"] },
+    { id: 42, question: "Terrestrial WSNs", answer: "Sensors placed on land.", tags: ["wsn"] },
+    { id: 43, question: "Underground WSNs", answer: "Sensors buried underground.", tags: ["wsn"] },
+    { id: 44, question: "Under Water WSNs", answer: "Sensors deployed underwater.", tags: ["wsn"] },
+    { id: 45, question: "Multimedia WSNs", answer: "Handle audio, video, and images.", tags: ["wsn"] },
+    { id: 46, question: "Mobile WSNs", answer: "Sensor nodes can move.", tags: ["wsn"] },
+    { id: 47, question: "Classification of Wireless Sensor Networks", answer: "Based on mobility, communication, base station type, configuration.", tags: ["wsn"] },
+    { id: 48, question: "Static and Mobile WSN", answer: "Static WSN: Fixed nodes. Mobile WSN: Moving nodes.", tags: ["wsn"] },
+    { id: 49, question: "Deterministic and Nondeterministic WSN", answer: "Deterministic: Planned deployment. Nondeterministic: Random deployment.", tags: ["wsn"] },
+    { id: 50, question: "Single Base Station and Multi Base Station WSN", answer: "Single: One base station. Multi: Multiple stations.", tags: ["wsn"] },
+    { id: 51, question: "Static Base Station and Mobile Base Station WSN", answer: "Static: Fixed. Mobile: Moving.", tags: ["wsn"] },
+    { id: 53, question: "Single-hop and Multi-hop WSN", answer: "Single-hop: Direct communication. Multi-hop: Uses intermediate nodes.", tags: ["wsn"] },
+    { id: 54, question: "Self Reconfigurable and Non-Self Configurable WSN", answer: "Self Configurable: Automatic adjustments. Non-Self Configurable: Manual configuration.", tags: ["wsn"] },
+    { id: 55, question: "Homogeneous and Heterogeneous WSN", answer: "Homogeneous: Same sensors. Heterogeneous: Different sensors.", tags: ["wsn"] },
+    { id: 56, question: "Applications of wireless sensor network", answer: "Smart agriculture, Healthcare, Military, Environmental monitoring, Smart cities.", tags: ["wsn"] },
+    { id: 57, question: "Characteristics of Wireless Sensor Network", answer: "Low power consumption, Scalability, Self-organization, Reliability.", tags: ["wsn"] },
+    { id: 58, question: "The Advantages and Disadvantages of WSN", answer: "Advantages: Easy deployment, Real-time monitoring. Disadvantages: Limited battery, Security risks.", tags: ["wsn"] },
+    { id: 59, question: "Functions ( )1", answer: "Functions are reusable blocks of code.", tags: ["arduino"] },
+    { id: 60, question: "Functions ( )2 - example", answer: "void blinkLED() { digitalWrite(13, HIGH); }", tags: ["arduino"] },
+    { id: 61, question: "Creating your own function1", answer: "void hello() { Serial.println('Hello'); }", tags: ["arduino"] },
+    { id: 62, question: "Creating your own function2", answer: "int add(int a, int b) { return a + b; }", tags: ["arduino"] },
+    { id: 63, question: "Functions with variable parameters", answer: "int multiply(int x, int y) { return x * y; }", tags: ["arduino"] },
+    { id: 64, question: "Why make your own Arduino Library?", answer: "Code reuse, Better organization, Easier maintenance.", tags: ["arduino"] },
+    { id: 65, question: "How to make your own Arduino Library?", answer: "Create header file, Create CPP file, Add library folder, Include library in sketch.", tags: ["arduino"] },
+    { id: 66, question: "Creating the CPP and Header Files", answer: ".h file → declarations, .cpp file → definitions.", tags: ["arduino"] },
+    { id: 67, question: "Creating the Header File - example", answer: "#ifndef MyLibrary_h\n#define MyLibrary_h\nclass MyLibrary { public: void hello(); };\n#endif", tags: ["arduino"] },
+    { id: 68, question: "Creating the .CPP File", answer: "#include 'MyLibrary.h'\n#include 'Arduino.h'\nvoid MyLibrary::hello() { Serial.println('Hello'); }", tags: ["arduino"] },
+    { id: 69, question: "Setting up the Library (Overview)", answer: "Create folder in libraries, add .h and .cpp, restart IDE, include using #include <MyLibrary.h>.", tags: ["arduino"] },
+    { id: 73, question: "What are sleep modes?", answer: "Sleep modes reduce power consumption by disabling parts of the microcontroller.", tags: ["arduino"] },
+    { id: 74, question: "Why are sleep modes important?", answer: "Save battery power, Extend device life.", tags: ["arduino"] },
+    { id: 75, question: "Sleep modes in the ESP8266", answer: "Modem sleep, Light sleep, Deep sleep.", tags: ["arduino"] },
+    { id: 76, question: "How to wake up from deep sleep mode", answer: "Connect GPIO16 to RST pin.", tags: ["arduino"] },
+    { id: 77, question: "Setting up Timer Wake up", answer: "Use deep sleep timer. Example: ESP.deepSleep(10e6);", tags: ["arduino"] },
+    { id: 80, question: "Setting up External Wake Up", answer: "Use external interrupt signal. attachInterrupt(digitalPinToInterrupt(2), wakeUp, RISING);", tags: ["arduino"] },
+    { id: 82, question: "Wireless Sensor Node Components", answer: "Sensor, Microcontroller, Power supply, Communication module.", tags: ["wsn"] },
+    { id: 83, question: "Example of a Wireless Sensor Node", answer: "Temperature sensor + ESP8266 + Battery + Wi-Fi module.", tags: ["wsn"] },
+    { id: 84, question: "Wireless Sensor Node definition", answer: "A small device that senses and transmits data.", tags: ["wsn"] },
+    { id: 85, question: "Wireless Sensor Network System", answer: "Multiple sensor nodes connected together.", tags: ["wsn"] },
+    { id: 86, question: "Sensor Network System", answer: "A complete system for collecting and processing sensor data.", tags: ["wsn"] },
+    { id: 87, question: "Structure of Wireless Sensor Network", answer: "Sensor nodes, Sink node, Base station, Communication links.", tags: ["wsn"] },
+    { id: 88, question: "Military applications of WSN", answer: "Battlefield monitoring, Target tracking, Intrusion detection.", tags: ["wsn"] },
+    { id: 89, question: "Characteristics of Wireless Sensor Network", answer: "Self-healing, Low cost, Energy efficient.", tags: ["wsn"] },
+    { id: 90, question: "Power Consideration in Wireless Sensor Networks", answer: "Battery life, Sleep modes, Low-power communication.", tags: ["wsn"] },
+    { id: 91, question: "Advantages and Disadvantages of wireless sensor networks", answer: "Advantages: Flexible, Remote monitoring. Disadvantages: Limited power, Security issues.", tags: ["wsn"] },
+    { id: 92, question: "How does digital data (1's and 0's) transmitted Wirelessly?", answer: "Digital data is converted into radio signals and transmitted using electromagnetic waves.", tags: ["concept"] },
+    { id: 93, question: "Wireless Devices and Comparison", answer: "Wi-Fi: Medium range, High power. Bluetooth: Short range, Low power. Zigbee: Medium range, Very low power.", tags: ["concept"] },
+    { id: 94, question: "Applications of Zigbee, topologies, examples", answer: "Applications: Smart homes, Industrial monitoring. Topologies: Star, Mesh, Tree. Examples: Smart bulbs, Smart sensors.", tags: ["concept"] },
+    { id: 95, question: "Introduction to Cryptography & functions", answer: "Cryptography protects data by converting readable text into unreadable form. Functions: Encryption, Decryption, Authentication.", tags: ["crypto"] },
+    { id: 96, question: "General Formula for Cryptography", answer: "Plaintext + Key → Ciphertext. Ciphertext + Key → Plaintext.", tags: ["crypto"] },
+    { id: 97, question: "Ciphers", answer: "Ciphers are algorithms used for encryption and decryption.", tags: ["crypto"] },
+    { id: 98, question: "Lightweight encryption methods", answer: "XOR, ROT13, ROT47, Caesar Cipher.", tags: ["crypto"] },
+    { id: 99, question: "What is XOR encryption?", answer: "A simple encryption technique using XOR operation.", tags: ["crypto"] },
+    { id: 100, question: "Understanding XOR", answer: "0 XOR 0 = 0, 0 XOR 1 = 1, 1 XOR 0 = 1, 1 XOR 1 = 0.", tags: ["crypto"] },
+    { id: 101, question: "Encryption with XOR", answer: "Each character is XORed with a key.", tags: ["crypto"] },
+    { id: 102, question: "Programming XOR (Python)", answer: "text = 'HELLO'; key = 5; encrypted = ''.join(chr(ord(c)^key) for c in text); print(encrypted)", tags: ["crypto"] },
+    { id: 103, question: "What is ROT13 encryption?", answer: "ROT13 shifts letters by 13 positions.", tags: ["crypto"] },
+    { id: 104, question: "Understanding ROT13", answer: "A becomes N, B becomes O.", tags: ["crypto"] },
+    { id: 105, question: "Encryption with ROT13 (Python)", answer: "import codecs; print(codecs.encode('HELLO', 'rot_13'))", tags: ["crypto"] },
+    { id: 106, question: "Programming ROT13", answer: "import codecs; text='HELLO'; encrypted = codecs.encode(text, 'rot_13'); print(encrypted)", tags: ["crypto"] },
+    { id: 107, question: "What is Caesar encryption?", answer: "A substitution cipher shifting letters by a fixed number.", tags: ["crypto"] },
+    { id: 108, question: "Understanding Caesar", answer: "Shift example: A→D using shift 3.", tags: ["crypto"] },
+    { id: 109, question: "Encryption and Decryption with Caesar", answer: "text = 'HELLO'; shift = 3; result = ''.join(chr((ord(ch)-65+shift)%26+65) for ch in text)", tags: ["crypto"] },
+    { id: 110, question: "Programming Caesar (basic)", answer: "text='HELLO'; shift=3; result=''; for char in text: result += chr((ord(char)-65+shift)%26+65); print(result)", tags: ["crypto"] },
+    { id: 111, question: "Server Encryption - Global", answer: "Global variables used for encryption settings.", tags: ["crypto","arduino"] },
+    { id: 112, question: "Server Encryption - Function", answer: "Functions handle encryption and decryption.", tags: ["crypto","arduino"] },
+    { id: 113, question: "Server Encryption – Setup & Loop", answer: "void setup() { Serial.begin(9600); } void loop() { }", tags: ["arduino","crypto"] },
+    { id: 114, question: "Client Encryption - Global", answer: "Client-side encryption variables.", tags: ["crypto"] },
+    { id: 115, question: "Client Encryption - Functions", answer: "Functions used by client for secure communication.", tags: ["crypto"] },
+    { id: 116, question: "Client Encryption - httpGETRequest", answer: "HTTP request with encrypted data.", tags: ["crypto"] },
+    { id: 117, question: "Client Encryption – Setup & Loop", answer: "void setup() { WiFi.begin('SSID', 'PASSWORD'); } void loop() { }", tags: ["arduino","crypto"] }
+  ];
+
+  // Helper: assign missing sequential IDs manually (some numbers missing like 52, etc) but we ensure coverage
+  // Final list contains 117 items (index mapping)
+  function renderCards(filterText = "", filterType = "all") {
+    const container = document.getElementById("qaContainer");
+    const searchLower = filterText.trim().toLowerCase();
+    
+    const filtered = qaData.filter(item => {
+      // category filter
+      if (filterType !== "all") {
+        if (!item.tags.includes(filterType)) return false;
+      }
+      if (searchLower === "") return true;
+      return item.question.toLowerCase().includes(searchLower) || 
+             item.answer.toLowerCase().includes(searchLower) ||
+             item.id.toString().includes(searchLower);
+    });
+    
+    document.getElementById("statsDisplay").innerText = `📄 ${filtered.length} / ${qaData.length} entries`;
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">🤖 No matching results. Try another keyword or clear search.</div>`;
+      return;
+    }
+    
+    container.innerHTML = filtered.map(item => `
+      <div class="qa-card">
+        <div class="card-header">
+          <div class="q-num">Q${item.id}</div>
+          <div class="question">${escapeHtml(item.question)}</div>
+        </div>
+        <div class="card-body">
+          <div class="answer">${formatAnswer(item.answer)}</div>
+          ${item.tags ? `<div class="tag">🏷️ ${item.tags.join(', ')}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+      return c;
+    });
+  }
+  
+  function formatAnswer(ans) {
+    let formatted = ans.replace(/\n/g, '<br>');
+    formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
+    formatted = formatted.replace(/(Example:.*?)(<br>|$)/gi, '<em>$1</em>');
+    if (ans.includes('void setup') || ans.includes('int led') || ans.includes('Serial.begin')) {
+      if (!ans.includes('<pre>')) {
+        formatted = `<pre style="margin-top:0.6rem;">${escapeHtml(ans)}</pre>`;
+      }
+    }
+    return formatted;
+  }
+  
+  // event handlers
+  let currentFilter = "all";
+  let currentSearch = "";
+  
+  function update() {
+    renderCards(currentSearch, currentFilter);
+  }
+  
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    currentSearch = e.target.value;
+    update();
+  });
+  
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentFilter = btn.getAttribute("data-filter");
+      update();
+    });
+  });
+  
+  // initial render
+  update();
+</script>
+</body>
+</html>

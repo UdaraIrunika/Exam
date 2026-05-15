@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CT6059ES · Palo Alto NGFW Exam Q&A | London Met Level 6</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f1f5f9;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      line-height: 1.5;
+      color: #0f172a;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b2b3b 0%, #0f3b4f 100%);
+      border-radius: 2rem;
+      padding: 2rem 2rem 2rem 2.5rem;
+      margin-bottom: 2rem;
+      color: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+    }
+
+    .hero h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 0.75rem 0 1rem 0;
+    }
+
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 80%;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 80px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border: 1px solid #e2e8f0;
+    }
+
+    .search-wrapper {
+      flex: 2;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .search-wrapper input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      padding: 0.7rem 0;
+      font-size: 1rem;
+      outline: none;
+      font-weight: 500;
+    }
+
+    .search-wrapper i {
+      color: #5b6e8c;
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    .stats {
+      font-size: 0.9rem;
+      background: #eef2ff;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      color: #1e40af;
+      font-weight: 500;
+    }
+
+    .clear-btn {
+      background: none;
+      border: 1px solid #cbd5e1;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      background: white;
+    }
+
+    .clear-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    .qa-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .qa-card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+      transition: all 0.2s;
+      border: 1px solid #e9edf2;
+      overflow: hidden;
+    }
+
+    .qa-card:hover {
+      border-color: #cbdff2;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.1);
+    }
+
+    .card-header {
+      background: #fefcf5;
+      padding: 1.2rem 1.8rem;
+      border-bottom: 2px solid #eef2f6;
+      cursor: pointer;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .q-num {
+      background: #1e293b;
+      color: white;
+      font-weight: 700;
+      width: 2.3rem;
+      height: 2.3rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 60px;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0c4e6e;
+      letter-spacing: -0.2px;
+      flex: 1;
+    }
+
+    .answer-section {
+      padding: 1.4rem 1.8rem 2rem 1.8rem;
+      background: #ffffff;
+      border-top: 1px solid #f0f2f5;
+    }
+
+    .answer-label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #2c6e9e;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .answer-content {
+      color: #1e2a3e;
+    }
+
+    .answer-content p {
+      margin-bottom: 0.8rem;
+    }
+
+    .answer-content ul, .answer-content ol {
+      margin: 0.6rem 0 0.8rem 1.5rem;
+    }
+
+    .answer-content li {
+      margin: 0.3rem 0;
+    }
+
+    .answer-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: #f9fafb;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .answer-content th, .answer-content td {
+      border: 1px solid #e2e8f0;
+      padding: 0.7rem 1rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .answer-content th {
+      background: #eef2ff;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #475569;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 2rem;
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 1rem; }
+      .hero h1 { font-size: 1.5rem; }
+      .card-header { padding: 1rem; }
+      .answer-section { padding: 1rem; }
+      .toolbar { border-radius: 1.5rem; flex-direction: column; align-items: stretch; }
+      .question-text { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>🔐 CT6059ES — Next Generation Firewalls<br><span style="font-size: 1.2rem;">Palo Alto Focus | Zero Trust | Cloud Security | Exam Q&A Bank</span></h1>
+    <div class="badge">📘 70+ questions · Written paper (2h, 50 marks) · MCQ + long answers · Palo Alto NGFW operations</div>
+    <p>Complete revision for London Metropolitan University Level 6 — covers NGFW fundamentals, App‑ID/User‑ID, threat prevention, security policies, logging, SASE, and practical firewall administration. <strong>“How NGFW improves security”</strong> is the central theme.</p>
+  </div>
+    <div class="filter-buttons" id="filterBar">
+    <a href="/index.html"><button class="filter-btn">💡 IOT</button></a>
+    <a href="/ng.html"><button class="filter-btn"> Next Gen</button></a>
+    <a href="/ngq.html"><button class="filter-btn"> Next Gen Question</button></a>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrapper">
+      <i>🔍</i>
+      <input type="text" id="searchInput" placeholder="Search App‑ID, Zero Trust, WildFire, security profiles, policies, logs..." autocomplete="off">
+    </div>
+    <div class="stats" id="resultStats">70 questions loaded</div>
+    <button class="clear-btn" id="clearSearchBtn">Clear filter</button>
+  </div>
+
+  <div id="qaContainer" class="qa-grid"></div>
+  <footer>
+    📄 Based on CT6059ES model paper analysis — Palo Alto Networks NGFW, Zero Trust architecture, attack prevention, monitoring & cloud security.<br>
+    🧠 Every question reflects real exam patterns: definitions, comparisons, “how does it improve security”, and practical configuration.
+  </footer>
+</div>
+
+<script>
+  // --------------------------------------------------------------
+  // FULL DATABASE: original 30 + 20 advanced (SASE, microseg, etc.) 
+  // + 20 NEW Palo Alto / exam-specific questions = TOTAL 70
+  // --------------------------------------------------------------
+  const qaData = [
+    // ==================== ORIGINAL 1–30 (unchanged core) ====================
+    { id: 1, question: "What is a Next-Generation Firewall (NGFW)?", answerHtml: `<p>A Next-Generation Firewall (NGFW) is an advanced firewall that provides traditional firewall protection together with modern security features such as:</p><ul><li>Deep Packet Inspection (DPI)</li><li>Application awareness</li><li>Intrusion Prevention System (IPS)</li><li>Malware protection</li><li>URL filtering</li><li>Threat intelligence</li></ul><p>NGFW helps organizations detect and prevent modern cyberattacks more effectively than traditional firewalls.</p>` },
+    { id: 2, question: "Difference Between Traditional Firewall and NGFW", answerHtml: `<table><thead><tr><th>Traditional Firewall</th><th>NGFW</th></tr></thead><tbody><tr><td>Filters traffic using IP and ports</td><td>Uses application and user awareness</td></tr><tr><td>Basic packet filtering</td><td>Deep packet inspection</td></tr><tr><td>Limited security features</td><td>Advanced threat prevention</td></tr><tr><td>Cannot detect modern attacks easily</td><td>Detects malware and application threats</td></tr></tbody></table><p>NGFW integrates context-aware security policies beyond port/protocol.</p>` },
+    { id: 3, question: "What is Deep Packet Inspection (DPI)?", answerHtml: `<p>Deep Packet Inspection (DPI) examines the content of data packets instead of only checking headers. It helps detect malware, block suspicious traffic, and prevent SQLi/XSS attacks.</p>` },
+    { id: 4, question: "What is Stateful Inspection?", answerHtml: `<p>Stateful Inspection monitors active network connections and allows only legitimate traffic. It tracks sessions and blocks unauthorized packets.</p>` },
+    { id: 5, question: "What is the Zero Trust Security Model?", answerHtml: `<p>“Never Trust, Always Verify”. No user/device is trusted automatically; every request is verified continuously. Features: least privilege, continuous authentication, network segmentation.</p>` },
+    { id: 6, question: "How Does NGFW Support Zero Trust?", answerHtml: `<p>By verifying users/devices, applying identity-based policies, continuous monitoring, blocking unauthorized access, and using application awareness and threat prevention.</p>` },
+    { id: 7, question: "What is a Firewall Rule?", answerHtml: `<p>A security policy that defines allowed/denied traffic based on source, destination, port, application, and user.</p>` },
+    { id: 8, question: "What is NAT?", answerHtml: `<p>Network Address Translation – translates private IPs to public IPs, conserving addresses and hiding internal structure.</p>` },
+    { id: 9, question: "What is a VPN?", answerHtml: `<p>Virtual Private Network – creates encrypted tunnels over the internet for secure remote access and data confidentiality.</p>` },
+    { id: 10, question: "What is a DMZ?", answerHtml: `<p>Demilitarized Zone – a separate network area between internet and internal network, hosting public servers safely.</p>` },
+    { id: 11, question: "What is IP Spoofing?", answerHtml: `<p>Attack where source IP is forged to appear trusted. NGFW prevents via packet validation and traffic inspection.</p>` },
+    { id: 12, question: "What is SQL Injection?", answerHtml: `<p>Malicious SQL code inserted into queries. NGFW mitigates using DPI, IPS, and application filtering.</p>` },
+    { id: 13, question: "What is Cross-Site Scripting (XSS)?", answerHtml: `<p>Injection of malicious scripts into trusted websites. NGFW prevents via content inspection, web filtering, IPS.</p>` },
+    { id: 14, question: "What is Malware?", answerHtml: `<p>Malicious software (viruses, worms, ransomware). NGFW blocks using antivirus scanning, sandboxing, threat intelligence.</p>` },
+    { id: 15, question: "What is Sandboxing?", answerHtml: `<p>Isolated environment to analyze suspicious files safely. Detects unknown malware and prevents infection.</p>` },
+    { id: 16, question: "What is DNS Filtering?", answerHtml: `<p>Blocks malicious/unauthorized domains, preventing phishing and malware C2 communication.</p>` },
+    { id: 17, question: "What is SIEM?", answerHtml: `<p>Security Information and Event Management – collects and analyzes logs for threat detection and incident response.</p>` },
+    { id: 18, question: "Why is Monitoring Important in Network Security?", answerHtml: `<p>Early threat detection, tracking suspicious activity, rapid response, and overall security improvement.</p>` },
+    { id: 19, question: "What Data Should Firewall Logs Collect?", answerHtml: `<p>Source/destination IP, ports, protocol, user activity, timestamps, action (allow/block), threat events.</p>` },
+    { id: 20, question: "What is Data Loss Prevention (DLP)?", answerHtml: `<p>Prevents sensitive data from leaving the network without authorization (financial, personal, company secrets).</p>` },
+    { id: 21, question: "Explain the Importance of Logging in Firewall Management", answerHtml: `<p>Logging enables monitoring, attack detection, incident investigation, compliance, and evidence collection.</p>` },
+    { id: 22, question: "Explain Three Attacks Prevented by NGFW", answerHtml: `<p><strong>Malware</strong> (sandboxing, AV), <strong>SQLi</strong> (DPI/IPS), <strong>XSS</strong> (content filtering).</p>` },
+    { id: 23, question: "Explain the Importance of Zero Trust in Cloud Security", answerHtml: `<p>Verifies every user/device, prevents unauthorized access, reduces insider threats, protects cloud resources with least privilege.</p>` },
+    { id: 24, question: "What is Application Awareness?", answerHtml: `<p>Identifies and controls applications regardless of port. Example: blocking social media or torrent traffic.</p>` },
+    { id: 25, question: "What is Intrusion Prevention System (IPS)?", answerHtml: `<p>Detects and blocks malicious activities automatically – works with NGFW for advanced protection.</p>` },
+    { id: 26, question: "What is a Whitelist?", answerHtml: `<p>List of trusted entities (IPs, users, apps) allowed access. Improves security by default‑deny.</p>` },
+    { id: 27, question: "What is a Blacklist?", answerHtml: `<p>List of blocked entities – prevents malicious access.</p>` },
+    { id: 28, question: "Explain Threat Intelligence", answerHtml: `<p>Cyber threat information from various sources; NGFW uses it to detect new threats and block malicious IPs proactively.</p>` },
+    { id: 29, question: "Explain URL Filtering", answerHtml: `<p>Controls website access based on categories – blocks phishing, malware sites, improves productivity.</p>` },
+    { id: 30, question: "Explain Network Segmentation", answerHtml: `<p>Divides network into smaller secure sections – reduces attack spread and improves access control (Zero Trust).</p>` },
+    
+    // ==================== ADVANCED 31–50 (SASE, microseg, TLS inspection, cloud) ====================
+    { id: 31, question: "What is SASE and how does it relate to NGFW?", answerHtml: `<p>SASE (Secure Access Service Edge) combines networking and security (FWaaS, SWG, CASB, ZTNA). NGFW provides FWaaS core threat prevention inside SASE.</p>` },
+    { id: 32, question: "Explain Microsegmentation and its role in Zero Trust.", answerHtml: `<p>Isolates workloads down to individual containers/VMs, preventing lateral movement. NGFWs enforce via virtual firewalls or distributed agents.</p>` },
+    { id: 33, question: "What is TLS/SSL decryption and why is it critical for NGFW?", answerHtml: `<p>Decrypts encrypted traffic to inspect for threats. Over 80% of attacks use encryption; without decryption, NGFW is blind. Modern NGFWs use selective decryption policies.</p>` },
+    { id: 34, question: "Compare virtual NGFW vs. container firewall.", answerHtml: `<p>vNGFW (VM‑based) inspects east‑west VPC traffic; container firewall (e.g., sidecar) provides L7 inspection for microservices. Both essential in cloud.</p>` },
+    { id: 35, question: "What is a CASB and how does NGFW integrate with it?", answerHtml: `<p>Cloud Access Security Broker enforces SaaS policies. NGFW + CASB extends DLP and threat protection to Office 365, Salesforce, etc.</p>` },
+    { id: 36, question: "How does ML enhance decrypted traffic analysis?", answerHtml: `<p>ML models detect zero‑day exploits, DNS tunnelling, and obfuscation in decrypted payloads, reducing false positives.</p>` },
+    { id: 37, question: "Role of NGFW in hybrid cloud (AWS + on‑prem).", answerHtml: `<p>Consistent policies across VPCs and on‑prem, encrypted VPN tunnels, central management, auto‑scaling firewall instances.</p>` },
+    { id: 38, question: "How does NGFW block C2 traffic using threat intelligence?", answerHtml: `<p>Dynamic IP/domain blacklisting, DNS sinkholing, SSL certificate fingerprinting, behaviour analysis of outbound callbacks.</p>` },
+    { id: 39, question: "Explain user identity as a policy element beyond IP addresses.", answerHtml: `<p>Integrates with AD/LDAP/IdP to enforce per‑user policies (e.g., interns vs executives). Essential for Zero Trust.</p>` },
+    { id: 40, question: "What is high availability with stateful failover?", answerHtml: `<p>Active‑passive cluster synchronising session tables. Virtual IP ensures seamless failover without interrupting connections.</p>` },
+    { id: 41, question: "How does NGFW detect DNS tunnelling?", answerHtml: `<p>Statistical analysis (entropy, query volume), deep DNS inspection, sinkhole integration, rate limiting.</p>` },
+    { id: 42, question: "What is firewall policy optimization?", answerHtml: `<p>Removing redundant rules, reordering for performance, eliminating shadow rules. Critical for large‑scale NGFW deployments.</p>` },
+    { id: 43, question: "Network‑based sandbox triggering in NGFW.", answerHtml: `<p>NGFW forwards suspicious files to sandbox (local/cloud), executes in isolation, returns verdict, and creates new signatures for zero‑days.</p>` },
+    { id: 44, question: "Positive vs negative security model in NGFW policies.", answerHtml: `<p>Positive (allowlist): default deny – for high security. Negative (blocklist): allow all except known bad – for public servers.</p>` },
+    { id: 45, question: "Encrypted SNI (ECH) challenges and NGFW solutions.", answerHtml: `<p>ECH hides domain name. NGFW uses DoH correlation, ML on handshake patterns, endpoint agents, and behaviour analysis.</p>` },
+    { id: 46, question: "SOAR integration with NGFW for automated response.", answerHtml: `<p>SOAR ingests NGFW alerts, triggers playbooks (block IP, quarantine), reducing MTTR from hours to minutes.</p>` },
+    { id: 47, question: "Virtual patching using NGFW IPS.", answerHtml: `<p>IPS signatures block exploitation of known CVEs before official patches are applied – protects legacy systems.</p>` },
+    { id: 48, question: "How NGFW counters user‑agent spoofing.", answerHtml: `<p>Uses application identification (JA3, TLS SNI) independent of User‑Agent header, plus OS fingerprinting.</p>` },
+    { id: 49, question: "IPv6 security implications for NGFW.", answerHtml: `<p>IPv6 can bypass IPv4 rules. Mitigations: enable IPv6 inspection, RA guard, DHCPv6 snooping, treat IPv6 as first‑class.</p>` },
+    { id: 50, question: "Hierarchical multipolicy architecture in large‑scale NGFW management.", answerHtml: `<p>Global (corporate baseline) → device group (regional) → local policies. Ensures consistency and auditability.</p>` },
+    
+    // ==================== NEW PALO ALTO & EXAM-SPECIFIC (51–70) ====================
+    { id: 51, question: "What is Palo Alto App-ID and how does it differ from traditional port-based identification?", answerHtml: `<p><strong>App-ID</strong> is Palo Alto’s patented technology that identifies applications regardless of port, protocol, or encryption (using decryption). It uses four techniques: application signatures, decryption, protocol decoding, and heuristics. Unlike traditional firewalls that rely on port numbers (e.g., port 80 = HTTP), App-ID correctly identifies applications like Facebook Messenger over port 443 or SSH over non‑standard ports.</p><p>This directly supports Zero Trust by enabling application‑based policies instead of guessing.</p>` },
+    { id: 52, question: "Explain Palo Alto User-ID and its importance in NGFW policy enforcement.", answerHtml: `<p><strong>User-ID</strong> maps IP addresses to usernames by integrating with Active Directory, LDAP, or terminal services. It allows security policies based on <em>who</em> is accessing the network, not just source IP. Example: block social media for “Interns” group but allow for “Marketing”. Without User-ID, policy enforcement is blind to identity, increasing risk of lateral movement.</p><p>User-ID is a cornerstone of Zero Trust because it verifies user identity for every session.</p>` },
+    { id: 53, question: "What is WildFire (Palo Alto sandbox) and how does it enhance threat prevention?", answerHtml: `<p><strong>WildFire</strong> is Palo Alto’s cloud‑based or on‑prem sandboxing service. It executes suspicious files (PDFs, executables, Office docs) in an isolated VM and analyzes behaviour. WildFire generates signatures within minutes, which are then pushed globally to all NGFWs. This provides zero‑day protection against unknown malware and exploits, complementing traditional signature‑based antivirus.</p><p>In the exam, expect to explain how sandboxing improves security by detecting evasive threats.</p>` },
+    { id: 54, question: "How would you create a security policy on Palo Alto NGFW that allows only HTTPS traffic from Finance department to Salesforce cloud?", answerHtml: `<p>Step‑by‑step:</p><ol><li>Create <strong>Address object</strong> for Finance subnet.</li><li>Create <strong>Application group</strong> containing “salesforce” and “ssl”.</li><li>Create <strong>User-ID group</strong> mapping AD group “Finance”.</li><li>Define security policy: <strong>Source</strong> = Finance subnet + Finance AD group, <strong>Destination</strong> = salesforce.com (FQDN), <strong>Application</strong> = salesforce, ssl, <strong>Action</strong> = allow, <strong>Profile</strong> = SSL decryption + threat prevention.</li><li>Place policy above any catch‑all deny.</li></ol><p>This demonstrates application‑ and identity‑based control, a key exam skill.</p>` },
+    { id: 55, question: "Compare Palo Alto NGFW security profiles: Antivirus, Anti‑Spyware, Vulnerability Protection, and URL Filtering.", answerHtml: `<table><thead><tr><th>Profile</th><th>Function</th><th>Example</th></tr></thead><tbody><tr><td>Antivirus</td><td>Blocks known malware via signatures</td><td>Eicar test file</td></tr><tr><td>Anti‑Spyware</td><td>Prevents C2 callbacks & spyware</td><td>Beaconing to known malicious IP</td></tr><tr><td>Vulnerability Protection</td><td>IPS signatures for known exploits</td><td>Log4Shell attempt</td></tr><tr><td>URL Filtering</td><td>Blocks malicious/phishing sites</td><td>Access to ransomware domain</td></tr></tbody></table><p>All profiles are applied in security policy rules.</p>` },
+    { id: 56, question: "What is the difference between ‘security policy’ and ‘NAT policy’ on a Palo Alto NGFW?", answerHtml: `<p><strong>Security policy</strong> controls whether traffic is allowed or denied based on application, user, and content. <strong>NAT policy</strong> translates source/destination IPs (source NAT, destination NAT). Palo Alto processes NAT rules before security rules, so security policies see the post‑NAT IPs. In exam questions, you must know that NAT does not replace security inspection – both are required.</p>` },
+    { id: 57, question: "How does Palo Alto’s ‘Zone‑Based’ architecture improve security compared to interface‑based firewalls?", answerHtml: `<p>Zones group interfaces with similar security levels (e.g., Untrust, Trust, DMZ). Policies are written between zones, not per interface. This simplifies administration and ensures consistent enforcement. For example, traffic from Trust zone to Untrust zone can have strict inspection, while Trust to Trust might be allowed without inspection. Zone‑based design prevents misconfiguration that could accidentally expose internal interfaces.</p>` },
+    { id: 58, question: "Explain the concept of ‘decryption broker’ in Palo Alto NGFW for cloud security.", answerHtml: `<p>A <strong>decryption broker</strong> decrypts inbound TLS traffic, inspects it, then re‑encrypts before forwarding to cloud or internal servers. It offloads decryption overhead from cloud applications and enables consistent threat inspection for encrypted traffic. This is critical when organisations use multiple cloud providers and need centralised security without breaking end‑to‑end encryption. Palo Alto NGFW can act as a decryption broker using SSL Forward Proxy.</p>` },
+    { id: 59, question: "What are the main log types in Palo Alto NGFW and how are they used in incident response?", answerHtml: `<p>Key logs:</p><ul><li><strong>Traffic logs</strong>: session start/end, bytes, rule match.</li><li><strong>Threat logs</strong>: detected malware, IPS alerts, viruses.</li><li><strong>URL logs</strong>: websites visited, category matches.</li><li><strong>User-ID logs</strong>: user IP mapping changes.</li><li><strong>Configuration logs</strong>: admin changes.</li></ul><p>During incident response, analysts filter threat logs for malicious signatures, correlate with traffic logs to find source/destination, and export to SIEM for further investigation.</p>` },
+    { id: 60, question: "How would you troubleshoot a scenario where a user cannot access a legitimate application despite an allow rule?", answerHtml: `<p>Stepwise troubleshooting:</p><ol><li>Check <strong>traffic logs</strong> – see if session was allowed or denied, and which rule matched.</li><li>Verify <strong>App-ID</strong> – the application may be misidentified; use “application override” temporarily.</li><li>Check <strong>URL filtering</strong> – the domain might be in a blocked category.</li><li>Review <strong>security profiles</strong> – perhaps anti‑spyware or vulnerability protection blocked the request (check threat logs).</li><li>Examine <strong>User-ID</strong> mapping – user may not be correctly mapped to AD group.</li><li>Check <strong>NAT policies</strong> – source translation could break return traffic.</li></ol><p>This structured approach is frequently tested in written questions.</p>` },
+    { id: 61, question: "What is ‘GlobalProtect’ and how does it enable secure remote access?", answerHtml: `<p><strong>GlobalProtect</strong> is Palo Alto’s VPN solution that provides both traditional SSL VPN and next‑gen clientless access. It authenticates users, checks device posture (HIP), and then establishes an encrypted tunnel. All remote traffic is inspected by the NGFW using the same security policies as on‑premise users. GlobalProtect supports Zero Trust by verifying device health and user identity before granting access to internal resources.</p>` },
+    { id: 62, question: "Explain how Palo Alto NGFW performs ‘SSL Forward Proxy’ and ‘SSL Inbound Inspection’.", answerHtml: `<p><strong>SSL Forward Proxy</strong>: The NGFW generates a certificate on‑the‑fly for outbound HTTPS traffic, decrypts, inspects, then re‑encrypts to the original destination. <strong>SSL Inbound Inspection</strong>: For inbound traffic to a company web server, the NGFW presents a legitimate server certificate, decrypts, inspects, then forwards as plain HTTP to internal server. Both require careful certificate management and can break applications with certificate pinning.</p>` },
+    { id: 63, question: "What is ‘Panorama’ and why is it important for enterprise NGFW deployments?", answerHtml: `<p><strong>Panorama</strong> is Palo Alto’s centralised management platform. It allows administrators to push security policies, manage device configurations, and collect logs from hundreds of firewalls. It supports hierarchical policies, device groups, and templates. Without Panorama, large organisations face inconsistent rules and operational overhead. In the exam, you should mention that Panorama reduces human error and ensures compliance across the network.</p>` },
+    { id: 64, question: "Describe the steps to configure site‑to‑site VPN between two Palo Alto firewalls using IKEv2.", answerHtml: `<p>Steps:</p><ol><li>Define <strong>IKE crypto profile</strong> (encryption, hash, DH group).</li><li>Define <strong>IPsec crypto profile</strong> (ESP parameters).</li><li>Create <strong>IKE gateway</strong> on each firewall – peer IP, pre‑shared key, local/remote ID.</li><li>Create <strong>IPsec tunnel</strong> referencing the IKE gateway and IPsec profile.</li><li>Add <strong>tunnel interface</strong> and assign to appropriate zone (e.g., VPN zone).</li><li>Create <strong>static routes</strong> pointing to the tunnel interface for remote network.</li><li>Create <strong>security policies</strong> allowing traffic from local subnet to remote subnet via tunnel.</li></ol><p>This practical knowledge appears in configuration‑based questions.</p>` },
+    { id: 65, question: "How does NGFW prevent ‘lateral movement’ after an initial compromise? Give Palo Alto specific features.", answerHtml: `<p>Prevention techniques:</p><ul><li><strong>Microsegmentation</strong> (zone‑based rules) restricts communication between internal servers.</li><li><strong>User-ID</strong> and <strong>Device-ID</strong> ensure only authorised users/devices can access sensitive resources.</li><li><strong>WildFire</strong> detects malware that might have evaded initial scanning, then blocks subsequent C2 attempts.</li><li><strong>Threat Prevention</strong> signatures stop common internal exploits (EternalBlue, WMI abuse).</li><li><strong>Logging and alerting</strong> on internal unusual East‑West traffic.</li></ul><p>Lateral movement is a key Zero Trust concern; NGFW enforces least privilege between workloads.</p>` },
+    { id: 66, question: "What is ‘Packet Capture’ (PCAP) on Palo Alto firewall and when would you use it?", answerHtml: `<p>Packet capture is a diagnostic tool that captures raw packets matching a filter. Uses:</p><ul><li>Troubleshoot application connectivity issues (e.g., TCP retransmissions).</li><li>Validate decryption behaviour (is SSL handshake successful?).</li><li>Analyse suspicious traffic that logs do not fully explain.</li><li>Forensic analysis after an incident to reconstruct attack details.</li></ul><p>PCAPs can be downloaded via CLI or web interface. Excessive capture impacts performance.</p>` },
+    { id: 67, question: "Explain the ‘default‑deny’ security posture in NGFW and why it is superior to default‑allow.", answerHtml: `<p><strong>Default‑deny</strong> means all traffic is blocked unless explicitly allowed by a security policy. <strong>Default‑allow</strong> (old firewalls) passes traffic unless blocked – risky because new threats may not have rules. NGFW uses default‑deny at the end of the rulebase (implicit deny). This follows the principle of least privilege and Zero Trust: no implicit trust. Many exam questions highlight that administrators must consciously decide what to allow, reducing attack surface.</p>` },
+    { id: 68, question: "How would you investigate an alert showing repeated ‘SQL Injection’ attempts from a specific internal IP using NGFW logs?", answerHtml: `<p>Investigation steps:</p><ol><li>Open <strong>Threat logs</strong> filter for threat name “SQL Injection” and source IP.</li><li>Examine destination IP, URL, and application (usually web‑app).</li><li>Check <strong>Traffic logs</strong> for that source IP to see all outbound sessions.</li><li>Verify <strong>User-ID</strong> to identify the responsible user.</li><li>Check <strong>Device-ID</strong> if available to see if the device is compromised.</li><li>If repeated attempts are blocked, the NGFW is working; if some passed (action = allow), isolate host and block source IP via a dynamic block rule.</li><li>Escalate to incident response team for host remediation.</li></ol>` },
+    { id: 69, question: "What are the benefits of integrating NGFW with a SIEM like Splunk or Azure Sentinel?", answerHtml: `<p>Benefits:</p><ul><li><strong>Centralised visibility</strong> – logs from multiple NGFWs in one place.</li><li><strong>Correlation</strong> – combine NGFW alerts with endpoint or identity logs to detect complex attacks.</li><li><strong>Long‑term retention</strong> – firewalls have limited storage; SIEM keeps months or years.</li><li><strong>Automated alerting</strong> – real‑time notifications when certain threat thresholds are crossed.</li><li><strong>Compliance</strong> – PCI DSS, HIPAA require centralised log management.</li><li><strong>Security dashboards</strong> – visualise blocked threats, top applications, and user behaviour.</li></ul>` },
+    { id: 70, question: "Summarise the central theme of the CT6059ES exam: 'How NGFW improves security compared to traditional methods.' Provide a concise answer.", answerHtml: `<p><strong>Central answer:</strong> Traditional firewalls operate at layers 3/4 (IP/port) and use static rules; they cannot see application identity, user identity, or encrypted payloads. NGFW improves security by:</p><ul><li><strong>Application awareness (App-ID)</strong>: blocks risky apps regardless of port.</li><li><strong>User identity (User-ID)</strong>: enforces per‑user policies, essential for Zero Trust.</li><li><strong>Deep packet inspection</strong>: inspects content, not just headers.</li><li><strong>Integrated IPS and sandboxing</strong>: stops exploits and zero‑day malware.</li><li><strong>TLS decryption</strong>: reveals hidden threats in encrypted traffic.</li><li><strong>Centralised management and logging</strong>: faster detection and response.</li></ul><p>This holistic approach reduces the attack surface and prevents modern threats that legacy firewalls miss.</p>` }
+  ];
+
+  // Helper: strip HTML for search
+  function stripHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+  
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  function renderCards(filterText = "") {
+    const container = document.getElementById("qaContainer");
+    const statsSpan = document.getElementById("resultStats");
+    if (!container) return;
+    
+    const lowerFilter = filterText.trim().toLowerCase();
+    let filtered = qaData;
+    if (lowerFilter !== "") {
+      filtered = qaData.filter(item => {
+        const plainAnswer = stripHtml(item.answerHtml);
+        return item.question.toLowerCase().includes(lowerFilter) || plainAnswer.toLowerCase().includes(lowerFilter);
+      });
+    }
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="background:#fff; border-radius:2rem; padding:3rem; text-align:center; border:1px solid #e2e8f0;"><span style="font-size:2rem;">🔍</span><p style="margin-top:1rem; font-size:1.1rem;">No questions match "<strong>${escapeHtml(filterText)}</strong>"</p><p style="color:#475569;">Try "App-ID", "WildFire", "GlobalProtect", "Zero Trust", or "security profile".</p></div>`;
+      statsSpan.innerText = `0 results`;
+      return;
+    }
+    
+    statsSpan.innerText = `${filtered.length} of ${qaData.length} questions`;
+    
+    const html = filtered.map(item => `
+      <div class="qa-card" data-id="${item.id}">
+        <div class="card-header">
+          <span class="q-num">${item.id}</span>
+          <div class="question-text">${escapeHtml(item.question)}</div>
+        </div>
+        <div class="answer-section">
+          <div class="answer-label">📌 ANSWER (Exam Focus)</div>
+          <div class="answer-content">${item.answerHtml}</div>
+        </div>
+      </div>
+    `).join("");
+    
+    container.innerHTML = html;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderCards("");
+    const searchInput = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    searchInput.addEventListener("input", () => renderCards(searchInput.value));
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      renderCards("");
+      searchInput.focus();
+    });
+  });
+</script>
+</body>
+</html>

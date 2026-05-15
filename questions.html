@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Ultimate IoT Exam | All 117+ Questions + XOR & ASCII</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f0f4f8;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding: 1.5rem 1rem;
+      color: #0f172a;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .exam-header {
+      background: linear-gradient(135deg, #0b2b26, #1a4a44);
+      border-radius: 2rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      color: white;
+      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.3);
+    }
+    .exam-header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+    }
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      align-items: center;
+    }
+    .score-badge {
+      background: #facc15;
+      color: #1e293b;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 700;
+    }
+    .reset-btn, .submit-all {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      color: white;
+    }
+    .submit-all {
+      background: #facc15;
+      color: #0f172a;
+      border: none;
+      font-size: 1rem;
+      margin: 1.5rem 0 1rem;
+      width: 100%;
+      font-weight: 800;
+    }
+    .submit-all:hover {
+      background: #eab308;
+    }
+    .reset-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .question-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-left: 5px solid #2c6e6b;
+      transition: all 0.2s;
+    }
+    .q-title {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .q-num {
+      background: #e2e8f0;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .q-text {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .options-area {
+      margin: 0.8rem 0;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      accent-color: #2c6e6b;
+      width: 18px;
+      height: 18px;
+    }
+    .text-input, textarea {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 1rem;
+      border: 1px solid #cbd5e1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      background: #fefce8;
+    }
+    .feedback {
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      background: #f1f5f9;
+      display: none;
+    }
+    .correct-feedback {
+      background: #dcfce7;
+      border-left: 4px solid #15803d;
+      color: #14532d;
+    }
+    .wrong-feedback {
+      background: #fee2e2;
+      border-left: 4px solid #dc2626;
+      color: #991b1b;
+    }
+    .results-area {
+      background: #0f172a;
+      color: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+    hr {
+      margin: 1rem 0;
+    }
+    @media (max-width: 700px) {
+      .question-card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="exam-header">
+    <h1>📡 IoT Complete Exam Bank</h1>
+    <p>All original 117+ questions + extra ASCII & XOR challenges | Arduino · ESP8266 · WSN · Cryptography</p>
+    <div class="progress-stats">
+      <span>📋 <span id="totalQCount"></span> questions — MCQs, text, checkboxes</span>
+      <span class="score-badge" id="scoreDisplay">Score: --/--</span>
+      <button class="reset-btn" id="resetAllBtn">⟳ Reset All Answers</button>
+    </div>
+  </div>
+  <div id="questionsContainer"></div>
+  <button class="submit-all" id="submitExamBtn">✅ GRADE EXAM & SHOW FEEDBACK</button>
+  <div id="globalResult" class="results-area" style="display: none;"></div>
+</div>
+
+<script>
+  // --------------------------------------------------------------
+  // FULL DATASET: all questions from the original file (IDs 1..117)
+  // plus EXTRA ASCII + XOR questions (total > 120)
+  // We map every original Q/A into an interactive test format.
+  // For simplicity, each question gets answer validation.
+  // --------------------------------------------------------------
+  
+  const fullQuestionBank = [
+    // ORIGINAL QUESTIONS 1-117 (converted to test items)
+    { id: 1, text: "What is an IoT System? (short definition)", type: "text", correctKeywords: ["network","physical devices","internet","collect","data"], explanation: "IoT system is a network of physical devices connected to the internet that collect and share data." },
+    { id: 2, text: "Difference between Embedded System and IoT System — key distinction?", type: "text", correctKeywords: ["internet","connected","network","standalone"], explanation: "IoT systems are connected to internet; embedded systems work independently." },
+    { id: 3, text: "Which of the following is a core component of an IoT System?", type: "mcq", options: ["Sensors/Actuators", "Database only", "Printer", "Monitor"], correct: "Sensors/Actuators", explanation: "Sensors/Actuators, Microcontroller, Communication Network, Cloud, UI are components." },
+    { id: 4, text: "Select IoT communication protocols (choose all that apply):", type: "checkbox", options: ["Wi-Fi", "Bluetooth", "Zigbee", "RS-232"], correct: ["Wi-Fi","Bluetooth","Zigbee"], explanation: "Common IoT protocols: Wi-Fi, Bluetooth, Zigbee, MQTT, LoRaWAN." },
+    { id: 5, text: "Which transmission mode allows both directions but one at a time?", type: "mcq", options: ["Simplex", "Half Duplex", "Full Duplex", "Duplex"], correct: "Half Duplex", explanation: "Half duplex: both directions but one at a time." },
+    { id: 6, text: "Why is IoT Security essential? (name at least two reasons)", type: "text", correctKeywords: ["data","unauthorized","privacy","cyberattacks"], explanation: "Protects data, prevents unauthorized access, stops cyberattacks." },
+    { id: 7, text: "Which Arduino command sets the direction of a pin?", type: "mcq", options: ["pinMode()", "setPin()", "digitalWrite()", "configPin()"], correct: "pinMode()", explanation: "pinMode(pin, INPUT/OUTPUT) configures pin direction." },
+    { id: 8, text: "Example code for digitalWrite()? (concept)", type: "text", correctKeywords: ["digitalWrite","HIGH","LOW"], explanation: "digitalWrite(led, HIGH); turns on LED." },
+    { id: 9, text: "What does analogRead() return?", type: "mcq", options: ["0 or 1", "0 to 1023", "0 to 255", "boolean"], correct: "0 to 1023", explanation: "On Arduino, analogRead returns 0-1023 (10-bit ADC)." },
+    { id: 10, text: "Which sleep mode in ESP8266 provides maximum power saving?", type: "mcq", options: ["Modem sleep", "Light sleep", "Deep sleep", "Active"], correct: "Deep sleep", explanation: "Deep sleep consumes lowest current (μA)." },
+    { id: 11, text: "What is the purpose of PROGMEM keyword in Arduino?", type: "text", correctKeywords: ["flash","ram","store","constant"], explanation: "PROGMEM stores data in flash instead of RAM." },
+    { id: 12, text: "What does pulseIn() measure?", type: "mcq", options: ["Frequency", "Pulse duration", "Voltage", "Resistance"], correct: "Pulse duration", explanation: "pulseIn measures the duration of a pulse (HIGH/LOW)." },
+    { id: 13, text: "Mesh topology advantage?", type: "text", correctKeywords: ["reliable","fault","redundant"], explanation: "Fault tolerance and reliability via multiple paths." },
+    { id: 14, text: "Star topology disadvantage?", type: "mcq", options: ["Expensive", "Central hub failure disrupts network", "Low speed", "Complex"], correct: "Central hub failure disrupts network", explanation: "If central hub fails, whole network goes down." },
+    { id: 15, text: "Which WSN type is deployed underground?", type: "mcq", options: ["Terrestrial", "Underground WSNs", "Underwater", "Mobile"], correct: "Underground WSNs", explanation: "Underground WSNs are buried for monitoring soil, etc." },
+    { id: 16, text: "Name one application of Wireless Sensor Networks in military.", type: "text", correctKeywords: ["battlefield","tracking","intrusion","surveillance"], explanation: "Battlefield monitoring, target tracking, intrusion detection." },
+    { id: 17, text: "What does ROT13 do?", type: "mcq", options: ["Shifts letters by 13", "XOR with 13", "Reverse string", "Base64"], correct: "Shifts letters by 13", explanation: "ROT13 rotates alphabet by 13 positions." },
+    { id: 18, text: "XOR encryption truth table: 1 XOR 1 = ?", type: "numeric", correct: "0", explanation: "1 XOR 1 = 0." },
+    { id: 19, text: "Write a Python one-liner for XOR encryption of a string with key=5.", type: "code_xor", correctKeywords: ["chr","ord","^"], explanation: "''.join(chr(ord(c)^5) for c in text)" },
+    { id: 20, text: "ASCII value of 'a' (lowercase) is?", type: "numeric", correct: "97", explanation: "ASCII 'a' = 97." },
+    { id: 21, text: "Which topology is most fault-tolerant due to multiple routes?", type: "mcq", options: ["Star", "Ring", "Mesh", "Bus"], correct: "Mesh", explanation: "Mesh topology provides redundant paths." },
+    { id: 22, text: "What does attachInterrupt() do in Arduino?", type: "text", correctKeywords: ["interrupt","trigger","function"], explanation: "Attach a function to an external interrupt pin." },
+    { id: 23, text: "What is the range of analogWrite() (PWM) on Arduino Uno?", type: "mcq", options: ["0-1023", "0-255", "0-512", "0-100"], correct: "0-255", explanation: "analogWrite uses 8-bit resolution: 0-255." },
+    { id: 24, text: "Select lightweight encryption methods:", type: "checkbox", options: ["XOR", "ROT13", "Caesar", "AES-256-GCM"], correct: ["XOR","ROT13","Caesar"], explanation: "XOR, ROT13, Caesar are lightweight." },
+    { id: 25, text: "What is the main function of a sensor node in WSN?", type: "text", correctKeywords: ["sense","collect","data","transmit"], explanation: "Collects environmental data and transmits wirelessly." },
+    { id: 26, text: "Which command initializes serial communication in Arduino?", type: "mcq", options: ["Serial.start()", "Serial.begin()", "Serial.setup()", "Serial.init()"], correct: "Serial.begin()", explanation: "Serial.begin(baudrate) initializes serial." },
+    { id: 27, text: "What does digitalRead() return when button is pressed (assuming pull-up)?", type: "mcq", options: ["HIGH", "LOW", "5V", "0V"], correct: "LOW", explanation: "With INPUT_PULLUP, pressed reads LOW." },
+    { id: 28, text: "Which wireless technology is optimized for low-power IoT mesh?", type: "text", correctKeywords: ["zigbee","thread","ble"], explanation: "Zigbee is widely used for low-power mesh." },
+    { id: 29, text: "What is Caesar cipher shift of 'CAT' with shift=2?", type: "text", correct: "ECV", explanation: "C→E, A→C, T→V => ECV." },
+    { id: 30, text: "What is the purpose of randomSeed() in Arduino?", type: "text", correctKeywords: ["random","seed","pseudo"], explanation: "Initializes random number generator for better randomness." },
+    { id: 31, text: "Which sleep mode consumes least current in ESP8266?", type: "mcq", options: ["Modem-sleep", "Light-sleep", "Deep-sleep", "No-sleep"], correct: "Deep-sleep", explanation: "Deep sleep can reach <20uA." },
+    { id: 32, text: "How to wake ESP8266 from deep sleep using timer?", type: "text", correctKeywords: ["deepSleep","ESP.deepSleep","microseconds"], explanation: "ESP.deepSleep(microseconds);" },
+    { id: 33, text: "What does sizeof() operator return?", type: "mcq", options: ["Size in bytes", "Number of elements", "Memory address", "Length"], correct: "Size in bytes", explanation: "sizeof() returns memory size in bytes." },
+    { id: 34, text: "Hybrid topology advantage?", type: "text", correctKeywords: ["flexible","scalable"], explanation: "Combines strengths of multiple topologies." },
+    { id: 35, text: "What is the (XOR) result of 0 XOR 0 ?", type: "numeric", correct: "0", explanation: "0 XOR 0 = 0." },
+    { id: 36, text: "Example of a mobile WSN?", type: "text", correctKeywords: ["moving","drones","vehicles"], explanation: "Mobile WSN nodes can move (e.g., attached to robots)." },
+    { id: 37, text: "What is the default analog reference voltage on Arduino Uno?", type: "mcq", options: ["5V", "3.3V", "2.5V", "Internal 1.1V"], correct: "5V", explanation: "Default analogReference is 5V." },
+    { id: 38, text: "Which library is used to encode ROT13 in Python?", type: "text", correctKeywords: ["codecs","rot_13"], explanation: "import codecs; codecs.encode(text, 'rot_13')" },
+    { id: 39, text: "What does a Gateway do in IoT architecture?", type: "text", correctKeywords: ["bridge","network","translate","protocol"], explanation: "Gateway connects IoT devices to cloud/internet." },
+    { id: 40, text: "Given ASCII 'B' = 66, what is 'C'? (just number)", type: "numeric", correct: "67", explanation: "ASCII sequential: C = 67." },
+    { id: 41, text: "Arduino function that reads analog voltage from pin A0 is:", type: "mcq", options: ["digitalRead(A0)", "analogRead(A0)", "getAnalog(A0)", "readVoltage(A0)"], correct: "analogRead(A0)", explanation: "analogRead reads analog input." },
+    { id: 42, text: "What is the maximum value returned by analogRead() on ESP8266 (10-bit ADC)?", type: "numeric", correct: "1023", explanation: "10-bit ADC → 0-1023." },
+    { id: 43, text: "What does 'self-reconfigurable WSN' mean?", type: "text", correctKeywords: ["automatic","adjust"," topology"], explanation: "Network automatically reorganizes after node failure." },
+    { id: 44, text: "Homogeneous WSN means:", type: "mcq", options: ["Same sensor types", "Different sensors", "Mixed protocols", "Multiple base stations"], correct: "Same sensor types", explanation: "Homogeneous = all nodes identical sensors." },
+    { id: 45, text: "Purpose of delayMicroseconds()?", type: "text", correctKeywords: ["pause","microseconds","short delay"], explanation: "Pauses program for specified microseconds." },
+    { id: 46, text: "Which keyword stores data in Flash memory in Arduino?", type: "text", correctKeywords: ["PROGMEM"], explanation: "PROGMEM qualifier." },
+    { id: 47, text: "Which topology uses a central controller (hub)?", type: "mcq", options: ["Star", "Mesh", "Ring", "Bus"], correct: "Star", explanation: "Star topology has central hub." },
+    { id: 48, text: "What is the difference between deterministic and nondeterministic WSN?", type: "text", correctKeywords: ["planned","random","deployment"], explanation: "Deterministic: planned node placement, nondeterministic: random." },
+    { id: 49, text: "Which IoT board has built-in Wi-Fi and Bluetooth?", type: "text", correctKeywords: ["esp32","raspberry pi"], explanation: "ESP32 has both Wi-Fi and Bluetooth." },
+    { id: 50, text: "What does MQTT stand for?", type: "text", correctKeywords: ["mqtt","message queuing telemetry transport"], explanation: "Message Queuing Telemetry Transport." },
+    { id: 51, text: "What is the XOR of 'A' (65) with key 10? (result decimal)", type: "numeric", correct: "75", explanation: "65 XOR 10 = 75 (ASCII 'K')." },
+    { id: 52, text: "ROT47 is used for which character set?", type: "mcq", options: ["Printable ASCII 33-126", "Only letters", "Digits", "Binary"], correct: "Printable ASCII 33-126", explanation: "ROT47 rotates all printable ASCII." },
+    { id: 53, text: "What is the function of digitalWrite(led, HIGH);", type: "text", correctKeywords: ["set","high","5v","output"], explanation: "Sets output pin to high (5V or 3.3V)." },
+    { id: 54, text: "Which communication protocol is most suitable for low-bandwidth sensor data?", type: "mcq", options: ["HTTP", "MQTT", "FTP", "SSH"], correct: "MQTT", explanation: "MQTT lightweight publish/subscribe." },
+    { id: 55, text: "What does the 'sink' node do in WSN?", type: "text", correctKeywords: ["aggregates","collects","data","base station"], explanation: "Collects data from nodes and forwards to base station." },
+    { id: 56, text: "What is the typical range of Zigbee?", type: "text", correctKeywords: ["10-100m","medium"], explanation: "10-100 meters depending on environment." },
+    { id: 57, text: "Name two types of Wireless Sensor Networks based on mobility.", type: "checkbox", options: ["Static WSN", "Mobile WSN", "Flying WSN", "Underwater"], correct: ["Static WSN","Mobile WSN"], explanation: "Static and mobile are mobility classifications." },
+    { id: 58, text: "In Caesar cipher with shift 5, what is 'HELLO' encrypted?", type: "text", correct: "MJQQT", explanation: "H+5=M, E+5=J, L+5=Q, L+5=Q, O+5=T => MJQQT." },
+    { id: 59, text: "Which Arduino function returns microseconds since boot?", type: "mcq", options: ["millis()", "micros()", "seconds()", "clock()"], correct: "micros()", explanation: "micros() returns microseconds." },
+    { id: 60, text: "What is the role of a base station in WSN?", type: "text", correctKeywords: ["central","data","processing","gateway"], explanation: "Acts as gateway between WSN and external network." },
+    { id: 61, text: "What are the three ESP8266 sleep modes?", type: "text", correctKeywords: ["modem","light","deep"], explanation: "Modem sleep, Light sleep, Deep sleep." },
+    { id: 62, text: "Single-hop vs Multi-hop WSN: which one uses intermediate nodes?", type: "mcq", options: ["Single-hop", "Multi-hop", "Both", "None"], correct: "Multi-hop", explanation: "Multi-hop forwards data via intermediate nodes." },
+    { id: 63, text: "What is XOR encryption's main advantage?", type: "text", correctKeywords: ["simple","fast","lightweight"], explanation: "Very fast, easy to implement, reversible." },
+    { id: 64, text: "ASCII value of 'Z' is:", type: "numeric", correct: "90", explanation: "ASCII Z = 90." },
+    { id: 65, text: "Which board is commonly used with Arduino IDE for ESP8266?", type: "text", correctKeywords: ["nodemcu","esp-01","wemos"], explanation: "NodeMCU, Wemos D1 Mini." },
+    { id: 66, text: "What does the keyword 'volatile' do in Arduino interrupts?", type: "text", correctKeywords: ["compiler","optimization","variable","change"], explanation: "Prevents compiler optimization for variables changed by ISR." },
+    { id: 67, text: "What is the main benefit of making your own Arduino library?", type: "text", correctKeywords: ["reuse","modular","organization"], explanation: "Code reuse and better organization." },
+    { id: 68, text: "Which function generates a random number after randomSeed()?", type: "mcq", options: ["rand()", "random()", "randomSeed()", "generate()"], correct: "random()", explanation: "random(max) returns pseudo-random number." },
+    { id: 69, text: "What does 'heterogeneous WSN' mean?", type: "text", correctKeywords: ["different","sensor","types","capabilities"], explanation: "Nodes have different sensors or capabilities." },
+    { id: 70, text: "What is the minimum deep sleep duration on ESP8266?", type: "mcq", options: ["10 μs", "10 ms", "1 second", "10 seconds"], correct: "10 μs", explanation: "Minimum deep sleep time is 10 microseconds." },
+    { id: 71, text: "What is the function of the 'reset' pin on ESP8266 for deep sleep wake?", type: "text", correctKeywords: ["gpio16","rst","connect"], explanation: "Connect GPIO16 to RST to wake from deep sleep." },
+    { id: 72, text: "Which protocol is used to send sensor data to a web server? (common)", type: "text", correctKeywords: ["http","https","rest"], explanation: "HTTP/HTTPS or MQTT." },
+    { id: 73, text: "XOR encryption key property: encryption is its own inverse? (true/false)", type: "mcq", options: ["True", "False"], correct: "True", explanation: "XOR is symmetric: encrypting twice with same key restores plaintext." },
+    { id: 74, text: "ROT13('URYYB') decodes to:", type: "text", correct: "HELLO", explanation: "ROT13 is reciprocal." },
+    { id: 75, text: "What is the result of 0b1010 XOR 0b1100 (binary)?", type: "text", correct: "0b0110", explanation: "1010 XOR 1100 = 0110 binary (6 decimal)." },
+    { id: 76, text: "ATMega328P (Arduino Uno) ADC resolution?", type: "numeric", correct: "10", explanation: "10-bit resolution." },
+    { id: 77, text: "What are the two main types of transmission modes?", type: "checkbox", options: ["Simplex", "Half duplex", "Quadplex", "Full duplex"], correct: ["Simplex","Half duplex","Full duplex"], explanation: "Simplex, half duplex, full duplex are transmission modes." },
+    { id: 78, text: "Which IoT topology has a single point of failure (hub)?", type: "text", correctKeywords: ["star"], explanation: "Star topology center hub is SPOF." },
+    { id: 79, text: "What does the IoT board selection criteria 'GPIO pins' determine?", type: "text", correctKeywords: ["sensors","devices","connectivity"], explanation: "Number of sensors/actuators you can connect." },
+    { id: 80, text: "Which type of WSN uses acoustic communication?", type: "mcq", options: ["Terrestrial", "Underwater WSNs", "Underground", "Multimedia"], correct: "Underwater WSNs", explanation: "Underwater WSNs often use acoustic signals." },
+    { id: 81, text: "ASCII decimal of '0' (zero) is:", type: "numeric", correct: "48", explanation: "ASCII '0' = 48." },
+    { id: 82, text: "Caesar cipher 'attack' with shift=1 becomes:", type: "text", correct: "buubdl", explanation: "Shift each letter by 1." },
+    { id: 83, text: "What is the syntax to define a function in Arduino that returns sum?", type: "code_arduino", correctKeywords: ["int","add","return"], explanation: "int add(int a,int b){ return a+b; }" },
+    { id: 84, text: "What does 'LoRaWAN' stand for?", type: "text", correctKeywords: ["long range","wide area network"], explanation: "Long Range Wide Area Network." },
+    { id: 85, text: "Which Arduino function pauses program for milliseconds?", type: "mcq", options: ["wait()", "delay()", "pause()", "sleep()"], correct: "delay()", explanation: "delay(ms) pauses execution." },
+    { id: 86, text: "What is the main challenge of power in WSN?", type: "text", correctKeywords: ["battery","energy","limited"], explanation: "Limited battery life, energy efficiency required." },
+    { id: 87, text: "What does the pulseIn() function return if no pulse is detected within timeout?", type: "mcq", options: ["0", "1", "-1", "infinity"], correct: "0", explanation: "Returns 0 if timeout occurs." },
+    { id: 88, text: "What is the purpose of the 'setup()' function in Arduino?", type: "text", correctKeywords: ["initialization","once","start"], explanation: "Runs once at startup to initialize settings." },
+    { id: 89, text: "Complete XOR: 45 XOR 45 = ? (decimal)", type: "numeric", correct: "0", explanation: "Any number XOR itself = 0." },
+    { id: 90, text: "Which component converts sensor readings to digital?", type: "mcq", options: ["Actuator", "ADC", "DAC", "Amplifier"], correct: "ADC", explanation: "Analog-to-Digital Converter." },
+    { id: 91, text: "In ESP8266 deep sleep, which pin must be connected to RST?", type: "text", correctKeywords: ["gpio16","d0"], explanation: "GPIO16 (D0) to RST." },
+    { id: 92, text: "What is a lightweight cipher example?", type: "text", correctKeywords: ["xor","rot13","caesar"], explanation: "XOR, ROT13, Caesar cipher." },
+    { id: 93, text: "What does 'deterministic deployment' mean in WSNs?", type: "text", correctKeywords: ["planned","precise","location"], explanation: "Nodes placed at specific predetermined locations." },
+    { id: 94, text: "Which command reads from a digital pin in Arduino?", type: "text", correctKeywords: ["digitalRead"], explanation: "digitalRead(pin);" },
+    { id: 95, text: "What does the acronym 'WSN' stand for?", type: "text", correctKeywords: ["wireless sensor network"], explanation: "Wireless Sensor Network." },
+    { id: 96, text: "Which programming language is common for IoT microcontrollers besides C++?", type: "text", correctKeywords: ["python","micro python"], explanation: "MicroPython, CircuitPython." },
+    { id: 97, text: "What does the mqtt broker do?", type: "text", correctKeywords: ["central","publish","subscribe","message"], explanation: "Receives messages from publishers and sends to subscribers." },
+    { id: 98, text: "Which topology is best for large area coverage with redundancy?", type: "mcq", options: ["Star", "Mesh", "Ring", "Bus"], correct: "Mesh", explanation: "Mesh provides scalability and redundancy." },
+    { id: 99, text: "What is the encryption result of plaintext 'IoT' using XOR key 0xFF?", type: "text", correctKeywords: ["non-printable"], explanation: "ASCII I=73, o=111, T=84 XOR 255 => complement." },
+    { id: 100, text: "ASCII of newline character (LF) is:", type: "numeric", correct: "10", explanation: "Line feed ASCII 10." },
+    { id: 101, text: "One advantage of using Arduino IDE for ESP8266:", type: "text", correctKeywords: ["easy","familiar","ecosystem"], explanation: "Familiar environment, vast libraries." },
+    { id: 102, text: "Which wireless network type is most vulnerable to interference?", type: "text", correctKeywords: ["wi-fi","2.4ghz"], explanation: "Wi-Fi and Zigbee share 2.4 GHz band." },
+    { id: 103, text: "What does the term 'digital twin' mean in IoT?", type: "text", correctKeywords: ["virtual","simulation","copy"], explanation: "Virtual representation of physical device." },
+    { id: 104, text: "In Arduino, what is the default baud rate for Serial communication used in many examples?", type: "numeric", correct: "9600", explanation: "9600 bps common default." },
+    { id: 105, text: "What is the purpose of #include <Arduino.h> in custom libraries?", type: "text", correctKeywords: ["arduino","functions","types"], explanation: "Provides Arduino core functions and types." },
+    { id: 106, text: "Which WSN type handles real-time video?", type: "mcq", options: ["Terrestrial", "Multimedia WSNs", "Underground", "Underwater"], correct: "Multimedia WSNs", explanation: "Multimedia WSNs process audio/video." },
+    { id: 107, text: "What does the 'const' keyword do in Arduino?", type: "text", correctKeywords: ["constant","read-only"], explanation: "Declares variable as read-only." },
+    { id: 108, text: "If analogRead returns 512 on 5V reference, what voltage?", type: "numeric", correct: "2.5", explanation: "(512/1024)*5 = 2.5V." },
+    { id: 109, text: "What is the max current per GPIO pin on ESP8266?", type: "text", correctKeywords: ["12ma","12mA"], explanation: "Around 12mA (safe limit)." },
+    { id: 110, text: "What does ROT13 do to digits? (stays same?)", type: "mcq", options: ["Shifts digits", "Stays unchanged", "Converts to letters", "Removes"], correct: "Stays unchanged", explanation: "ROT13 only affects letters A-Z a-z." },
+    { id: 111, text: "Name a non-volatile memory used in Arduino to store data.", type: "text", correctKeywords: ["eeprom","flash"], explanation: "EEPROM or Flash memory." },
+    { id: 112, text: "XOR of 0xAA and 0xFF = ? (hex)", type: "text", correct: "0x55", explanation: "0xAA (10101010) XOR 0xFF = 0x55 (01010101)." },
+    { id: 113, text: "Write simple Arduino code to set pin 9 as PWM output at 50% duty cycle.", type: "code_arduino", correctKeywords: ["pinMode","analogWrite","9"], explanation: "pinMode(9,OUTPUT); analogWrite(9,127);" },
+    { id: 114, text: "What is the purpose of micros() precision?", type: "text", correctKeywords: ["microsecond","timing","short"], explanation: "Microsecond resolution timing." },
+    { id: 115, text: "What is a common attack vector on IoT devices?", type: "text", correctKeywords: ["default password","insecure network"], explanation: "Default credentials, unencrypted communication." },
+    { id: 116, text: "Which ESP8266 mode is used for lowest power periodic sensing?", type: "text", correctKeywords: ["deep sleep","timer wake"], explanation: "Deep sleep with timer wake-up." },
+    { id: 117, text: "Explain what Zigbee's mesh topology provides.", type: "text", correctKeywords: ["self-healing","reliable","range"], explanation: "Self-healing and extended range via routing." },
+    // EXTRA ASCII / XOR challenge
+    { id: 118, text: "ASCII: What is the decimal value of uppercase 'X'?", type: "numeric", correct: "88", explanation: "ASCII X = 88." },
+    { id: 119, text: "XOR challenge: given plaintext 'IoT' (ASCII 73,111,84) and key=20, calculate first encrypted byte (decimal):", type: "numeric", correct: "93", explanation: "73 XOR 20 = 93." },
+    { id: 120, text: "Write Python code to decrypt XOR ciphertext with the same key (demonstrate XOR property).", type: "code_xor", correctKeywords: ["xor","^","ord","chr"], explanation: "Encryption and decryption are identical using XOR." }
+  ];
+
+  // Store user answers
+  let userAnswers = JSON.parse(localStorage.getItem("iot_full_exam_answers")) || {};
+
+  function saveAnswer(qid, value) {
+    userAnswers[qid] = value;
+    localStorage.setItem("iot_full_exam_answers", JSON.stringify(userAnswers));
+    updatePreviewScore();
+  }
+
+  function evaluateQuestion(q, answer) {
+    if (!answer || (Array.isArray(answer) && answer.length === 0)) return false;
+    if (q.type === "mcq") return answer === q.correct;
+    if (q.type === "numeric") return String(answer).trim() === String(q.correct);
+    if (q.type === "text" && q.correctKeywords) {
+      let ansLower = String(answer).toLowerCase();
+      return q.correctKeywords.some(kw => ansLower.includes(kw.toLowerCase()));
+    }
+    if (q.type === "text" && !q.correctKeywords && q.correct) {
+      return String(answer).trim().toLowerCase() === String(q.correct).toLowerCase();
+    }
+    if (q.type === "checkbox") {
+      let correctArr = q.correct;
+      let userArr = Array.isArray(answer) ? answer : [];
+      if (correctArr.length !== userArr.length) return false;
+      return correctArr.every(c => userArr.includes(c));
+    }
+    if (q.type === "code_xor" || q.type === "code_arduino") {
+      let code = String(answer).toLowerCase();
+      if (q.type === "code_xor") return (code.includes('^') || code.includes('xor')) && (code.includes('ord') || code.includes('chr'));
+      if (q.type === "code_arduino") return code.includes('pinmode') || (code.includes('digitalwrite') && code.includes('delay'));
+    }
+    return false;
+  }
+
+  function computeScore() {
+    let correct = 0;
+    fullQuestionBank.forEach(q => {
+      const ans = userAnswers[q.id];
+      if (evaluateQuestion(q, ans)) correct++;
+    });
+    return { correct, total: fullQuestionBank.length };
+  }
+
+  function updatePreviewScore() {
+    const { correct, total } = computeScore();
+    document.getElementById("scoreDisplay").innerText = `Score: ${correct}/${total}`;
+  }
+
+  function renderAllQuestions() {
+    const container = document.getElementById("questionsContainer");
+    container.innerHTML = "";
+    fullQuestionBank.forEach((q, idx) => {
+      const card = document.createElement("div");
+      card.className = "question-card";
+      const saved = userAnswers[q.id] || (q.type === "checkbox" ? [] : "");
+      let inputHtml = "";
+      if (q.type === "mcq") {
+        inputHtml = `<div class="options-area">` + q.options.map(opt => `
+          <label class="option"><input type="radio" name="q_${q.id}" value="${escapeHtml(opt)}" ${saved === opt ? 'checked' : ''}><span>${escapeHtml(opt)}</span></label>
+        `).join('') + `</div>`;
+      } else if (q.type === "checkbox") {
+        let savedArr = Array.isArray(saved) ? saved : [];
+        inputHtml = `<div class="options-area">` + q.options.map(opt => `
+          <label class="option"><input type="checkbox" name="q_${q.id}" value="${escapeHtml(opt)}" ${savedArr.includes(opt) ? 'checked' : ''}><span>${escapeHtml(opt)}</span></label>
+        `).join('') + `</div>`;
+      } else {
+        inputHtml = `<textarea class="text-input" rows="2" placeholder="Type your answer...">${escapeHtml(typeof saved === 'string' ? saved : '')}</textarea>`;
+        if (q.type === "code_xor") inputHtml = `<textarea class="text-input" rows="3" placeholder="Python XOR code ...">${escapeHtml(typeof saved === 'string' ? saved : '')}</textarea>`;
+        if (q.type === "code_arduino") inputHtml = `<textarea class="text-input" rows="3" placeholder="Arduino code ...">${escapeHtml(typeof saved === 'string' ? saved : '')}</textarea>`;
+      }
+      card.innerHTML = `<div class="q-title"><span class="q-num">Q${q.id}</span></div><div class="q-text">${escapeHtml(q.text)}</div>${inputHtml}<div class="feedback" id="fb_${q.id}"></div>`;
+      container.appendChild(card);
+      // attach events
+      if (q.type === "mcq") {
+        card.querySelectorAll(`input[type="radio"]`).forEach(radio => radio.addEventListener('change', (e) => { if(radio.checked) saveAnswer(q.id, radio.value); }));
+      } else if (q.type === "checkbox") {
+        const cbs = card.querySelectorAll(`input[type="checkbox"]`);
+        cbs.forEach(cb => cb.addEventListener('change', () => {
+          const selected = Array.from(cbs).filter(ch => ch.checked).map(ch => ch.value);
+          saveAnswer(q.id, selected);
+        }));
+      } else {
+        const ta = card.querySelector('textarea');
+        if(ta) ta.addEventListener('input', (e) => saveAnswer(q.id, ta.value));
+      }
+    });
+    document.getElementById("totalQCount").innerText = fullQuestionBank.length;
+    updatePreviewScore();
+  }
+
+  function displayFullFeedback() {
+    fullQuestionBank.forEach(q => {
+      const userAns = userAnswers[q.id];
+      const isCorrect = evaluateQuestion(q, userAns);
+      const fbDiv = document.getElementById(`fb_${q.id}`);
+      if (fbDiv) {
+        fbDiv.style.display = "block";
+        fbDiv.className = `feedback ${isCorrect ? 'correct-feedback' : 'wrong-feedback'}`;
+        let answerShow = (userAns && typeof userAns !== 'object') ? userAns.substring(0,100) : (Array.isArray(userAns) ? userAns.join(", ") : "No answer");
+        fbDiv.innerHTML = `<strong>${isCorrect ? '✓ Correct' : '✗ Incorrect'}</strong><br>Your answer: ${answerShow}<br>📘 ${q.explanation || "Reference answer provided in materials."}`;
+      }
+    });
+    const { correct, total } = computeScore();
+    const resultDiv = document.getElementById("globalResult");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `<h2>📊 Exam Results</h2><p style="font-size:1.5rem; font-weight:bold;">${correct} / ${total} correct (${Math.round(correct/total*100)}%)</p><button id="localClearBtn" style="background:#facc15; border:none; padding:0.5rem 1rem; border-radius:2rem; margin-top:0.5rem; cursor:pointer;">🗑️ Clear All Answers & Reset</button>`;
+    document.getElementById("localClearBtn")?.addEventListener("click", () => {
+      localStorage.removeItem("iot_full_exam_answers");
+      userAnswers = {};
+      renderAllQuestions();
+      document.querySelectorAll('.feedback').forEach(fb => fb.style.display = 'none');
+      resultDiv.style.display = "none";
+    });
+  }
+
+  function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+  document.getElementById("submitExamBtn").addEventListener("click", () => { displayFullFeedback(); });
+  document.getElementById("resetAllBtn").addEventListener("click", () => {
+    localStorage.removeItem("iot_full_exam_answers");
+    userAnswers = {};
+    renderAllQuestions();
+    document.querySelectorAll('.feedback').forEach(fb => fb.style.display = 'none');
+    document.getElementById("globalResult").style.display = "none";
+  });
+  renderAllQuestions();
+</script>
+</body>
+</html>
