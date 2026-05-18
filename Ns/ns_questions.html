@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Cisco Network Security | Complete Exam (80 Questions) – MCQ + Typed</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #eef2ff;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      padding: 2rem 1rem;
+      color: #0f172a;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .exam-header {
+      background: linear-gradient(135deg, #0a2b3e, #0f3b4a);
+      border-radius: 2rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      color: white;
+      box-shadow: 0 15px 30px -12px rgba(0,0,0,0.3);
+    }
+    .exam-header h1 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      background: #facc15;
+      color: #0f172a;
+      padding: 0.25rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+      gap: 1rem;
+    }
+    .score-badge {
+      background: #facc15;
+      color: #1e293b;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 700;
+    }
+    .reset-btn, .submit-all {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 0.5rem 1.3rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      color: white;
+    }
+    .submit-all {
+      background: #facc15;
+      color: #0f172a;
+      border: none;
+      font-size: 1rem;
+      width: 100%;
+      margin: 1rem 0 1rem;
+      font-weight: 800;
+    }
+    .submit-all:hover { background: #eab308; }
+    .reset-btn:hover { background: rgba(255,255,255,0.3); }
+    .question-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border-left: 6px solid #0f5b6e;
+    }
+    .q-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .q-num {
+      background: #e2e8f0;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .q-text {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .options-area {
+      margin: 0.8rem 0;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.7rem;
+      padding: 0.2rem 0;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #0f5b6e;
+    }
+    .text-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 1rem;
+      border: 1px solid #cbd5e1;
+      font-family: monospace;
+      font-size: 0.9rem;
+      background: #fefce8;
+    }
+    .feedback {
+      margin-top: 0.9rem;
+      font-size: 0.85rem;
+      padding: 0.6rem;
+      border-radius: 1rem;
+      background: #f1f5f9;
+      display: none;
+    }
+    .correct-feedback {
+      background: #dcfce7;
+      border-left: 4px solid #15803d;
+      color: #14532d;
+    }
+    .wrong-feedback {
+      background: #fee2e2;
+      border-left: 4px solid #dc2626;
+      color: #991b1b;
+    }
+    .results-area {
+      background: #0f172a;
+      color: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-top: 1.2rem;
+      text-align: center;
+    }
+    @media (max-width: 700px) {
+      .question-card { padding: 1rem; }
+      .q-text { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="exam-header">
+    <h1>🔐 Cisco Network Security <span class="badge">Complete Exam Bank</span></h1>
+    <p>All 80 questions — 70 Multiple Choice + 10 Short Answer / Typed. Based on CCNA Security, CyberOps, and real-world network defense.</p>
+    <div class="progress-stats">
+      <span>📋 80 questions (mixed types)</span>
+      <span class="score-badge" id="scoreDisplay">Score: --/--</span>
+      <button class="reset-btn" id="resetExamBtn">⟳ Reset All Answers</button>
+    </div>
+  </div>
+
+  <div id="questionsContainer"></div>
+  <button class="submit-all" id="submitExamBtn">✅ Submit Exam & Check Answers</button>
+  <div id="globalResult" class="results-area" style="display: none;"></div>
+</div>
+
+<script>
+  // --------------------------------------------------------------
+  // COMPLETE 80 QUESTIONS: 70 MCQs + 10 short typed answers
+  // Covers all topics from original 40 plus 40 new (Zero Trust, SASE, MITRE, etc.)
+  // --------------------------------------------------------------
+  const examQuestions = [
+    // ---- 1-40: ORIGINAL + CORE (MCQs) ----
+    { id: 1, text: "What is Non-Repudiation in information security?", type: "mcq", options: ["Ensuring data is encrypted", "Preventing denial of performed actions", "Monitoring user activities", "Hashing passwords"], correct: "Preventing denial of performed actions", explanation: "Non-repudiation ensures a user cannot deny performing an action like sending a message, using digital signatures." },
+    { id: 2, text: "Which of the following is a characteristic of a DDoS attack compared to a DoS attack?", type: "mcq", options: ["Single source IP", "Lower traffic volume", "Multiple attacking systems", "Easier to stop"], correct: "Multiple attacking systems", explanation: "DDoS uses multiple compromised systems (botnet) to flood the target." },
+    { id: 3, text: "What cryptographic method uses a pair of keys (public and private)?", type: "mcq", options: ["Symmetric encryption", "Asymmetric encryption", "Hashing", "Base64 encoding"], correct: "Asymmetric encryption", explanation: "Asymmetric encryption uses public/private key pairs (e.g., RSA)." },
+    { id: 4, text: "What does PKI stand for?", type: "mcq", options: ["Public Key Infrastructure", "Private Key Integrity", "Public Knowledge Interface", "Packet Key Inspection"], correct: "Public Key Infrastructure", explanation: "PKI manages digital certificates and public-key encryption." },
+    { id: 5, text: "Which organization issues digital certificates?", type: "mcq", options: ["CA (Certificate Authority)", "ISP", "IANA", "RIR"], correct: "CA (Certificate Authority)", explanation: "CAs like DigiCert, Let's Encrypt issue certificates." },
+    { id: 6, text: "Which type of malware self-replicates across networks without user action?", type: "mcq", options: ["Virus", "Trojan", "Worm", "Ransomware"], correct: "Worm", explanation: "Worms propagate automatically via network vulnerabilities." },
+    { id: 7, text: "What is the main difference between IDS and IPS?", type: "mcq", options: ["IDS blocks, IPS detects", "IDS detects, IPS blocks", "Both only detect", "Both only block"], correct: "IDS detects, IPS blocks", explanation: "IDS is passive (alerts), IPS actively blocks malicious traffic." },
+    { id: 8, text: "Which firewall provides deep packet inspection and application awareness?", type: "mcq", options: ["Packet filtering", "Stateful firewall", "Next-Generation Firewall (NGFW)", "Proxy firewall"], correct: "Next-Generation Firewall (NGFW)", explanation: "NGFW includes IPS, application control, and deep inspection." },
+    { id: 9, text: "What is the purpose of a proxy server?", type: "mcq", options: ["Encrypting all traffic", "Hiding client IP addresses and filtering content", "Increasing bandwidth", "Routing BGP"], correct: "Hiding client IP addresses and filtering content", explanation: "Proxy acts as intermediary, hides original IP, can filter content." },
+    { id: 10, text: "NAC (Network Access Control) checks device _________ before granting network access.", type: "mcq", options: ["Speed", "Compliance and security posture", "Manufacturer", "Operating system version only"], correct: "Compliance and security posture", explanation: "NAC verifies antivirus, patches, authentication." },
+    { id: 11, text: "SIEM provides:", type: "mcq", options: ["Only log storage", "Real-time monitoring and threat detection", "Firewall rules", "Encryption keys"], correct: "Real-time monitoring and threat detection", explanation: "SIEM aggregates logs, correlates events, and alerts on threats." },
+    { id: 12, text: "What is the goal of baseline monitoring?", type: "mcq", options: ["Detect unknown traffic patterns", "Establish normal behavior to spot anomalies", "Block all traffic", "Encrypt data"], correct: "Establish normal behavior to spot anomalies", explanation: "Baseline defines normal network activity; deviations indicate issues." },
+    { id: 13, text: "Which protocol is used for secure remote access to network devices?", type: "mcq", options: ["Telnet", "SSH", "HTTP", "FTP"], correct: "SSH", explanation: "SSH provides encrypted remote administration." },
+    { id: 14, text: "What does MFA stand for?", type: "mcq", options: ["Multi-Factor Authentication", "Main Frame Access", "Metadata Authentication", "Multiple File Access"], correct: "Multi-Factor Authentication", explanation: "MFA requires two or more verification factors." },
+    { id: 15, text: "Which attack associates attacker's MAC with another device's IP?", type: "mcq", options: ["ARP Spoofing", "DNS Spoofing", "IP Spoofing", "SYN flood"], correct: "ARP Spoofing", explanation: "ARP spoofing links attacker's MAC to legitimate IP for MITM." },
+    { id: 16, text: "A DMZ is used to:", type: "mcq", options: ["Host internal databases", "Isolate public-facing servers from internal network", "Store backups", "Increase wireless coverage"], correct: "Isolate public-facing servers from internal network", explanation: "DMZ separates web/mail servers from trusted internal LAN." },
+    { id: 17, text: "Which encryption algorithm is an example of symmetric encryption?", type: "mcq", options: ["RSA", "AES", "ECC", "DSA"], correct: "AES", explanation: "AES uses same key for encryption/decryption (symmetric)." },
+    { id: 18, text: "Role-Based Access Control (RBAC) grants permissions based on:", type: "mcq", options: ["Individual user requests", "Job roles", "Device MAC address", "Time of day"], correct: "Job roles", explanation: "RBAC assigns permissions to roles (admin, manager, user)." },
+    { id: 19, text: "Principle of Least Privilege means:", type: "mcq", options: ["Users get maximum permissions", "Users get minimal necessary permissions", "All users are admins", "No permissions at all"], correct: "Users get minimal necessary permissions", explanation: "Limits risk by reducing unnecessary access." },
+    { id: 20, text: "Which OSI layer does a traditional firewall primarily operate at?", type: "mcq", options: ["Layer 2", "Layer 3 and 4", "Layer 7 only", "Layer 1"], correct: "Layer 3 and 4", explanation: "Traditional firewalls filter based on IP/ports (L3/L4); NGFWs also L7." },
+    { id: 21, text: "What does MTTD measure?", type: "mcq", options: ["Mean Time to Detect", "Mean Time to Disaster", "Malware Transfer Delay", "Maximum TTL Duration"], correct: "Mean Time to Detect", explanation: "MTTD is average time to identify a security incident." },
+    { id: 22, text: "IP spoofing is used to:", type: "mcq", options: ["Increase speed", "Hide attacker's real IP address", "Encrypt packets", "Improve routing"], correct: "Hide attacker's real IP address", explanation: "Forge source IP to mask identity." },
+    { id: 23, text: "Which user in Linux can override all file permissions?", type: "mcq", options: ["nobody", "root", "daemon", "user"], correct: "root", explanation: "Root (superuser) has unrestricted access." },
+    { id: 24, text: "System hardening includes:", type: "mcq", options: ["Installing games", "Disabling unused services and applying patches", "Increasing CPU speed", "Removing antivirus"], correct: "Disabling unused services and applying patches", explanation: "Hardening reduces attack surface via patches, disabling unnecessary services." },
+    { id: 25, text: "Hashing ensures:", type: "mcq", options: ["Confidentiality", "Integrity", "Authentication", "Non-repudiation only"], correct: "Integrity", explanation: "Hash functions verify data hasn't been altered." },
+    { id: 26, text: "What does AAA stand for in network security?", type: "mcq", options: ["Authentication, Authorization, Accounting", "Access, Approval, Auditing", "Advanced Anti-malware Agent", "Adaptive Authentication Algorithm"], correct: "Authentication, Authorization, Accounting", explanation: "AAA framework controls access and logs actions." },
+    { id: 27, text: "Which protocol is used for IPSec VPN key exchange?", type: "mcq", options: ["IKE", "SSH", "SSL", "RIP"], correct: "IKE", explanation: "Internet Key Exchange (IKE) sets up IPSec SAs." },
+    { id: 28, text: "Zero Trust security model assumes:", type: "mcq", options: ["Trust everyone inside network", "Never trust, always verify", "Only external traffic is risky", "Passwords are optional"], correct: "Never trust, always verify", explanation: "Zero Trust verifies every access request regardless of location." },
+    { id: 29, text: "What is a common mitigation against SQL injection?", type: "mcq", options: ["Parameterized queries", "Disabling JavaScript", "Using static IPs", "Increasing RAM"], correct: "Parameterized queries", explanation: "Parameterized queries separate SQL logic from data, preventing injection." },
+    { id: 30, text: "Which type of attack uses ICMP echo requests with spoofed victim IP to broadcast?", type: "mcq", options: ["Smurf attack", "Ping of Death", "SYN flood", "Teardrop"], correct: "Smurf attack", explanation: "Smurf amplifies traffic using broadcast ping with spoofed source." },
+    { id: 31, text: "TLS 1.3 improves security by:", type: "mcq", options: ["Removing obsolete ciphers and enforcing forward secrecy", "Adding more handshake steps", "Using only symmetric encryption", "Disabling certificates"], correct: "Removing obsolete ciphers and enforcing forward secrecy", explanation: "TLS 1.3 removes weak algorithms and requires forward secrecy." },
+    { id: 32, text: "What does a WAF protect against?", type: "mcq", options: ["Network layer DDoS only", "Web application attacks like XSS and SQLi", "Physical theft", "Email spam"], correct: "Web application attacks like XSS and SQLi", explanation: "Web Application Firewall filters HTTP/HTTPS traffic." },
+    { id: 33, text: "EDR (Endpoint Detection and Response) focuses on:", type: "mcq", options: ["Network routing", "Monitoring and responding to endpoint threats", "Database encryption", "Firewall rules"], correct: "Monitoring and responding to endpoint threats", explanation: "EDR provides endpoint visibility, threat hunting, and response." },
+    { id: 34, text: "What is a Honeypot in security?", type: "mcq", options: ["Encryption device", "Decoy system to trap attackers", "Password manager", "VPN server"], correct: "Decoy system to trap attackers", explanation: "Honeypot lures attackers to study behavior without risking real assets." },
+    { id: 35, text: "Defense in Depth strategy means:", type: "mcq", options: ["Single security control", "Layered security controls", "Only perimeter firewall", "No encryption"], correct: "Layered security controls", explanation: "Multiple layers (physical, network, app) protect if one fails." },
+    { id: 36, text: "What is a Man-in-the-Middle (MITM) attack?", type: "mcq", options: ["Intercepting communication between two parties", "Stealing passwords", "DDoS attack", "Phishing email"], correct: "Intercepting communication between two parties", explanation: "MITM secretly relays or alters communication between victims." },
+    { id: 37, text: "What is a Replay Attack?", type: "mcq", options: ["Delaying packets", "Capturing and retransmitting valid data", "Encrypting data twice", "Sending fake ARP"], correct: "Capturing and retransmitting valid data", explanation: "Replay attack resends intercepted data to trick the receiver." },
+    { id: 38, text: "Which attack injects malicious scripts into trusted websites?", type: "mcq", options: ["SQLi", "XSS (Cross-Site Scripting)", "CSRF", "Session hijacking"], correct: "XSS (Cross-Site Scripting)", explanation: "XSS executes malicious scripts in victims' browsers." },
+    { id: 39, text: "What is a Rogue Access Point?", type: "mcq", options: ["Authorized AP", "Unauthorized AP on a network", "VPN concentrator", "Proxy server"], correct: "Unauthorized AP on a network", explanation: "Rogue AP creates backdoor access, bypassing security." },
+    { id: 40, text: "What does SASE stand for?", type: "mcq", options: ["Secure Access Service Edge", "Security Architecture Service Engine", "Software-defined Access Encryption", "Secure Application Edge"], correct: "Secure Access Service Edge", explanation: "SASE converges networking and security in cloud." },
+    { id: 41, text: "What is a SYN flood attack?", type: "mcq", options: ["Exhausting TCP handshake resources", "Fragmented ICMP", "ARP poisoning", "DNS tunneling"], correct: "Exhausting TCP handshake resources", explanation: "SYN flood sends many SYN requests without ACK, draining resources." },
+    { id: 42, text: "What is DNSSEC used for?", type: "mcq", options: ["Encrypting DNS queries", "Authenticating DNS responses", "Blocking DNS traffic", "Speed up DNS"], correct: "Authenticating DNS responses", explanation: "DNSSEC prevents DNS spoofing via digital signatures." },
+    { id: 43, text: "What is the MITRE ATT&CK framework?", type: "mcq", options: ["Encryption standard", "Knowledge base of adversary tactics and techniques", "Firewall rule set", "Incident reporting format"], correct: "Knowledge base of adversary tactics and techniques", explanation: "MITRE ATT&CK maps attacker behavior for threat modeling." },
+    { id: 44, text: "What is UEBA?", type: "mcq", options: ["User and Entity Behavior Analytics", "Universal Encryption Bypass", "Unauthorized Entry Blocking", "Unified Endpoint Backup"], correct: "User and Entity Behavior Analytics", explanation: "UEBA uses ML to detect anomalous user/device behavior." },
+    { id: 45, text: "What is the purpose of a CASB?", type: "mcq", options: ["Cloud Access Security Broker", "Central Authentication Server", "Content Addressable Storage", "Certificate Authority Service"], correct: "Cloud Access Security Broker", explanation: "CASB secures cloud applications between users and providers." },
+    { id: 46, text: "What is Micro-segmentation?", type: "mcq", options: ["Dividing data centers into small isolated workloads", "Large VLANs", "Physical firewalls only", "Public cloud regions"], correct: "Dividing data centers into small isolated workloads", explanation: "Micro-segmentation enforces granular policies per workload (Zero Trust)." },
+    { id: 47, text: "What is SOAR?", type: "mcq", options: ["Security Orchestration, Automation, and Response", "Secure Online Access Record", "System of Active Response", "Security Operations Advanced Routine"], correct: "Security Orchestration, Automation, and Response", explanation: "SOAR automates incident response and integrates security tools." },
+    { id: 48, text: "What is a False Negative in IDS/IPS?", type: "mcq", options: ["Legitimate traffic flagged as malicious", "Attack not detected (missed)", "Blocked false alarm", "Encrypted traffic"], correct: "Attack not detected (missed)", explanation: "False negative is undetected attack, dangerous." },
+    { id: 49, text: "What is a Jump Server (Bastion Host)?", type: "mcq", options: ["Public web server", "Hardened server to access secure zones", "DHCP server", "Proxy cache"], correct: "Hardened server to access secure zones", explanation: "Jump server provides controlled access to internal networks." },
+    { id: 50, text: "What does 802.1X provide?", type: "mcq", options: ["Port-based authentication", "Wi-Fi encryption", "Routing protocol", "IP assignment"], correct: "Port-based authentication", explanation: "IEEE 802.1X authenticates devices before network access." },
+    { id: 51, text: "What is the difference between RADIUS and TACACS+?", type: "mcq", options: ["RADIUS uses TCP, TACACS+ UDP", "TACACS+ separates AAA, RADIUS combines authentication/authorization", "Both identical", "RADIUS encrypts entire packet"], correct: "TACACS+ separates AAA, RADIUS combines authentication/authorization", explanation: "TACACS+ uses TCP and separates AAA; RADIUS uses UDP and merges auth/authz." },
+    { id: 52, text: "What is a Birthday Attack?", type: "mcq", options: ["Attack on hash collisions", "Attack on birthdays", "Social engineering", "Phishing variant"], correct: "Attack on hash collisions", explanation: "Birthday attack exploits probability of hash collisions." },
+    { id: 53, text: "What is a Rainbow Table Attack?", type: "mcq", options: ["Precomputed hash chains to crack passwords", "ARP table overflow", "Routing table poisoning", "DNS cache attack"], correct: "Precomputed hash chains to crack passwords", explanation: "Rainbow tables speed up password hash cracking; salting prevents it." },
+    { id: 54, text: "What is SSL Stripping?", type: "mcq", options: ["Downgrading HTTPS to HTTP", "Removing SSL certificates", "Encrypting twice", "Decrypting SSL"], correct: "Downgrading HTTPS to HTTP", explanation: "SSL stripping forces insecure HTTP connection; HSTS prevents it." },
+    { id: 55, text: "What is QUIC protocol?", type: "mcq", options: ["UDP-based with TLS 1.3", "TCP-based encryption", "Old SSL version", "HTTP/2 only"], correct: "UDP-based with TLS 1.3", explanation: "QUIC reduces latency and includes built-in encryption." },
+    { id: 56, text: "What is Homomorphic Encryption?", type: "mcq", options: ["Computation on encrypted data without decryption", "Same key for encryption", "Asymmetric only", "Hashing method"], correct: "Computation on encrypted data without decryption", explanation: "Homomorphic encryption allows processing encrypted data privately." },
+    { id: 57, text: "What is a Side-Channel Attack?", type: "mcq", options: ["Exploiting physical leaks (timing, power)", "Network sniffing", "SQL injection", "Buffer overflow"], correct: "Exploiting physical leaks (timing, power)", explanation: "Side-channel attacks use power consumption, electromagnetic leaks." },
+    { id: 58, text: "What is the purpose of a VPN Concentrator?", type: "mcq", options: ["Manage multiple VPN tunnels", "Encrypt emails", "Block websites", "Route BGP"], correct: "Manage multiple VPN tunnels", explanation: "VPN concentrator handles many simultaneous encrypted connections." },
+    { id: 59, text: "What is an On-Path Attack?", type: "mcq", options: ["Modern MITM", "DDoS", "Phishing", "Ransomware"], correct: "Modern MITM", explanation: "On-path attack intercepts and modifies communication." },
+    { id: 60, text: "What is WIPS (Wireless Intrusion Prevention System)?", type: "mcq", options: ["Monitors wireless for rogue APs and attacks", "Wi-Fi encryption", "Signal booster", "WPA3 only"], correct: "Monitors wireless for rogue APs and attacks", explanation: "WIPS detects and mitigates wireless threats." },
+    { id: 61, text: "What is Threat Hunting?", type: "mcq", options: ["Proactive search for undetected threats", "Waiting for alerts", "Patch management", "Log archiving"], correct: "Proactive search for undetected threats", explanation: "Threat hunting uses hypotheses to find hidden adversaries." },
+    { id: 62, text: "What is a Security Posture?", type: "mcq", options: ["Overall cybersecurity strength", "Firewall configuration", "Password policy only", "Physical locks"], correct: "Overall cybersecurity strength", explanation: "Security posture includes policies, controls, awareness, response." },
+    { id: 63, text: "What is Network Segmentation?", type: "mcq", options: ["Dividing network into isolated segments", "Increasing bandwidth", "Combining VLANs", "Disabling firewalls"], correct: "Dividing network into isolated segments", explanation: "Segmentation contains breaches and reduces attack surface." },
+    { id: 64, text: "What is a Certificate Authority (CA) role in PKI?", type: "mcq", options: ["Issues and revokes digital certificates", "Encrypts data", "Manages passwords", "Blocks malware"], correct: "Issues and revokes digital certificates", explanation: "CA is trusted third party for certificate lifecycle." },
+    { id: 65, text: "What is the main purpose of hashing in security?", type: "mcq", options: ["Integrity verification", "Confidentiality", "Authentication only", "Key exchange"], correct: "Integrity verification", explanation: "Hash ensures data hasn't been modified." },
+    { id: 66, text: "Which of the following is a property of a good hash function?", type: "mcq", options: ["Collision resistance", "Reversible", "Same output for different inputs", "Short input only"], correct: "Collision resistance", explanation: "Hash functions should be collision-resistant and one-way." },
+    { id: 67, text: "What is a social engineering attack?", type: "mcq", options: ["Manipulating people to reveal info", "Brute force password", "Buffer overflow", "Port scanning"], correct: "Manipulating people to reveal info", explanation: "Social engineering exploits human psychology (phishing, pretexting)." },
+    { id: 68, text: "What is a Brute Force Attack?", type: "mcq", options: ["Trying all possible combinations", "Single guess", "Dictionary attack", "MITM"], correct: "Trying all possible combinations", explanation: "Brute force exhaustively tries keys/passwords." },
+    { id: 69, text: "What does a 'Stateful Firewall' track?", type: "mcq", options: ["Connection state (TCP handshake)", "Only IP addresses", "Application data only", "MAC addresses"], correct: "Connection state (TCP handshake)", explanation: "Stateful firewall monitors active connections." },
+    { id: 70, text: "What is IPsec tunnel mode?", type: "mcq", options: ["Encrypts entire IP packet", "Encrypts only payload", "No encryption", "Only authentication"], correct: "Encrypts entire IP packet", explanation: "Tunnel mode protects entire packet, used for VPNs." },
+
+    // ---- 10 Typed / Short Answer (71-80) covering key concepts ----
+    { id: 71, text: "What does PKI provide? (Name two main components)", type: "text", correctKeywords: ["certificate", "public key", "ca", "digital certificate", "key pair"], explanation: "PKI provides digital certificates, public/private key management, and Certificate Authorities." },
+    { id: 72, text: "What is the difference between a Virus and a Worm? (brief)", type: "text", correctKeywords: ["virus attaches", "worm self-replicates", "worm network", "virus requires host"], explanation: "Virus needs user execution/file attachment; Worm spreads automatically via network." },
+    { id: 73, text: "Name one advantage of Asymmetric encryption over Symmetric.", type: "text", correctKeywords: ["secure key exchange", "digital signatures", "no shared secret"], explanation: "Asymmetric allows secure key distribution and digital signatures without sharing secret key." },
+    { id: 74, text: "What is the purpose of a SIEM system? (short)", type: "text", correctKeywords: ["collect logs", "real-time monitoring", "threat detection", "event correlation"], explanation: "SIEM aggregates logs, correlates events, detects threats, and provides alerts." },
+    { id: 75, text: "Explain the Zero Trust principle in one sentence.", type: "text", correctKeywords: ["never trust", "always verify", "trust no one", "verify every request"], explanation: "Zero Trust means never trust any user or device by default, always verify access requests." },
+    { id: 76, text: "What is the main goal of Defense in Depth?", type: "text", correctKeywords: ["layered", "multiple controls", "redundant"], explanation: "Defense in Depth uses multiple layers of security to protect assets." },
+    { id: 77, text: "What does MFA add beyond passwords?", type: "text", correctKeywords: ["something you have", "something you are", "second factor", "token", "biometric"], explanation: "MFA adds a second factor like OTP or fingerprint to strengthen authentication." },
+    { id: 78, text: "What is the role of a Honeypot?", type: "text", correctKeywords: ["decoy", "trap", "attract attackers", "study behavior"], explanation: "Honeypot lures attackers to analyze techniques without risking real assets." },
+    { id: 79, text: "What is the function of an ACL (Access Control List)?", type: "text", correctKeywords: ["permit", "deny", "filter traffic", "rules"], explanation: "ACL defines rules to permit or deny network traffic based on criteria." },
+    { id: 80, text: "What does 'non-repudiation' ensure?", type: "text", correctKeywords: ["cannot deny", "proof of action", "digital signature"], explanation: "Non-repudiation ensures a user cannot deny performing an action, often via digital signatures." }
+  ];
+
+  let userAnswers = JSON.parse(localStorage.getItem("cisco_network_full_80")) || {};
+
+  function saveAnswer(qid, value) {
+    userAnswers[qid] = value;
+    localStorage.setItem("cisco_network_full_80", JSON.stringify(userAnswers));
+    updateScorePreview();
+  }
+
+  function evaluateQuestion(q, answer) {
+    if (!answer || (Array.isArray(answer) && answer.length === 0)) return false;
+    if (q.type === "mcq") return answer === q.correct;
+    if (q.type === "text") {
+      let ansLower = String(answer).toLowerCase();
+      return q.correctKeywords.some(kw => ansLower.includes(kw.toLowerCase()));
+    }
+    return false;
+  }
+
+  function computeScore() {
+    let correct = 0;
+    examQuestions.forEach(q => {
+      const ans = userAnswers[q.id];
+      if (evaluateQuestion(q, ans)) correct++;
+    });
+    return { correct, total: examQuestions.length };
+  }
+
+  function updateScorePreview() {
+    const { correct, total } = computeScore();
+    document.getElementById("scoreDisplay").innerText = `Score: ${correct}/${total}`;
+  }
+
+  function renderQuestions() {
+    const container = document.getElementById("questionsContainer");
+    container.innerHTML = "";
+    examQuestions.forEach((q, idx) => {
+      const saved = userAnswers[q.id] || (q.type === "mcq" ? "" : "");
+      let inputHtml = "";
+      if (q.type === "mcq") {
+        inputHtml = `<div class="options-area">` + q.options.map(opt => `
+          <label class="option">
+            <input type="radio" name="q_${q.id}" value="${escapeHtml(opt)}" ${saved === opt ? 'checked' : ''}>
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `).join('') + `</div>`;
+      } else if (q.type === "text") {
+        inputHtml = `<textarea class="text-input" rows="2" placeholder="Type your answer here...">${escapeHtml(typeof saved === 'string' ? saved : '')}</textarea>`;
+      }
+      const card = document.createElement("div");
+      card.className = "question-card";
+      card.innerHTML = `
+        <div class="q-title"><span class="q-num">Q${q.id}</span></div>
+        <div class="q-text">${escapeHtml(q.text)}</div>
+        ${inputHtml}
+        <div class="feedback" id="fb_${q.id}"></div>
+      `;
+      container.appendChild(card);
+      
+      if (q.type === "mcq") {
+        const radios = card.querySelectorAll(`input[type="radio"]`);
+        radios.forEach(radio => radio.addEventListener('change', (e) => {
+          if (radio.checked) saveAnswer(q.id, radio.value);
+        }));
+      } else {
+        const textarea = card.querySelector('textarea');
+        if (textarea) textarea.addEventListener('input', (e) => saveAnswer(q.id, textarea.value));
+      }
+    });
+    updateScorePreview();
+  }
+
+  function displayFeedback() {
+    examQuestions.forEach(q => {
+      const userAns = userAnswers[q.id];
+      const isCorrect = evaluateQuestion(q, userAns);
+      const fbDiv = document.getElementById(`fb_${q.id}`);
+      if (fbDiv) {
+        fbDiv.style.display = "block";
+        fbDiv.className = `feedback ${isCorrect ? 'correct-feedback' : 'wrong-feedback'}`;
+        let answerPreview = userAns ? (typeof userAns === 'string' ? userAns.substring(0, 120) : JSON.stringify(userAns)) : "No answer";
+        fbDiv.innerHTML = `<strong>${isCorrect ? '✓ Correct' : '✗ Incorrect'}</strong><br>Your answer: ${escapeHtml(answerPreview)}<br>📘 ${q.explanation}`;
+      }
+    });
+    const { correct, total } = computeScore();
+    const resultDiv = document.getElementById("globalResult");
+    resultDiv.style.display = "block";
+    const percentage = Math.round((correct/total)*100);
+    resultDiv.innerHTML = `<h2>📊 Exam Results (All 80 Questions)</h2><p style="font-size:1.6rem; font-weight:bold;">${correct} / ${total} correct (${percentage}%)</p>
+    <p>${percentage >= 70 ? '🏆 Excellent! Strong network security knowledge.' : '📚 Review incorrect answers and study the explanations.'}</p>
+    <button id="clearLocalBtn" style="background:#facc15; border:none; padding:0.6rem 1.2rem; border-radius:2rem; margin-top:0.8rem; font-weight:bold; cursor:pointer;">🗑️ Reset All Answers & Start Over</button>`;
+    const clearBtn = document.getElementById("clearLocalBtn");
+    if (clearBtn) clearBtn.addEventListener("click", () => {
+      localStorage.removeItem("cisco_network_full_80");
+      userAnswers = {};
+      renderQuestions();
+      document.querySelectorAll('.feedback').forEach(fb => fb.style.display = 'none');
+      resultDiv.style.display = "none";
+      updateScorePreview();
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  document.getElementById("submitExamBtn").addEventListener("click", () => displayFeedback());
+  document.getElementById("resetExamBtn").addEventListener("click", () => {
+    localStorage.removeItem("cisco_network_full_80");
+    userAnswers = {};
+    renderQuestions();
+    document.querySelectorAll('.feedback').forEach(fb => fb.style.display = 'none');
+    document.getElementById("globalResult").style.display = "none";
+    updateScorePreview();
+  });
+
+  renderQuestions();
+</script>
+</body>
+</html>
