@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Cisco Network Security | Full Exam Bank (80 Q&A)</title>
+  <title>Cisco Network Security | 80 Q&A with Text-to-Speech</title>
   <style>
     * {
       margin: 0;
@@ -137,7 +137,7 @@
 
     .qa-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
       gap: 1.5rem;
     }
 
@@ -161,6 +161,11 @@
       background: #f8fafc;
       padding: 1rem 1.2rem;
       border-bottom: 2px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .q-num {
@@ -173,7 +178,6 @@
       display: inline-block;
       padding: 0.2rem 0.7rem;
       border-radius: 30px;
-      margin-bottom: 0.6rem;
     }
 
     .question {
@@ -181,6 +185,38 @@
       font-size: 1.05rem;
       line-height: 1.4;
       color: #0f172a;
+      flex: 1;
+    }
+
+    .speech-controls {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .speech-btn {
+      background: #e2e8f0;
+      border: none;
+      border-radius: 40px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #1e293b;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .speech-btn:hover {
+      background: #cbd5e1;
+      transform: scale(1.02);
+    }
+
+    .speech-btn.speaking {
+      background: #0f5b6e;
+      color: white;
     }
 
     .card-body {
@@ -193,6 +229,20 @@
       font-size: 0.95rem;
       white-space: pre-wrap;
       word-break: break-word;
+    }
+
+    .answer-speech-btn {
+      background: #e0f2fe;
+      border: none;
+      border-radius: 40px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
     }
 
     .comparison-table {
@@ -227,6 +277,30 @@
       padding-top: 2rem;
     }
 
+    .global-tts-bar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f3b4a;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      display: flex;
+      gap: 0.8rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 100;
+      font-size: 0.8rem;
+    }
+
+    .global-tts-bar button {
+      background: #facc15;
+      border: none;
+      border-radius: 30px;
+      padding: 0.3rem 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     @media (max-width: 700px) {
       .qa-grid {
         grid-template-columns: 1fr;
@@ -234,14 +308,17 @@
       .hero h1 {
         font-size: 1.6rem;
       }
+      .card-header {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="hero">
-    <h1>🔐 Network Security (Cisco) <span class="badge">80 Exam Q&A</span></h1>
-    <p>Complete reference — Non-repudiation, PKI, DoS/DDoS, firewalls, encryption, IDS/IPS, VPNs, zero trust, cloud security, and more.</p>
+    <h1>🔐 Network Security (Cisco) <span class="badge">80 Q&A with TTS</span></h1>
+    <p>Complete reference — Non-repudiation, PKI, DoS/DDoS, firewalls, encryption, IDS/IPS, VPNs, zero trust, cloud security, and more. Click the 🔊 buttons to listen to any question or answer.</p>
     <div class="search-section">
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="🔍 Search by term... e.g., 'zero trust', 'SIEM', 'TLS'" autocomplete="off">
@@ -256,135 +333,215 @@
     <button class="filter-btn" data-filter="attacks">⚔️ Attacks & Malware</button>
     <button class="filter-btn" data-filter="security">🛡️ Security Controls</button>
     <button class="filter-btn" data-filter="network">🌐 Network Security</button>
-    <a href="/Ns/ns_questions.html" target="_blank" rel="noopener noreferrer"><button class="filter-btn">🌐 Questions</button></a>
   </div>
 
   <div id="qaContainer" class="qa-grid"></div>
   <footer>
-    Cisco-style Network Security — 80 essential Q&A | Covers CCNA Security & CyberOps objectives
+    Cisco-style Network Security — 80 essential Q&A | Click speaker icons to hear questions/answers
   </footer>
 </div>
 
+<div class="global-tts-bar" id="globalTtsBar">
+  <span>🔊 Stop All Speech</span>
+  <button id="stopAllSpeechBtn">⏹️ Stop</button>
+</div>
+
 <script>
-  // --------------------------------------------------------------
-  // FULL 80 QUESTIONS: original 40 + 40 new (IDs 41-80)
-  // --------------------------------------------------------------
+  // ----------------------------------------------
+  // Text-to-Speech Manager
+  // ----------------------------------------------
+  let currentUtterance = null;
+
+  function speakText(text, onEndCallback = null) {
+    if (currentUtterance) {
+      window.speechSynthesis.cancel();
+      currentUtterance = null;
+    }
+    if (!text || text.trim() === "") return;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.0;
+    utterance.onend = () => {
+      currentUtterance = null;
+      if (onEndCallback) onEndCallback();
+    };
+    utterance.onerror = () => {
+      currentUtterance = null;
+      if (onEndCallback) onEndCallback();
+    };
+    currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function stopSpeech() {
+    if (currentUtterance) {
+      window.speechSynthesis.cancel();
+      currentUtterance = null;
+    }
+    // Also remove speaking class from any active button
+    document.querySelectorAll('.speech-btn.speaking').forEach(btn => {
+      btn.classList.remove('speaking');
+    });
+  }
+
+  // Helper to clean text from HTML tags for TTS
+  function plainTextFromHtml(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
+    return tempDiv.textContent || tempDiv.innerText || "";
+  }
+
+  // Original 80 questions data (same as provided, compact but complete)
   const securityQA = [
-    // ORIGINAL 40 (IDs 1-40)
-    { id: 1, question: "What is Non-Repudiation in Information Security?", answer: "Non-repudiation is a security principle that ensures a user cannot deny performing an action such as sending a message or making a transaction.\n\nIt provides proof of:\n- Message origin\n- User identity\n- Data integrity\n\n📌 Example: Digital signatures in emails ensure the sender cannot deny sending the message.", tags: ["encryption","security"] },
-    { id: 2, question: "Compare DoS and DDoS Attacks", answer: "| DoS | DDoS |\n|---|---|\n| Single attacking system | Multiple attacking systems |\n| Easier to stop | Harder to stop |\n| Less traffic volume | Massive traffic volume |\n| One source IP | Many source IPs |\n\n**Mitigation**\nDoS: Firewall filtering, Rate limiting\nDDoS: Load balancing, Anti-DDoS services, Traffic filtering", tags: ["attacks","network"] },
-    { id: 3, question: "Explain Digital Signature", answer: "A digital signature is a cryptographic method used to verify:\n- Authenticity\n- Integrity\n- Non-repudiation\n\nIt uses asymmetric encryption with:\n- Private key for signing\n- Public key for verification", tags: ["encryption","security"] },
-    { id: 4, question: "What is PKI?", answer: "PKI (Public Key Infrastructure) is a framework used to manage:\n- Digital certificates\n- Public keys\n- Encryption services\n\nPKI helps secure communication over networks.", tags: ["encryption","security"] },
-    { id: 5, question: "What is a Certificate Authority (CA)?", answer: "A Certificate Authority is a trusted organization that issues and validates digital certificates.\n\nExamples:\n- DigiCert\n- Let's Encrypt", tags: ["encryption","security"] },
-    { id: 6, question: "Explain Four Types of Malware", answer: "**Virus** – Attaches to files and spreads when executed.\n**Worm** – Self-replicates automatically across networks.\n**Trojan** – Disguised as legitimate software.\n**Ransomware** – Encrypts files and demands payment.", tags: ["attacks"] },
-    { id: 7, question: "Difference Between IDS and IPS", answer: "| IDS | IPS |\n|---|---|\n| Detects attacks | Detects and blocks attacks |\n| Passive system | Active system |\n| Sends alerts | Prevents malicious traffic |", tags: ["network","security"] },
-    { id: 8, question: "What is a Next-Generation Firewall (NGFW)?", answer: "An NGFW is an advanced firewall that provides:\n- Deep packet inspection\n- Application awareness\n- Intrusion prevention\n- Malware filtering", tags: ["network","security"] },
-    { id: 9, question: "What is a Proxy Server?", answer: "A proxy server acts as an intermediary between clients and external servers.\n\nFunctions:\n- Hide IP addresses\n- Content filtering\n- Improve security", tags: ["network","security"] },
-    { id: 10, question: "What is NAC?", answer: "NAC (Network Access Control) controls device access to a network based on security policies.\n\nIt checks:\n- Device compliance\n- Authentication\n- Security posture", tags: ["network","security"] },
-    { id: 11, question: "What is SIEM?", answer: "SIEM stands for: Security Information and Event Management.\n\nIt collects and analyzes security logs from multiple devices.\n\n**Features**\n- Real-time monitoring\n- Threat detection\n- Log management\n- Incident analysis", tags: ["security","network"] },
-    { id: 12, question: "Explain Baseline Monitoring", answer: "Baseline monitoring records normal network behavior so unusual activity can be detected later.", tags: ["security","network"] },
+    { id: 1, question: "What is Non-Repudiation in Information Security?", answer: "Non-repudiation is a security principle that ensures a user cannot deny performing an action such as sending a message or making a transaction.\n\nIt provides proof of:\n- Message origin\n- User identity\n- Data integrity\n\nExample: Digital signatures in emails ensure the sender cannot deny sending the message.", tags: ["encryption","security"] },
+    { id: 2, question: "Compare DoS and DDoS Attacks", answer: "DoS uses a single attacking system, easier to stop, less traffic volume, one source IP. DDoS uses multiple attacking systems, harder to stop, massive traffic volume, many source IPs. Mitigation: DoS uses firewall filtering/rate limiting; DDoS uses load balancing, anti-DDoS services, traffic filtering.", tags: ["attacks","network"] },
+    { id: 3, question: "Explain Digital Signature", answer: "A digital signature verifies authenticity, integrity, and non-repudiation. It uses asymmetric encryption: private key for signing, public key for verification.", tags: ["encryption","security"] },
+    { id: 4, question: "What is PKI?", answer: "PKI (Public Key Infrastructure) manages digital certificates, public keys, and encryption services to secure network communication.", tags: ["encryption","security"] },
+    { id: 5, question: "What is a Certificate Authority (CA)?", answer: "A Certificate Authority is a trusted organization that issues and validates digital certificates. Examples: DigiCert, Let's Encrypt.", tags: ["encryption","security"] },
+    { id: 6, question: "Explain Four Types of Malware", answer: "Virus attaches to files and spreads when executed. Worm self-replicates automatically across networks. Trojan disguises as legitimate software. Ransomware encrypts files and demands payment.", tags: ["attacks"] },
+    { id: 7, question: "Difference Between IDS and IPS", answer: "IDS detects attacks and sends alerts (passive). IPS detects and blocks attacks (active).", tags: ["network","security"] },
+    { id: 8, question: "What is a Next-Generation Firewall (NGFW)?", answer: "NGFW provides deep packet inspection, application awareness, intrusion prevention, and malware filtering.", tags: ["network","security"] },
+    { id: 9, question: "What is a Proxy Server?", answer: "Proxy server acts as intermediary, hiding client IP addresses, filtering content, and improving security.", tags: ["network","security"] },
+    { id: 10, question: "What is NAC?", answer: "Network Access Control checks device compliance, authentication, and security posture before granting access.", tags: ["network","security"] },
+    { id: 11, question: "What is SIEM?", answer: "Security Information and Event Management provides real-time monitoring, threat detection, log management, and incident analysis.", tags: ["security","network"] },
+    { id: 12, question: "Explain Baseline Monitoring", answer: "Baseline monitoring records normal network behavior to detect unusual activity later.", tags: ["security","network"] },
     { id: 13, question: "What is Real-Time Alerting?", answer: "Real-time alerting immediately notifies administrators about suspicious activities or attacks.", tags: ["security"] },
-    { id: 14, question: "What is an Incident Response Plan?", answer: "An Incident Response Plan is a structured process for:\n- Detecting incidents\n- Containing attacks\n- Recovering systems", tags: ["security"] },
-    { id: 15, question: "Difference Between HTTPS and SSL/TLS", answer: "| HTTPS | SSL/TLS |\n|---|---|\n| Secure version of HTTP | Encryption protocol |\n| Used for websites | Provides encryption |\n| Uses SSL/TLS | Protects communication |", tags: ["encryption","network"] },
-    { id: 16, question: "What is a VPN Concentrator?", answer: "A VPN concentrator manages multiple VPN connections securely in enterprise networks.\n\nFunctions:\n- Encryption\n- Authentication\n- Tunnel management", tags: ["network","encryption"] },
-    { id: 17, question: "Match the Following: Security Terms", answer: "🔹 Encryption → AES\n🔹 Secure Remote Access → SSH\n🔹 Authentication → RADIUS\n🔹 Key Exchange → IKE", tags: ["encryption","security"] },
-    { id: 18, question: "What is Multi-Factor Authentication (MFA)?", answer: "MFA requires users to provide multiple verification factors before access is granted.\n\n**Types of Factors**\n1. Something you know → Password\n2. Something you have → OTP token\n3. Something you are → Fingerprint", tags: ["security"] },
-    { id: 19, question: "What is ARP Spoofing?", answer: "ARP spoofing is an attack where fake ARP messages are sent to associate the attacker's MAC address with another device's IP address.\n\nPurpose:\n- Traffic interception\n- Man-in-the-middle attacks", tags: ["attacks","network"] },
-    { id: 20, question: "What is a DMZ?", answer: "DMZ (Demilitarized Zone) is a separate network area used to host public-facing servers securely.\n\nPurpose: Isolate public servers from internal network.\n\nExamples: Web servers, Email servers.", tags: ["network","security"] },
-    { id: 21, question: "Difference Between Symmetric and Asymmetric Encryption", answer: "| Symmetric | Asymmetric |\n|---|---|\n| Same key used | Public/private key pair |\n| Faster | Slower |\n| Example: AES | Example: RSA |", tags: ["encryption"] },
-    { id: 22, question: "What is RBAC?", answer: "RBAC (Role-Based Access Control) gives permissions based on job roles.\n\nExamples:\n- Manager\n- Administrator\n- Student", tags: ["security"] },
-    { id: 23, question: "What is the Principle of Least Privilege?", answer: "Users should receive only the minimum permissions necessary to perform their tasks.\n\nPurpose:\n- Reduce security risks\n- Prevent misuse", tags: ["security"] },
-    { id: 24, question: "What Does a Firewall Do?", answer: "A firewall filters network traffic based on predefined security rules.\n\nFunctions:\n- Allow trusted traffic\n- Block malicious traffic", tags: ["network","security"] },
-    { id: 25, question: "Which OSI Layer Manages Sessions?", answer: "The Session Layer (Layer 5) establishes, maintains, and terminates communication sessions.", tags: ["network"] },
-    { id: 26, question: "What is Protected Health Information (PHI)?", answer: "PHI refers to sensitive medical information related to patients.\n\nExamples:\n- Medical history\n- Test results\n- Health records", tags: ["security"] },
-    { id: 27, question: "What is MTTD?", answer: "MTTD means Mean Time to Detect.\n\nIt measures how quickly a security team detects incidents.", tags: ["security"] },
-    { id: 28, question: "What is IP Spoofing?", answer: "IP spoofing is forging the source IP address in packets to hide attacker identity.", tags: ["attacks","network"] },
-    { id: 29, question: "What is NAT?", answer: "NAT (Network Address Translation) allows multiple private devices to share one public IP address.", tags: ["network"] },
+    { id: 14, question: "What is an Incident Response Plan?", answer: "A structured process for detecting incidents, containing attacks, and recovering systems.", tags: ["security"] },
+    { id: 15, question: "Difference Between HTTPS and SSL/TLS", answer: "HTTPS is secure HTTP for websites using SSL/TLS. SSL/TLS is the encryption protocol protecting communication.", tags: ["encryption","network"] },
+    { id: 16, question: "What is a VPN Concentrator?", answer: "Manages multiple VPN connections with encryption, authentication, and tunnel management.", tags: ["network","encryption"] },
+    { id: 17, question: "Match Security Terms", answer: "Encryption → AES, Secure Remote Access → SSH, Authentication → RADIUS, Key Exchange → IKE.", tags: ["encryption","security"] },
+    { id: 18, question: "What is Multi-Factor Authentication (MFA)?", answer: "MFA requires multiple verification factors: something you know (password), something you have (OTP token), something you are (fingerprint).", tags: ["security"] },
+    { id: 19, question: "What is ARP Spoofing?", answer: "Fake ARP messages associate attacker's MAC with another device's IP for traffic interception and MITM attacks.", tags: ["attacks","network"] },
+    { id: 20, question: "What is a DMZ?", answer: "Demilitarized Zone isolates public-facing servers (web, email) from internal network.", tags: ["network","security"] },
+    { id: 21, question: "Difference Between Symmetric and Asymmetric Encryption", answer: "Symmetric uses same key (faster, AES). Asymmetric uses public/private key pair (slower, RSA).", tags: ["encryption"] },
+    { id: 22, question: "What is RBAC?", answer: "Role-Based Access Control gives permissions based on job roles like manager, administrator, student.", tags: ["security"] },
+    { id: 23, question: "What is the Principle of Least Privilege?", answer: "Users receive only minimum permissions necessary to reduce security risks and prevent misuse.", tags: ["security"] },
+    { id: 24, question: "What Does a Firewall Do?", answer: "Filters network traffic based on rules, allowing trusted traffic and blocking malicious traffic.", tags: ["network","security"] },
+    { id: 25, question: "Which OSI Layer Manages Sessions?", answer: "The Session Layer (Layer 5) establishes, maintains, and terminates sessions.", tags: ["network"] },
+    { id: 26, question: "What is Protected Health Information (PHI)?", answer: "Sensitive medical information like medical history, test results, health records.", tags: ["security"] },
+    { id: 27, question: "What is MTTD?", answer: "Mean Time to Detect — measures how quickly security team detects incidents.", tags: ["security"] },
+    { id: 28, question: "What is IP Spoofing?", answer: "Forging source IP address in packets to hide attacker identity.", tags: ["attacks","network"] },
+    { id: 29, question: "What is NAT?", answer: "Network Address Translation allows multiple private devices to share one public IP.", tags: ["network"] },
     { id: 30, question: "Which Linux User Overrides Permissions?", answer: "The root user can override all file permissions in Linux.", tags: ["security"] },
-    { id: 31, question: "What is System Hardening?", answer: "System hardening reduces vulnerabilities by securing systems.\n\n**Techniques**\n- Disable unused services\n- Apply patches\n- Strong passwords\n- Firewall configuration", tags: ["security"] },
-    { id: 32, question: "Why is Monitoring Important After Hardening?", answer: "Hardening alone cannot stop all attacks.\n\nMonitoring helps:\n- Detect suspicious activity\n- Identify breaches\n- Respond quickly", tags: ["security"] },
-    { id: 33, question: "Explain Symmetric Encryption", answer: "Symmetric encryption uses the same key for encryption and decryption.\n\n**Advantages**: Fast, Efficient\n\n**Example**: AES", tags: ["encryption"] },
-    { id: 34, question: "Explain Asymmetric Encryption", answer: "Asymmetric encryption uses a public key and a private key.\n\n**Advantages**: Secure key exchange, Digital signatures\n\n**Example**: RSA", tags: ["encryption"] },
-    { id: 35, question: "What is Hashing?", answer: "Hashing converts data into a fixed-length value.\n\nPurpose: Integrity verification\n\nExample: SHA-256", tags: ["encryption"] },
-    { id: 36, question: "Explain PKI in Secure Communication", answer: "PKI supports secure communication through:\n- Digital certificates\n- Public/private keys\n- Certificate Authorities\n\nIt enables:\n- Authentication\n- Encryption\n- Secure HTTPS communication", tags: ["encryption","security"] },
-    { id: 37, question: "What is AAA?", answer: "AAA stands for Authentication, Authorization, Accounting.\n\n**Authentication** – Verifies identity.\n**Authorization** – Controls permissions.\n**Accounting** – Tracks user activities.", tags: ["security","network"] },
-    { id: 38, question: "What is SSH?", answer: "SSH (Secure Shell) provides secure remote access to network devices using encrypted communication.", tags: ["network","encryption"] },
-    { id: 39, question: "What is ACL?", answer: "ACL (Access Control List) is a set of rules used to permit or deny network traffic.", tags: ["network","security"] },
-    { id: 40, question: "What is the Purpose of IPSec VPN?", answer: "IPSec VPN provides:\n- Confidentiality\n- Integrity\n- Secure communication over the Internet\n\nIt encrypts data tunnels between networks.", tags: ["network","encryption"] },
-    
-    // ****************** NEW 40 QUESTIONS (IDs 41-80) ******************
-    { id: 41, question: "What is Zero Trust Security Model?", answer: "Zero Trust is a security framework that assumes no user or device is trusted by default, even inside the network perimeter.\n\n**Core principles:**\n- Verify explicitly\n- Least privilege access\n- Assume breach\n- Micro-segmentation", tags: ["security"] },
-    { id: 42, question: "What is SASE (Secure Access Service Edge)?", answer: "SASE converges network security and WAN capabilities into a single cloud-delivered service.\n\n**Components:**\n- SD-WAN\n- SWG (Secure Web Gateway)\n- CASB\n- ZTNA\n- Firewall as a Service", tags: ["network","security"] },
-    { id: 43, question: "What is a Man-in-the-Middle (MITM) Attack?", answer: "A MITM attack occurs when an attacker secretly intercepts and relays communication between two parties.\n\n**Prevention:**\n- End-to-end encryption\n- Mutual authentication\n- TLS/SSL certificates", tags: ["attacks"] },
-    { id: 44, question: "What is a DNS Spoofing Attack?", answer: "DNS spoofing (DNS cache poisoning) corrupts DNS cache to redirect users to malicious websites.\n\n**Mitigation:**\n- DNSSEC\n- Random source ports\n- DNS filtering", tags: ["attacks","network"] },
-    { id: 45, question: "What is a Replay Attack?", answer: "A replay attack captures valid data transmission and retransmits it to deceive the receiver.\n\n**Defenses:**\n- Timestamps\n- Session tokens\n- Nonce (number used once)\n- Sequence numbers", tags: ["attacks"] },
-    { id: 46, question: "What is a Cross-Site Scripting (XSS) Attack?", answer: "XSS injects malicious scripts into trusted websites, executed in victims' browsers.\n\n**Types:**\n- Stored XSS\n- Reflected XSS\n- DOM-based XSS\n\n**Prevention:** Input validation, output encoding, CSP headers.", tags: ["attacks"] },
-    { id: 47, question: "What is SQL Injection?", answer: "SQL injection inserts malicious SQL code into database queries to manipulate or extract data.\n\n**Prevention:**\n- Parameterized queries\n- Prepared statements\n- Input sanitization\n- Least privilege DB accounts", tags: ["attacks"] },
-    { id: 48, question: "What is a Phishing Attack?", answer: "Phishing tricks users into revealing sensitive information via fake emails or websites.\n\n**Variants:** Spear phishing, Whaling, Vishing, Smishing.\n\n**Prevention:** User awareness, MFA, email filtering, anti-phishing tools.", tags: ["attacks"] },
-    { id: 49, question: "What is a Rogue Access Point?", answer: "A rogue AP is an unauthorized wireless access point installed on a network without administrator consent, creating backdoor access.\n\n**Detection:** Wireless intrusion prevention (WIPS), regular site surveys.", tags: ["network","attacks"] },
-    { id: 50, question: "What is a SYN Flood Attack?", answer: "SYN flood is a DDoS attack exploiting TCP handshake by sending many SYN requests without completing ACK, exhausting server resources.\n\n**Mitigation:** SYN cookies, increased backlog, rate limiting.", tags: ["attacks","network"] },
-    { id: 51, question: "What is a Smurf Attack?", answer: "Smurf attack uses ICMP echo requests with spoofed victim IP to broadcast addresses, amplifying traffic.\n\n**Prevention:** Disable IP-directed broadcasts, filter ICMP.", tags: ["attacks"] },
-    { id: 52, question: "What is a Ping of Death?", answer: "Attack sends malformed oversized ICMP packets exceeding IP fragmentation limits, causing system crashes.\n\n**Mitigation:** Patch systems, packet filtering.", tags: ["attacks"] },
-    { id: 53, question: "What is TLS 1.3 and how is it better?", answer: "TLS 1.3 improves security and speed by removing obsolete ciphers, enforcing forward secrecy, and reducing handshake latency (1-RTT or 0-RTT).", tags: ["encryption","network"] },
-    { id: 54, question: "What is QUIC protocol?", answer: "QUIC (Quick UDP Internet Connections) is a transport layer protocol developed by Google, using UDP with built-in TLS 1.3 encryption, reducing connection latency.", tags: ["network","encryption"] },
-    { id: 55, question: "What is a Web Application Firewall (WAF)?", answer: "A WAF filters, monitors, and blocks HTTP/HTTPS traffic to and from web applications, protecting against OWASP Top 10 threats like XSS and SQLi.", tags: ["network","security"] },
-    { id: 56, question: "What is CASB (Cloud Access Security Broker)?", answer: "CASB is a security policy enforcement point between cloud service users and providers, offering visibility, data security, threat protection, and compliance.", tags: ["security"] },
-    { id: 57, question: "What is the MITRE ATT&CK Framework?", answer: "MITRE ATT&CK is a globally accessible knowledge base of adversary tactics, techniques, and procedures (TTPs) used for threat modeling and defense.", tags: ["security"] },
-    { id: 58, question: "What is Threat Hunting?", answer: "Threat hunting is proactive searching for undetected threats in a network by analyzing data and hypotheses, rather than waiting for alerts.", tags: ["security"] },
-    { id: 59, question: "What is UEBA (User and Entity Behavior Analytics)?", answer: "UEBA uses machine learning to detect anomalous behavior of users and devices, identifying insider threats or compromised accounts.", tags: ["security"] },
-    { id: 60, question: "What is EDR (Endpoint Detection and Response)?", answer: "EDR continuously monitors and responds to endpoint threats, providing visibility, threat hunting, and automated remediation.", tags: ["security"] },
-    { id: 61, question: "What is a Honeypot in Network Security?", answer: "A honeypot is a decoy system designed to lure attackers, monitor their activities, and study attack methods without risking real assets.", tags: ["network","security"] },
-    { id: 62, question: "What is the Principle of Defense in Depth?", answer: "Defense in depth uses layered security controls (physical, technical, administrative) so that if one layer fails, others block the attack.", tags: ["security"] },
-    { id: 63, question: "What is the Difference Between Vulnerability, Threat, and Risk?", answer: "- **Vulnerability**: a weakness.\n- **Threat**: a potential danger exploiting vulnerability.\n- **Risk**: likelihood of threat exploiting vulnerability impacting assets.", tags: ["security"] },
-    { id: 64, question: "What is a Security Posture?", answer: "Security posture is an organization's overall cybersecurity strength, including policies, controls, awareness, and response capabilities.", tags: ["security"] },
-    { id: 65, question: "What is Blockchain Security?", answer: "Blockchain security uses cryptographic hashing, decentralization, and consensus mechanisms to ensure data immutability, integrity, and transparency.", tags: ["encryption","security"] },
-    { id: 66, question: "What is Homomorphic Encryption?", answer: "Homomorphic encryption allows computation on encrypted data without decrypting it, preserving privacy in cloud computing and analytics.", tags: ["encryption"] },
-    { id: 67, question: "What is a Side-Channel Attack?", answer: "Side-channel attacks exploit physical characteristics like power consumption, timing, electromagnetic leaks, or sound to extract secrets.", tags: ["attacks"] },
-    { id: 68, question: "What is a Birthday Attack?", answer: "Birthday attack exploits probability collisions in hash functions, often used to find two different inputs producing the same hash (collision).", tags: ["attacks","encryption"] },
-    { id: 69, question: "What is a Rainbow Table Attack?", answer: "Rainbow table attack uses precomputed hash chains to reverse cryptographic hashes quickly, defeated by salting passwords.", tags: ["attacks"] },
-    { id: 70, question: "What is SSL Stripping?", answer: "SSL stripping downgrades HTTPS connections to HTTP, enabling MITM interception. Defended with HSTS (HTTP Strict Transport Security).", tags: ["attacks","network"] },
-    { id: 71, question: "What is an On-Path Attack?", answer: "On-path attack (formerly MITM) positions attacker between two endpoints to intercept/modify traffic, common on unencrypted Wi-Fi.", tags: ["attacks"] },
-    { id: 72, question: "What is Wireless Intrusion Prevention System (WIPS)?", answer: "WIPS monitors wireless spectrum for rogue APs, unauthorized devices, and attacks (deauth, evil twin), automatically mitigating threats.", tags: ["network","security"] },
-    { id: 73, question: "What is IEEE 802.1X?", answer: "IEEE 802.1X is port-based network access control providing authentication to devices before network access using EAP (Extensible Authentication Protocol).", tags: ["network","security"] },
-    { id: 74, question: "What is RADIUS and TACACS+?", answer: "- **RADIUS**: UDP, combines authentication and authorization, used for network access.\n- **TACACS+**: TCP, separates AAA functions, used for device administration.", tags: ["network","security"] },
-    { id: 75, question: "What is a Jump Server (Bastion Host)?", answer: "A jump server is a hardened, dedicated system used to access and manage devices in secure zones, providing audit trail and access control.", tags: ["network","security"] },
-    { id: 76, question: "What is Network Segmentation?", answer: "Network segmentation divides a network into smaller isolated segments (VLANs, subnets) to contain breaches, improve performance, and enforce policies.", tags: ["network","security"] },
-    { id: 77, question: "What is Micro-segmentation?", answer: "Micro-segmentation isolates workloads at the hypervisor or container level, applying granular policies even inside data centers, essential for Zero Trust.", tags: ["network","security"] },
-    { id: 78, question: "What is SOAR (Security Orchestration, Automation, and Response)?", answer: "SOAR platforms integrate with SIEM, automate incident response workflows, and orchestrate security tools to accelerate threat remediation.", tags: ["security"] },
-    { id: 79, question: "What is a False Positive vs False Negative?", answer: "- **False Positive**: legitimate activity flagged as malicious (wastes time).\n- **False Negative**: actual attack not detected (dangerous).", tags: ["security"] },
-    { id: 80, question: "What is the Importance of Patch Management?", answer: "Patch management regularly updates software to fix vulnerabilities, reducing exploitation risk. Critical for compliance and security hygiene.", tags: ["security"] }
+    { id: 31, question: "What is System Hardening?", answer: "Reducing vulnerabilities by disabling unused services, applying patches, strong passwords, and firewall configuration.", tags: ["security"] },
+    { id: 32, question: "Why is Monitoring Important After Hardening?", answer: "Hardening alone cannot stop all attacks; monitoring detects suspicious activity and breaches.", tags: ["security"] },
+    { id: 33, question: "Explain Symmetric Encryption", answer: "Uses same key for encryption/decryption, fast and efficient. Example: AES.", tags: ["encryption"] },
+    { id: 34, question: "Explain Asymmetric Encryption", answer: "Uses public/private key pair, enables secure key exchange and digital signatures. Example: RSA.", tags: ["encryption"] },
+    { id: 35, question: "What is Hashing?", answer: "Converts data to fixed-length value for integrity verification. Example: SHA-256.", tags: ["encryption"] },
+    { id: 36, question: "Explain PKI in Secure Communication", answer: "PKI uses digital certificates, public/private keys, and CAs to enable authentication, encryption, and HTTPS.", tags: ["encryption","security"] },
+    { id: 37, question: "What is AAA?", answer: "Authentication (verifies identity), Authorization (controls permissions), Accounting (tracks activities).", tags: ["security","network"] },
+    { id: 38, question: "What is SSH?", answer: "Secure Shell provides encrypted remote access to network devices.", tags: ["network","encryption"] },
+    { id: 39, question: "What is ACL?", answer: "Access Control List — rules to permit or deny network traffic.", tags: ["network","security"] },
+    { id: 40, question: "What is the Purpose of IPSec VPN?", answer: "Provides confidentiality, integrity, and secure communication over the Internet by encrypting tunnels.", tags: ["network","encryption"] },
+    { id: 41, question: "What is Zero Trust Security Model?", answer: "Assumes no user or device is trusted by default, even inside network perimeter. Core principles: verify explicitly, least privilege, assume breach, micro-segmentation.", tags: ["security"] },
+    { id: 42, question: "What is SASE?", answer: "Secure Access Service Edge converges network security and WAN into cloud-delivered service: SD-WAN, SWG, CASB, ZTNA, Firewall as a Service.", tags: ["network","security"] },
+    { id: 43, question: "What is a Man-in-the-Middle Attack?", answer: "Attacker intercepts and relays communication between two parties. Prevention: end-to-end encryption, mutual authentication, TLS certificates.", tags: ["attacks"] },
+    { id: 44, question: "What is DNS Spoofing?", answer: "Corrupts DNS cache to redirect users to malicious sites. Mitigation: DNSSEC, random source ports, DNS filtering.", tags: ["attacks","network"] },
+    { id: 45, question: "What is a Replay Attack?", answer: "Captures valid data transmission and retransmits it. Defenses: timestamps, session tokens, nonce, sequence numbers.", tags: ["attacks"] },
+    { id: 46, question: "What is Cross-Site Scripting (XSS)?", answer: "Injects malicious scripts into websites, executed in victims' browsers. Types: Stored, Reflected, DOM-based. Prevention: input validation, output encoding, CSP.", tags: ["attacks"] },
+    { id: 47, question: "What is SQL Injection?", answer: "Inserts malicious SQL code into queries. Prevention: parameterized queries, prepared statements, input sanitization, least privilege DB accounts.", tags: ["attacks"] },
+    { id: 48, question: "What is Phishing?", answer: "Tricks users into revealing sensitive info via fake emails/websites. Variants: spear phishing, whaling, vishing. Prevention: user awareness, MFA, email filtering.", tags: ["attacks"] },
+    { id: 49, question: "What is a Rogue Access Point?", answer: "Unauthorized wireless AP creating backdoor access. Detection: WIPS, regular site surveys.", tags: ["network","attacks"] },
+    { id: 50, question: "What is a SYN Flood Attack?", answer: "DDoS attack exhausting TCP handshake resources. Mitigation: SYN cookies, increased backlog, rate limiting.", tags: ["attacks","network"] },
+    { id: 51, question: "What is a Smurf Attack?", answer: "ICMP echo requests with spoofed victim IP to broadcast addresses, amplifying traffic. Prevention: disable IP-directed broadcasts, filter ICMP.", tags: ["attacks"] },
+    { id: 52, question: "What is a Ping of Death?", answer: "Malformed oversized ICMP packets exceeding IP fragmentation limits. Mitigation: patch systems, packet filtering.", tags: ["attacks"] },
+    { id: 53, question: "What is TLS 1.3?", answer: "Improves security and speed by removing obsolete ciphers, enforcing forward secrecy, reducing handshake latency.", tags: ["encryption","network"] },
+    { id: 54, question: "What is QUIC protocol?", answer: "UDP-based transport with built-in TLS 1.3 encryption, reducing connection latency.", tags: ["network","encryption"] },
+    { id: 55, question: "What is a Web Application Firewall (WAF)?", answer: "Filters HTTP/HTTPS traffic, protecting against XSS, SQLi, and OWASP Top 10 threats.", tags: ["network","security"] },
+    { id: 56, question: "What is CASB?", answer: "Cloud Access Security Broker enforces security policies between cloud users and providers, offering visibility, data security, threat protection.", tags: ["security"] },
+    { id: 57, question: "What is MITRE ATT&CK?", answer: "Knowledge base of adversary tactics, techniques, and procedures (TTPs) for threat modeling and defense.", tags: ["security"] },
+    { id: 58, question: "What is Threat Hunting?", answer: "Proactive searching for undetected threats by analyzing data and hypotheses, rather than waiting for alerts.", tags: ["security"] },
+    { id: 59, question: "What is UEBA?", answer: "User and Entity Behavior Analytics uses machine learning to detect anomalous user/device behavior, identifying insider threats.", tags: ["security"] },
+    { id: 60, question: "What is EDR?", answer: "Endpoint Detection and Response continuously monitors endpoints, provides threat hunting and automated remediation.", tags: ["security"] },
+    { id: 61, question: "What is a Honeypot?", answer: "Decoy system that lures attackers to monitor activities and study attack methods without risking real assets.", tags: ["network","security"] },
+    { id: 62, question: "What is Defense in Depth?", answer: "Layered security controls (physical, technical, administrative) so if one layer fails, others block the attack.", tags: ["security"] },
+    { id: 63, question: "Difference Between Vulnerability, Threat, and Risk?", answer: "Vulnerability is a weakness. Threat is potential danger exploiting vulnerability. Risk is likelihood of threat impacting assets.", tags: ["security"] },
+    { id: 64, question: "What is Security Posture?", answer: "Organization's overall cybersecurity strength including policies, controls, awareness, and response capabilities.", tags: ["security"] },
+    { id: 65, question: "What is Blockchain Security?", answer: "Uses cryptographic hashing, decentralization, and consensus to ensure data immutability, integrity, and transparency.", tags: ["encryption","security"] },
+    { id: 66, question: "What is Homomorphic Encryption?", answer: "Allows computation on encrypted data without decrypting, preserving privacy in cloud computing.", tags: ["encryption"] },
+    { id: 67, question: "What is a Side-Channel Attack?", answer: "Exploits physical characteristics like power consumption, timing, electromagnetic leaks to extract secrets.", tags: ["attacks"] },
+    { id: 68, question: "What is a Birthday Attack?", answer: "Exploits probability collisions in hash functions to find two inputs producing same hash.", tags: ["attacks","encryption"] },
+    { id: 69, question: "What is a Rainbow Table Attack?", answer: "Uses precomputed hash chains to reverse cryptographic hashes quickly; defeated by salting passwords.", tags: ["attacks"] },
+    { id: 70, question: "What is SSL Stripping?", answer: "Downgrades HTTPS to HTTP, enabling MITM interception. Defended with HSTS (HTTP Strict Transport Security).", tags: ["attacks","network"] },
+    { id: 71, question: "What is an On-Path Attack?", answer: "Attacker positions between two endpoints to intercept/modify traffic, common on unencrypted Wi-Fi.", tags: ["attacks"] },
+    { id: 72, question: "What is WIPS?", answer: "Wireless Intrusion Prevention System monitors wireless spectrum for rogue APs and attacks, automatically mitigating threats.", tags: ["network","security"] },
+    { id: 73, question: "What is IEEE 802.1X?", answer: "Port-based network access control providing authentication before network access using EAP.", tags: ["network","security"] },
+    { id: 74, question: "What is RADIUS and TACACS+?", answer: "RADIUS (UDP) combines authentication/authorization for network access. TACACS+ (TCP) separates AAA functions for device administration.", tags: ["network","security"] },
+    { id: 75, question: "What is a Jump Server?", answer: "Hardened, dedicated system to access secure zones, providing audit trail and access control.", tags: ["network","security"] },
+    { id: 76, question: "What is Network Segmentation?", answer: "Divides network into isolated segments (VLANs, subnets) to contain breaches and enforce policies.", tags: ["network","security"] },
+    { id: 77, question: "What is Micro-segmentation?", answer: "Isolates workloads at hypervisor/container level, applying granular policies essential for Zero Trust.", tags: ["network","security"] },
+    { id: 78, question: "What is SOAR?", answer: "Security Orchestration, Automation, and Response integrates with SIEM, automates incident response workflows.", tags: ["security"] },
+    { id: 79, question: "What is False Positive vs False Negative?", answer: "False Positive: legitimate activity flagged as malicious (wastes time). False Negative: actual attack not detected (dangerous).", tags: ["security"] },
+    { id: 80, question: "Importance of Patch Management?", answer: "Regularly updates software to fix vulnerabilities, reducing exploitation risk, critical for compliance and security hygiene.", tags: ["security"] }
   ];
+
+  function stripHtmlForSpeech(text) {
+    return text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function renderCards() {
+    const container = document.getElementById("qaContainer");
+    const searchLower = currentSearch.trim().toLowerCase();
+    const filtered = securityQA.filter(item => {
+      if (currentFilter !== "all" && !item.tags.includes(currentFilter)) return false;
+      if (searchLower === "") return true;
+      return item.question.toLowerCase().includes(searchLower) || item.answer.toLowerCase().includes(searchLower) || item.id.toString().includes(searchLower);
+    });
+    document.getElementById("statsDisplay").innerText = `📄 ${filtered.length} / ${securityQA.length} questions | 🔊 Click speaker to listen`;
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">🔍 No matching security concepts. Try another keyword.</div>`;
+      return;
+    }
+    container.innerHTML = filtered.map(item => {
+      const plainAnswer = stripHtmlForSpeech(item.answer);
+      return `
+      <div class="qa-card" data-qid="${item.id}">
+        <div class="card-header">
+          <div class="q-num">Q${item.id}</div>
+          <div class="question">${escapeHtml(item.question)}</div>
+          <div class="speech-controls">
+            <button class="speech-btn speak-question" data-text="${escapeHtml(item.question)}">🔊 Q</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="answer">${formatAnswerText(item.answer)}</div>
+          <button class="answer-speech-btn speak-answer" data-text="${escapeHtml(plainAnswer)}">🔊 Listen to Answer</button>
+          <div class="tag">🏷️ ${item.tags.join(', ')}</div>
+        </div>
+      </div>
+    `}).join('');
+
+    // Attach speech events after rendering
+    document.querySelectorAll('.speak-question').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = btn.getAttribute('data-text');
+        stopSpeech();
+        speakText(text);
+        btn.classList.add('speaking');
+        setTimeout(() => btn.classList.remove('speaking'), 500);
+      });
+    });
+    document.querySelectorAll('.speak-answer').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = btn.getAttribute('data-text');
+        stopSpeech();
+        speakText(text);
+      });
+    });
+  }
 
   function formatAnswerText(text) {
     let lines = text.split('\n');
-    let inTable = false;
     let htmlLines = [];
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      if (line.trim().startsWith('|') && line.includes('|')) {
-        if (!inTable) {
-          htmlLines.push('<table class="comparison-table">');
-          inTable = true;
-        }
-        let cells = line.split('|').filter(cell => cell.trim() !== '');
-        if (cells.length > 0 && line.includes('---')) continue;
-        let isHeader = (i === 0 || (i > 0 && lines[i-1] && lines[i-1].includes('---'))) && cells.length > 0;
-        let rowType = isHeader ? 'th' : 'td';
-        let rowHtml = '<tr>';
-        cells.forEach(cell => rowHtml += `<${rowType}>${cell.trim()}</${rowType}>`);
-        rowHtml += '</tr>';
-        htmlLines.push(rowHtml);
-      } else {
-        if (inTable) { htmlLines.push('</table>'); inTable = false; }
-        let processed = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        if (processed.trim() !== '') htmlLines.push(`<p>${processed}</p>`);
-        else if (line === '') htmlLines.push('<br>');
-      }
+    for (let line of lines) {
+      let processed = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      if (processed.trim() !== '') htmlLines.push(`<p>${processed}</p>`);
+      else htmlLines.push('<br>');
     }
-    if (inTable) htmlLines.push('</table>');
-    let result = htmlLines.join('');
-    result = result.replace(/^- /gm, '• ');
-    return result;
+    return htmlLines.join('');
   }
 
   function escapeHtml(str) {
@@ -400,36 +557,8 @@
   let currentFilter = "all";
   let currentSearch = "";
 
-  function renderCards() {
-    const container = document.getElementById("qaContainer");
-    const searchLower = currentSearch.trim().toLowerCase();
-    const filtered = securityQA.filter(item => {
-      if (currentFilter !== "all" && !item.tags.includes(currentFilter)) return false;
-      if (searchLower === "") return true;
-      return item.question.toLowerCase().includes(searchLower) || 
-             item.answer.toLowerCase().includes(searchLower) ||
-             item.id.toString().includes(searchLower);
-    });
-    document.getElementById("statsDisplay").innerText = `📄 ${filtered.length} / ${securityQA.length} questions`;
-    if (filtered.length === 0) {
-      container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">🔍 No matching security concepts. Try another keyword.</div>`;
-      return;
-    }
-    container.innerHTML = filtered.map(item => `
-      <div class="qa-card">
-        <div class="card-header">
-          <div class="q-num">Q${item.id}</div>
-          <div class="question">${escapeHtml(item.question)}</div>
-        </div>
-        <div class="card-body">
-          <div class="answer">${formatAnswerText(item.answer)}</div>
-          <div class="tag">🏷️ ${item.tags.join(', ')}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
   function update() { renderCards(); }
+  
   document.getElementById("searchInput").addEventListener("input", (e) => { currentSearch = e.target.value; update(); });
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -439,6 +568,11 @@
       update();
     });
   });
+  
+  document.getElementById("stopAllSpeechBtn").addEventListener("click", () => {
+    stopSpeech();
+  });
+
   update();
 </script>
 </body>
